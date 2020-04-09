@@ -7,35 +7,39 @@ import (
 	"os"
 	"path/filepath"
 	"swblog/models/conf"
+	"swblog/swsqlx"
 
-	_ "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
+//配置信息
 var svrCfg *conf.Config
+
+//gin引擎
+var engine *gin.Engine
 
 func main() {
 
 	//读取配置文件
 
 	/*
-		r := gin.Default()
-		r.GET("/ping", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "pong",
-			})
-		})
-		r.Run()
-	*/
+
+	 */
 	svrCfg, err := readconfig()
 	if err != nil {
 		fmt.Printf("err %v\n", err)
 		return
 	}
-	fmt.Printf("serverport:%d\n", svrCfg.Server.Port)
+	fmt.Printf("serverport:%s\n", svrCfg.Server.Port)
 	fmt.Printf("database ip address %s\n", svrCfg.Database.IPAddress)
 	fmt.Printf("database port %d\n", svrCfg.Database.Port)
 	fmt.Printf("database user %s\n", svrCfg.Database.User)
 	fmt.Printf("database password %s\n", svrCfg.Database.Password)
+
+	engine.Run(svrCfg.Server.Port)
+
+	//main 函数结束的时候关闭mysql 连接
+	defer swsqlx.Dbc.Close()
 }
 
 func readconfig() (cf *conf.Config, err error) {
@@ -73,4 +77,16 @@ func checkconfig() (string, error) {
 		return "", err
 	}
 	return cfgpath, nil
+}
+
+//初始化gin引擎
+func initedGinEngine(cfg *conf.Config) *gin.Engine {
+	r := gin.Default()
+	return r
+}
+
+//初始化mysql连接
+func initedMysql() error {
+	err := swsqlx.InitedMysql(svrCfg.Database)
+	return err
 }

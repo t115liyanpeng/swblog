@@ -2,7 +2,7 @@ package conf
 
 //Servercfg 服务配置信息
 type Servercfg struct {
-	Port int `json:"port"`
+	Port string `json:"port"`
 }
 
 //Databasecfg 数据库配置
@@ -11,6 +11,7 @@ type Databasecfg struct {
 	Port      int    `json:"port"`
 	User      string `json:"user"`
 	Password  string `json:"password"`
+	DbName    string `json:"dbname"`
 }
 
 //Config 程序的配置
