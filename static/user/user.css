@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+
+
+body{
+    background-image: url('../images/login_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed; 
+}
+
+#login_continer{
+    width: 400px;
+    height: 400px;
+    border-radius: 5%;
+    margin-top: 150px;
+    margin-left: 70%;
+    background: rgba(255,255,255, 0.5);
+}
+
+#login_title{
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-bottom: 30px;
+}
+
+#blog_title{
+    margin-top: 0px;
+   
+}
+
+#username{
+    width: 300px;
+    margin: auto;
+}
+
+#password{
+    width: 300px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+#chksave{
+    text-align: center;
+        
+}
+
+#ckbtn{
+    
+    width: 300px;
+    margin: auto;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.checkbox-item{
+    margin-left: 50px;
+}
