@@ -13,8 +13,9 @@ body{
     width: 400px;
     height: 400px;
     border-radius: 5%;
-    margin-top: 150px;
+    margin-top: 200px;
     margin-left: 70%;
+    margin-right: 10%;
     background: rgba(255,255,255, 0.5);
 }
 
