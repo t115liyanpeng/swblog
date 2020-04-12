@@ -60,5 +60,7 @@ func initedMysql() {
 
 //Index 默认页
 func Index(ctx *gin.Context) {
-
+	ctx.JSON(200, gin.H{
+		"message": "welcomme to swblog",
+	})
 }

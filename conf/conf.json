@@ -1,6 +1,6 @@
 {
     "servercfg":{
-        "port":"8060"
+        "port":"8080"
     },
     "databasecfg":{
         "address":"122.51.213.223",
