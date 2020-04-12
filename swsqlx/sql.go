@@ -21,14 +21,14 @@ func initedMysql(dbcfg *conf.Databasecfg) (dbconn *sqlx.DB, err error) {
 
 //MysqlDbc mysql 数据库连接实例
 type MysqlDbc struct {
-	sqlDb *sqlx.DB
+	SQLDb *sqlx.DB
 }
 
 //NewMysqlDbc 构造函数
 func NewMysqlDbc(dbcfg *conf.Databasecfg) (dbc *MysqlDbc, err error) {
 	db, err := initedMysql(dbcfg)
 	dbc = &MysqlDbc{
-		sqlDb: db,
+		SQLDb: db,
 	}
 	return dbc, err
 }
@@ -39,7 +39,7 @@ func CreateDbcInstance(dbcfg *conf.Databasecfg) {
 		db, err := initedMysql(dbcfg)
 		if err == nil {
 			dbc := &MysqlDbc{
-				sqlDb: db,
+				SQLDb: db,
 			}
 			Dbc = dbc
 		}
