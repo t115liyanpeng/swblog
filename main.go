@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"swblog/models/conf"
 	"swblog/router"
 	"swblog/swsqlx"
@@ -38,6 +39,9 @@ func main() {
 	engine.Use(gin.Logger())
 	//使用Panic处理方案
 	engine.Use(gin.Recovery())
+
+	//加载静态文件
+	engine.StaticFS("/static", http.Dir("./static"))
 
 	//注册默认页
 	engine.GET("/", Index)
