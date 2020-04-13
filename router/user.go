@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"swblog/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,9 +25,7 @@ func RegisterUserGroup(eng *gin.Engine) {
 }
 
 func userLogin(context *gin.Context) {
-	context.JSON(200, gin.H{
-		"message": "success",
-	})
+	controllers.UserLoginFunc(context)
 }
 
 func loginPage(context *gin.Context) {

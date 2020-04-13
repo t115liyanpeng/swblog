@@ -10,7 +10,7 @@ import (
 )
 
 // Dbc mysql 连接
-var Dbc *MysqlDbc
+var Dbc *MysqlDbc = nil
 
 // InitedMysql 初始化mysql连接
 func initedMysql(dbcfg *conf.Databasecfg) (dbconn *sqlx.DB, err error) {
@@ -41,6 +41,7 @@ func CreateDbcInstance(dbcfg *conf.Databasecfg) {
 			dbc := &MysqlDbc{
 				SQLDb: db,
 			}
+
 			Dbc = dbc
 		}
 

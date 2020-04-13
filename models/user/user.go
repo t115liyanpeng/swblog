@@ -7,7 +7,7 @@ import (
 //User 用户类
 type User struct {
 	Name      string      `json:"name" db:"name"`
-	LoginName string      `json:"loginname" db:"loginname" form:"name"`
+	LoginName string      `json:"loginname" db:"loginname" form:"username"`
 	PassWord  string      `json:"password" db:"password" form:"password"`
 	CheckSvae bool        `form:"chksave"`
 	State     *LoginState `json:"loginstate"`
@@ -27,16 +27,28 @@ func (user *User) AddUser() bool {
 
 //UserLogin 用户登录
 func (user *User) UserLogin() error {
-	var tUser User
-	err := swsqlx.Dbc.SQLDb.Get(&tUser, "select name,loginname,password from t_userb where name=?", user.Name)
-	if err != nil {
-		return err
+	var tUser User = User{
+		Name:      "",
+		LoginName: "",
+		PassWord:  "",
+		CheckSvae: false,
+		State: &LoginState{
+			State: false,
+			Msg:   "",
+			Code:  0,
+		},
 	}
-	if tUser.Name == "" {
+
+	err := swsqlx.Dbc.SQLDb.Get(&tUser, "select name,loginname,password from t_userb where loginname=?", user.LoginName)
+
+	if err != nil {
 		user.State.State = false
 		user.State.Code = 1
 		user.State.Msg = "user not found"
-	} else if tUser.Name == user.Name {
+		return err
+	}
+
+	if tUser.LoginName == user.LoginName {
 		if tUser.PassWord == user.PassWord {
 			user.State.State = true
 			user.State.Code = 0

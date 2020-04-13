@@ -32,6 +32,9 @@ func main() {
 	fmt.Printf("database user %s\n", svrCfg.Database.User)
 	fmt.Printf("database password %s\n", svrCfg.Database.Password)
 
+	//初始化数据库连接
+	swsqlx.CreateDbcInstance(svrCfg.Database)
+
 	//初始化gin
 	gin.SetMode(gin.ReleaseMode)
 	engine = gin.New()
@@ -51,11 +54,6 @@ func main() {
 
 	engine.Run(fmt.Sprintf(":%s", svrCfg.Server.Port))
 
-}
-
-//初始化mysql对象
-func initedMysql() {
-	swsqlx.CreateDbcInstance(svrCfg.Database)
 }
 
 //Index 默认页
