@@ -9,7 +9,7 @@ type User struct {
 	Name      string      `json:"name" db:"name"`
 	LoginName string      `json:"loginname" db:"loginname" form:"username"`
 	PassWord  string      `json:"password" db:"password" form:"password"`
-	CheckSvae bool        `form:"chksave"`
+	CheckSvae bool        `json:"chksave" form:"chksave"`
 	State     *LoginState `json:"loginstate"`
 }
 
@@ -50,6 +50,7 @@ func (user *User) UserLogin() error {
 
 	if tUser.LoginName == user.LoginName {
 		if tUser.PassWord == user.PassWord {
+			user.Name = tUser.Name
 			user.State.State = true
 			user.State.Code = 0
 		} else {

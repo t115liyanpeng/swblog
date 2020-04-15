@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"swblog/models/user"
 
 	"github.com/gin-gonic/gin"
@@ -15,20 +18,15 @@ func UserLoginFunc(ctx *gin.Context) {
 	if err == nil {
 		err = u.UserLogin()
 		if err == nil {
-			if u.State.State {
-				//登录成功
-			} else {
-				ctx.JSON(200, gin.H{
-					"msg": u.State.Msg,
-				})
-			}
-
+			jsonstr, _ := json.Marshal(u)
+			fmt.Printf("resault:%s\n", string(jsonstr))
+			ctx.JSON(http.StatusOK, string(jsonstr))
 		} else {
-			ctx.JSON(200, gin.H{
+			ctx.JSON(http.StatusOK, gin.H{
 				"msg": u.State.Msg,
 			})
 		}
 	} else {
-
+		ctx.JSON(http.StatusOK, gin.H{})
 	}
 }

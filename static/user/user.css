@@ -41,10 +41,6 @@ body{
     margin-top: 10px;
 }
 
-#chksave{
-    text-align: center;
-        
-}
 
 #ckbtn{
     
@@ -55,5 +51,17 @@ body{
     margin-right: 50px;
 }
 .checkbox-item{
+
     margin-left: 50px;
+    margin-top: 10px;
+}
+
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #1E9FFF;
+    background-color: #1E9FFF;
+    color: #fff;
+}
+.layui-form-checkbox[lay-skin=primary]:hover i {
+    border-color: #1E9FFF;
+    color: #fff;
 }
