@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 	"swblog/models/user"
 
@@ -18,9 +16,15 @@ func UserLoginFunc(ctx *gin.Context) {
 	if err == nil {
 		err = u.UserLogin()
 		if err == nil {
-			jsonstr, _ := json.Marshal(u)
-			fmt.Printf("resault:%s\n", string(jsonstr))
-			ctx.JSON(http.StatusOK, string(jsonstr))
+			//jsonstr, _ := json.Marshal(u)
+			//fmt.Printf("resault:%s\n", string(jsonstr))
+			//ctx.JSON(http.StatusOK, string(jsonstr))
+			ctx.JSON(http.StatusOK, gin.H{
+				"loginname": u.LoginName,
+				"code":      u.State.Code,
+				"name":      u.Name,
+				"msg":       u.State.Msg,
+			})
 		} else {
 			ctx.JSON(http.StatusOK, gin.H{
 				"msg": u.State.Msg,

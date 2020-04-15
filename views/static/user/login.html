@@ -72,22 +72,18 @@
                         if(xmlhttp.readyState==4){
                             if(xmlhttp.status==200){
                                 layer.close(loading);
-                                console.log(xmlhttp.response);
-                                var res = JSON.parse(xmlhttp.response);
-                                console.log(res);
-                                alert(res.loginname);
-                                alert(res.loginstate.state);
-                                if(res.loginstate.state){
+                                var res = JSON.parse(xmlhttp.response); 
+                                if(res.code==0){
                                     layer.open({
                                         title:"欢迎回来",
-                                        content:"你好，"+res.username+"!"
+                                        content:"你好，"+res.name+"!"
                                     });
                                     //跳转页面
 
                                 }else{
                                     layer.open({
                                         title:"登录失败",
-                                        content:result.loginstate.msg
+                                        content:res.msg
                                     });
                                 }
                             }else{

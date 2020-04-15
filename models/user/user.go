@@ -35,7 +35,7 @@ func (user *User) UserLogin() error {
 		State: &LoginState{
 			State: false,
 			Msg:   "",
-			Code:  0,
+			Code:  -1,
 		},
 	}
 
@@ -44,7 +44,7 @@ func (user *User) UserLogin() error {
 	if err != nil {
 		user.State.State = false
 		user.State.Code = 1
-		user.State.Msg = "user not found"
+		user.State.Msg = "用户未注册！"
 		return err
 	}
 
@@ -56,7 +56,7 @@ func (user *User) UserLogin() error {
 		} else {
 			user.State.State = false
 			user.State.Code = 2
-			user.State.Msg = "password error"
+			user.State.Msg = "密码不正确！"
 		}
 	}
 
