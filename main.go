@@ -42,12 +42,17 @@ func main() {
 	engine.Use(gin.Logger())
 	//使用Panic处理方案
 	engine.Use(gin.Recovery())
+	//engine = gin.Default()
 
 	//加载静态文件
 	engine.StaticFS("/static", http.Dir("./static"))
 
+	//加载模板文件
+	engine.LoadHTMLGlob("views/**/*")
+	//engine.LoadHTMLFiles("views/index.html")
+
 	//注册默认页
-	engine.GET("/", Index)
+	engine.GET("/", indexPage)
 
 	//注册路由
 	router.RegisterUserGroup(engine)
@@ -57,8 +62,11 @@ func main() {
 }
 
 //Index 默认页
-func Index(ctx *gin.Context) {
-	ctx.JSON(200, gin.H{
-		"message": "welcomme to swblog",
-	})
+func indexPage(ctx *gin.Context) {
+	/*
+		ctx.JSON(200, gin.H{
+			"message": "welcomme to swblog",
+		})
+	*/
+	ctx.HTML(http.StatusOK, "index", "李艳朋")
 }

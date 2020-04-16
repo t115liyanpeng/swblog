@@ -14,9 +14,6 @@ func RegisterUserGroup(eng *gin.Engine) {
 	if eng != nil {
 		usergroup = eng.Group("/user")
 
-		//用户登录页
-		eng.LoadHTMLGlob("views/static/**/*")
-
 		//注册登录路由
 		usergroup.POST("/login", userLogin)
 
@@ -29,5 +26,5 @@ func userLogin(context *gin.Context) {
 }
 
 func loginPage(context *gin.Context) {
-	context.HTML(http.StatusOK, "login.html", gin.H{})
+	context.HTML(http.StatusOK, "login", gin.H{})
 }
