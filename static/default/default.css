@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+body{
+    background-color: #eeeeee;
+}
+
+#main_continer{
+    width: 98%;
+    min-width: 800px;
+    margin: auto;
+}
+
+#main_top{
+    height: 280px;
+    width: 98%;
+    min-width: 800px;
+    margin-top: 3px;
+    margin: auto;
+}
+
+.main_left{
+    float: left;
+    background-color:#F8F8F8;
+    width: 20%;
+    min-width: 200px;
+    margin-top: 2px;
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
+}
+
+
+.main_middle{
+    float: left;
+    width: 59%;
+    min-width: 480px;
+    margin-left: 6px;
+    margin-top: 2px;
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
+}
+
+.main_right{
+    float:left;
+    
+    min-width: 120px;
+    margin-left: 6px;
+    margin-top: 2px;
+    background-color:#F8F8F8;
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
+    width: 19%;
+
+}
+
+#date .layui-laydate-main{
+    width:280px;
+}
+
+#main_middle{
+    width: 98%;
+    margin: auto;
+    margin-top: 5px;
+}
+
+#m_right{
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
+    width: 19%;
+    height: 300px;
+}
+
+#m_middle{
+    min-height: 300px;
+}
+
+#m_left{
+    min-height: 300px;
+}
+.left-tree{
+    width: 100%;
+}
+
+#foot{
+    width: 100%;
+    margin: auto;
+    vertical-align: middle;
+    height: 50px;
+    text-align: center;
+}
+
+#foot span{
+    vertical-align: middle;
+    line-height: 50px;
+    font-weight: bold;
+    color: gray;
+}
+
