@@ -28,6 +28,10 @@ body{
     box-shadow: #dddddd 0px 0px 10px 2px;
 }
 
+#author{
+    height: 100%;
+}
+
 
 .main_middle{
     float: left;
@@ -93,5 +97,11 @@ body{
     line-height: 50px;
     font-weight: bold;
     color: gray;
+}
+
+
+.lb_item{
+    width: 100%;
+    height: auto;
 }
 

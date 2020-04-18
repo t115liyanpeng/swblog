@@ -24,7 +24,7 @@
                         <a>文章</a>
                     </li>
                     <li class="layui-nav-item">
-                        <a>开源项目</a>
+                        <a href="https://github.com/t115liyanpeng?tab=repositories">开源项目</a>
                     </li>
                     <li class="layui-nav-item">
                         <a>书籍</a>
@@ -44,18 +44,22 @@
             <div id="main_continer">
                 <div id="main_top">
                     <!--左边栏-->
-                    <div id="left" class="main_left">
-                    <p>test</p>
+                    <div id="author" class="main_left">
+                        <p>test</p>
                     </div>
                     <!--中间栏-->
                     <div id="middle" class="main_middle">
                     <!--顶部，轮播-->
                     <div id="m_top">
                         <div class="layui-carousel" id="wheel" lay-filter="test4">
-                            <div carousel-item="">
-                              <div style="background-color: #009688;">条目1</div>
-                              <div style="background-color: #5FB878;">条目2</div>
-                              <div style="background-color: #1E9FFF;">条目3</div>
+                            <div carousel-item="" >
+                              <div class="lb">
+                                <img class="lb_item" src="../../static/user/default1.jpg" />
+                              </div>
+                              <div class="lb">
+                                <img class="lb_item" src="../../static/user/default2.JPG" />
+                              </div>
+                              
                             </div>
                           </div> 
                     </div>
@@ -73,24 +77,23 @@
                         <ul class="layui-nav layui-nav-tree left-tree" lay-filter="test">
                             <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
                               <li class="layui-nav-item layui-nav-itemed">
-                                <a href="javascript:;">默认展开</a>
+                                <a href="javascript:;">C_Sharp</a>
                                 <dl class="layui-nav-child">
                                   <dd><a href="javascript:;">选项1</a></dd>
                                   <dd><a href="javascript:;">选项2</a></dd>
                                   <dd><a href="">跳转</a></dd>
                                 </dl>
                               </li>
-                              <li class="layui-nav-item">
-                                <a href="javascript:;">解决方案</a>
+                              <li class="layui-nav-item  layui-nav-itemed">
+                                <a href="javascript:;">Golang</a>
                                 <dl class="layui-nav-child">
                                   <dd><a href="">移动模块</a></dd>
                                   <dd><a href="">后台模版</a></dd>
-                                  <dd><a href="">电商平台</a></dd>
+                                  <dd><a href="">后台模版</a></dd>
                                 </dl>
                               </li>
-                              <li class="layui-nav-item"><a href="">产品</a></li>
-                              <li class="layui-nav-item"><a href="">大数据</a></li>
-                            </ul>
+                            
+                        </ul>
                     </div>
                     <!--中间栏-->
                     <div class="main_middle" id="m_middle">
@@ -121,7 +124,7 @@
               elem: '#wheel'
               ,width: '100%' //设置容器宽度
               ,arrow: 'hover' //悬停显示箭头
-              ,anim: 'fade' //切换动画方式
+              ,anim: 'default' //切换动画方式
               ,interval: 3000 //自动切换
             });
 
