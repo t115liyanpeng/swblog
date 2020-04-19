@@ -19,6 +19,7 @@ body{
     margin: auto;
     min-width: 800px;
     display: block;
+    margin-top: -10px;
 }
 
 #top{
@@ -107,5 +108,4 @@ body{
    padding-top: 5px;
    font-size: 18;
    color: gray;
-   font-weight: bold;
 }
