@@ -4,21 +4,37 @@ body{
     background-color: #eeeeee;
 }
 
-#main_continer{
-    width: 98%;
-    min-width: 800px;
+.allwidth{
+    width: 1270px;
+}
+
+#chead{
+    
     margin: auto;
 }
 
-#main_top{
-    height: 280px;
-    width: 98%;
+#main{
+    width: 100%;
+    height: 100%;
+    margin: auto;
     min-width: 800px;
-    margin-top: 3px;
+    display: block;
+}
+
+#top{
+    width: 1270px;
+    height: 290px;
     margin: auto;
 }
 
-.main_left{
+#middle{
+    width: 1270px;
+    height: auto;
+    min-height: 500px;
+    margin: auto;
+}
+
+.left{
     float: left;
     background-color:#F8F8F8;
     width: 20%;
@@ -26,14 +42,10 @@ body{
     margin-top: 2px;
     border: 0.5px solid #dddddd;
     box-shadow: #dddddd 0px 0px 10px 2px;
+    max-width: 280;
 }
 
-#author{
-    height: 100%;
-}
-
-
-.main_middle{
+.middle{
     float: left;
     width: 59%;
     min-width: 480px;
@@ -41,11 +53,11 @@ body{
     margin-top: 2px;
     border: 0.5px solid #dddddd;
     box-shadow: #dddddd 0px 0px 10px 2px;
+    max-width: 800px;
 }
 
-.main_right{
-    float:left;
-    
+.right{
+    float:left;  
     min-width: 120px;
     margin-left: 6px;
     margin-top: 2px;
@@ -53,55 +65,47 @@ body{
     border: 0.5px solid #dddddd;
     box-shadow: #dddddd 0px 0px 10px 2px;
     width: 19%;
-
+    max-width: 280px;
 }
 
 #date .layui-laydate-main{
-    width:280px;
+    width:250px;
 }
 
-#main_middle{
-    width: 98%;
-    margin: auto;
-    margin-top: 5px;
+#user{
+    height: 280px;
+}
+
+#m_left_nav{
+    min-height: 400px;
+    background-color: #393D49;
+}
+
+.left-tree{
+    width: 100%;
+}
+
+#m_continer{
+    min-height: 400px;
 }
 
 #m_right{
     border: 0.5px solid #dddddd;
     box-shadow: #dddddd 0px 0px 10px 2px;
-    width: 19%;
-    height: 300px;
-}
-
-#m_middle{
-    min-height: 300px;
-}
-
-#m_left{
-    min-height: 300px;
-}
-.left-tree{
-    width: 100%;
+    min-width: 240px;
+    height: 400px;
 }
 
 #foot{
-    width: 100%;
+    height: 40px;
+    text-align: center;
     margin: auto;
     vertical-align: middle;
-    height: 50px;
-    text-align: center;
 }
 
-#foot span{
-    vertical-align: middle;
-    line-height: 50px;
-    font-weight: bold;
-    color: gray;
+#f_text{
+   padding-top: 5px;
+   font-size: 18;
+   color: gray;
+   font-weight: bold;
 }
-
-
-.lb_item{
-    width: 100%;
-    height: auto;
-}
-
