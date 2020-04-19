@@ -109,3 +109,12 @@ body{
    font-size: 16px;
    color: gray;
 }
+#tx{
+    background-color: wheat;
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin: auto;
+    top: 20;
+    border-radius: 60px;
+}
