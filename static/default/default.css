@@ -113,8 +113,8 @@ body{
     background-color: wheat;
     width: 120px;
     height: 120px;
-    position: relative;
-    margin: auto;
-    top: 20;
+    position:relative;
+    left:28%;
+    top: 20px;
     border-radius: 60px;
 }
