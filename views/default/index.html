@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{.}}</title>
+        <title>{{.Title}}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="../../static/layui/css/modules/code.css" />
@@ -66,17 +66,17 @@
                     <div id="user">
                         <div id="portrait">
                             <div id="tx">
-
+                                <img src="../../static/user/user_tx.PNG" />
                             </div>
                         </div>
                         <div id="user_info">
-                            <h5>李艳朋</h5>
-                            <p>不欲平凡，奈何太懒T_T</p>
-                            <p>E-mail: t115liyanpeng@126.com</p>
-                            <span class="layui-breadcrumb" lay-separator="|">
-                                <a href="">日志</a>
-                                <a href="">分类</a>
-                                <a href="">标签</a>
+                            <h5>{{.UserInfo.UserName}}</h5>
+                            <p>{{.UserInfo.Brief}}</p>
+                            <p id="email">E-mail:<a href="mailto:{{.UserInfo.Email}}">{{.UserInfo.Email}}</a></p>
+                            <span id="summary" >
+                                <a href="">日志{{.UserInfo.LogNum}}</a>&nbsp;|
+                                <a href="">分类{{.UserInfo.Classify}}</a>&nbsp;|
+                                <a href="">标签{{.UserInfo.Tags}}</a>
                               </span>
                         </div>
                     </div>

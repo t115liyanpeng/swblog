@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"swblog/models/conf"
+	"swblog/models/page"
 	"swblog/router"
 	"swblog/swsqlx"
 	"swblog/tools"
@@ -21,11 +22,13 @@ func main() {
 
 	//读取配置文件
 
-	svrCfg, err := tools.ReadConfig()
+	var err error
+	svrCfg, err = tools.ReadConfig()
 	if err != nil {
 		fmt.Printf("err %v\n", err)
 		return
 	}
+	fmt.Printf("servename:%s\n", svrCfg.Server.WebName)
 	fmt.Printf("serverport:%s\n", svrCfg.Server.Port)
 	fmt.Printf("database ip address %s\n", svrCfg.Database.IPAddress)
 	fmt.Printf("database port %d\n", svrCfg.Database.Port)
@@ -63,10 +66,11 @@ func main() {
 
 //Index 默认页
 func indexPage(ctx *gin.Context) {
-	/*
-		ctx.JSON(200, gin.H{
-			"message": "welcomme to swblog",
-		})
-	*/
-	ctx.HTML(http.StatusOK, "index", "李艳朋")
+	um := page.GetWebSietUserInfo()
+	index := page.FirstPage{
+		Title:    svrCfg.Server.WebName,
+		UserInfo: um,
+	}
+
+	ctx.HTML(http.StatusOK, "index", index)
 }

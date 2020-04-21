@@ -1,5 +1,6 @@
 {
     "servercfg":{
+        "webname":"swblog",
         "port":"8080"
     },
     "databasecfg":{
