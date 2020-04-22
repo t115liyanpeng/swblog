@@ -104,27 +104,19 @@
                 <div id="m_left" class="left">
                     <div id="m_left_nav">
                         <ul class="layui-nav layui-nav-tree left-tree" lay-filter="test">
-                            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
-                              <li class="layui-nav-item layui-nav-itemed">
-                                <a href="javascript:;">
-                                    <i class="iconfont icon-weiruan"></i>&nbsp;
-                                    C_Sharp</a>
-                                <dl class="layui-nav-child">
-                                  <dd><a href="javascript:;">选项1</a></dd>
-                                  <dd><a href="javascript:;">选项2</a></dd>
-                                  <dd><a href="">跳转</a></dd>
-                                </dl>
-                              </li>
-                              <li class="layui-nav-item  layui-nav-itemed">
-                                <a href="javascript:;">
-                                    <i class="iconfont icon-guge"></i>&nbsp;
-                                    Golang</a>
-                                <dl class="layui-nav-child">
-                                  <dd><a href="">移动模块</a></dd>
-                                  <dd><a href="">后台模版</a></dd>
-                                  <dd><a href="">后台模版</a></dd>
-                                </dl>
-                              </li>
+                              {{range.Left}}
+                                <li class="layui-nav-item layui-nav-itemed">
+                                    <a href="javascript:;">
+                                        <i class="iconfont icon-weiruan"></i>&nbsp;
+                                        {{.Summary}}                                     
+                                    </a>
+                                    <dl class="layui-nav-child">
+                                        {{range.Sub}}
+                                        <dd><a href="javascript;;">{{.NavName}}</a></dd>
+                                        {{end}}
+                                    </dl>
+                                </li>
+                              {{end}}
                             
                         </ul>
                     </div>
@@ -139,6 +131,11 @@
                 <div id="m_right" class="right">
                     <span>test12321321321</span>
                 </div>
+            
+                <div class="clear">
+
+                </div>
+
                 <!--看板娘-->
                 <div class="waifu" id="waifu">
                     <div class="waifu-tips" style="opacity: 1;"></div>
@@ -162,6 +159,7 @@
                 
             </div>
         </div>
+        <div class="clear"></div>
         <div id="foot" class="allwidth">
             <span id="f_text" >&copy;SwBlog.All Rights Reserved</span>
         </div>

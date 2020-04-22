@@ -13,10 +13,23 @@ type UserModule struct {
 
 }
 
+//SubTags 子分类
+type SubTags struct {
+	NavName string
+	Link    string
+}
+
+//LeftTags 左侧导航大类
+type LeftTags struct {
+	Summary string     //汇总类
+	Sub     []*SubTags //子分类
+}
+
 //FirstPage 首页对应实体类
 type FirstPage struct {
 	Title    string      //标题
 	UserInfo *UserModule //用户模块信息
+	Left     []*LeftTags //左侧导航
 }
 
 //GetWebSietUserInfo 获取网站用户模块的信息
