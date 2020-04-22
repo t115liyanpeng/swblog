@@ -1,41 +1,40 @@
 @charset "utf-8";
 
-body{
+html{
     background-color: #eeeeee;
 }
 
-.allwidth{
+ body{
+     width: 100%;
+     height: 100%;
+     min-width: 1270px;
+ }
+ .allwidth{
     width: 1270px;
+    margin: auto;
     display: block;
 }
 
-#chead{
+.clearfloat{
+    clear: both;
+}
+
+#nav{
     margin: auto;
     position: fixed;
     z-index: 99;
     display: block;
 }
 
+#zhanwei{
+    width: 100%;
+    height: 65px;
+    
+}
+
 #main{
     width: 100%;
     height: auto;
-    margin: auto;
-    min-width: 800px;
-    display: block;
-    position: relative;
-    top: 70px;
-}
-
-#top{
-    width: 1270px;
-    height: 290px;
-    margin: auto;
-}
-
-#middle{
-    width: 1270px;
-    height: auto;
-    min-height: 500px;
     margin: auto;
 }
 
@@ -73,71 +72,31 @@ body{
     max-width: 280px;
 }
 
-.clear{
-    clear: both;
-}
-
-#date .layui-laydate-main{
-    width:250px;
-}
-
 #user{
     height: 280px;
 }
-
-#m_left_nav{
-    height: 100%;
-    min-height: 400px;
-    background-color: #393D49;
-}
-
-.left-tree{
-    width: 100%;
-}
-
-#m_continer{
-    min-height: 400px;
-}
-
-#m_right{
-    border: 0.5px solid #dddddd;
-    box-shadow: #dddddd 0px 0px 10px 2px;
-    min-width: 240px;
-    height: 400px;
-}
-
-#foot{
-    height: 40px;
-    text-align: center;
-    margin: auto;
-    vertical-align: middle;
-    position: relative;
-    top: 60px;
-}
-
 #f_text{
-   padding-top: 5px;
-   font-size: 16px;
-   color: gray;
-}
-#tx{
-    background-color: wheat;
-    width: 140px;
-    height: 140px;
-    position:relative;
-    left:23%;
-    top: 15px;
-    border-radius: 70px;
-    border: 0.5px solid #dddddd;
-
-}
-
-#tx img{
-    width: 100%;
-    height: 100%;
-    border-radius: 69px;
-}
-
+    padding-top: 5px;
+    font-size: 16px;
+    color: gray;
+ }
+ #tx{
+     background-color: wheat;
+     width: 140px;
+     height: 140px;
+     position:relative;
+     left:23%;
+     top: 15px;
+     border-radius: 70px;
+     border: 0.5px solid #dddddd;
+ 
+ }
+ 
+ #tx img{
+     width: 100%;
+     height: 100%;
+     border-radius: 69px;
+ }
 #user_info{
     top: 0px;
     position: relative;
@@ -170,3 +129,47 @@ body{
     position: relative;
     bottom: 6px;
 }
+
+#m_left_nav{
+    height: 100%;
+    background-color: #393D49;
+}
+
+#date .layui-laydate-main{
+    width:250px;
+}
+
+.left-tree{
+    width: 100%;
+}
+
+#m_continer{
+    min-height: 200px;
+    height: auto;
+}
+
+#m_right{
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
+    min-width: 250px;
+    height: auto;
+}
+
+#f_bottom{
+    height: auto;
+    margin: auto;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background: #393D49;
+    color: #E7E7E7;
+    font-family: Arial;
+    font-size: 12px;
+    letter-spacing: 1px;
+
+}
+

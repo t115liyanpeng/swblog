@@ -14,21 +14,21 @@
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <script src="../../static/layui/layui.js"></script>
         <script>
-             function loaded(){
-                //alert(1);
-                var head=document.getElementById("chead");
-                var main=document.getElementById("main");
-                var foot=document.getElementById("foot");
-                head.style.width=parseInt(document.body.clientWidth)+"px";
-                main.style.width=parseInt(document.body.clientWidth)+"px";
-                //foot.style.width=parseInt(document.body.clientWidth)+"px";
-            };
-        </script>
+            function loaded(){
+               //alert(1);
+               var head=document.getElementById("nav");
+               var main=document.getElementById("main");
+               head.style.width=parseInt(document.body.clientWidth)+"px";
+               main.style.width=parseInt(document.body.clientWidth)+"px";
+               //foot.style.width=parseInt(document.body.clientWidth)+"px";
+           };
+       </script>
     </head>
     <body onload="loaded();" onresize="loaded();">
-        <div id="chead" class="allwidth">
-            <!--导航-->
-            <div>
+        <!--导航栏-->
+        <div id="nav" class="allwidth">
+             <!--导航-->
+             <div>
                 <ul class="layui-nav" lay-filter="">
                     <li class="layui-nav-item">
                         <a><i class="iconfont icon-zhuye"></i>&nbsp;主页</a>
@@ -60,8 +60,9 @@
                 </ul>
             </div>
         </div>
-        <div id="main" class="allwidth">
-            <div id="top">
+        <div id="zhanwei"></div>
+        <div id="main">
+            <div id="top" class="allwidth">
                 <div id="t_left" class="left">
                     <div id="user">
                         <div id="portrait">
@@ -84,23 +85,24 @@
                 <div id="t_middle" class="middle">
                     <!--顶部，轮播-->
                     <div id="t_wheel">
-                            <div class="layui-carousel" id="wheel" lay-filter="test4">
-                                <div carousel-item="" >
-                                    <div class="lb">
-                                      <img class="lb_item" src="../../static/user/default1.jpg" />
-                                    </div>
-                                    <div class="lb">
-                                      <img class="lb_item" src="../../static/user/default2.JPG" />
-                                    </div>              
+                        <div class="layui-carousel" id="wheel" lay-filter="test4">
+                            <div carousel-item="" >
+                                <div class="lb">
+                                  <img class="lb_item" src="../../static/user/default1.jpg" />
                                 </div>
-                            </div> 
-                    </div>
+                                <div class="lb">
+                                  <img class="lb_item" src="../../static/user/default2.JPG" />
+                                </div>              
+                            </div>
+                        </div> 
+                </div>
                 </div>
                 <div id="t_right" class="right">
                     <div id="date"></div>
                 </div>
+                <div class="clearfloat"></div>
             </div>
-            <div id="middle">
+            <div id="middle" class="allwidth">
                 <div id="m_left" class="left">
                     <div id="m_left_nav">
                         <ul class="layui-nav layui-nav-tree left-tree" lay-filter="test">
@@ -131,11 +133,10 @@
                 <div id="m_right" class="right">
                     <span>test12321321321</span>
                 </div>
-            
-                <div class="clear">
 
-                </div>
-
+                <div class="clearfloat"></div>
+            </div>
+            <div id="foot" class="allwidth">
                 <!--看板娘-->
                 <div class="waifu" id="waifu">
                     <div class="waifu-tips" style="opacity: 1;"></div>
@@ -155,15 +156,13 @@
                 <script type="text/javascript">initModel()</script>
                 <link rel="stylesheet" type="text/css" href="../../static/assets/flat-ui.min.css"/>
             </div>
-            <div id="bottom">
-                
-            </div>
-        </div>
-        <div class="clear"></div>
-        <div id="foot" class="allwidth">
-            <span id="f_text" >&copy;SwBlog.All Rights Reserved</span>
         </div>
     </body>
+    <footer>
+        <div id="f_bottom" class="allwidth">
+            CopyRight&copy;SwBlog.All Rights Reserved
+        </div>
+    </footer>
     <script>
         //注意：导航 依赖 element 模块，否则无法进行功能性操作
         layui.use(['element','carousel','laydate'], function(){
