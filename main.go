@@ -67,13 +67,13 @@ func main() {
 //Index 默认页
 func indexPage(ctx *gin.Context) {
 	list := make([]*page.LeftTags, 0)
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 2; i++ {
 
 		sub := &page.LeftTags{
 			Summary: fmt.Sprintf("test%d", i),
 			Sub:     make([]*page.SubTags, 0),
 		}
-		for j := 0; j < 2; j++ {
+		for j := 0; j < 3; j++ {
 			subdetail := &page.SubTags{
 				NavName: fmt.Sprintf("navgname%d", j),
 				Link:    "www.baidu.com",

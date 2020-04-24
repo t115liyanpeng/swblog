@@ -2,6 +2,15 @@ package page
 
 import "swblog/swsqlx"
 
+//树行结构的数据源
+type treeSource struct {
+	id   int    `db:"id"`
+	pid  int    `db:"pid"`
+	name string `db:"name"`
+	link string `db:"link"`
+	icon string `db:"icon"`
+}
+
 //UserModule 右上角用户信息
 type UserModule struct {
 	UserName string `db:"username"` //显示的首页的用户的名称
@@ -50,3 +59,19 @@ func GetWebSietUserInfo() *UserModule {
 		return nil
 	}
 }
+
+//查询数据库中的分类数据
+func getLeftDataSource() []*treeSource {
+	data := make([]*treeSource, 0)
+	err := swsqlx.Dbc.SQLDb.Get(data, "select id,pid,name,link,icon from t_classifyb")
+	if err != nil {
+		return nil
+	}
+	return data
+}
+
+//GetLeftNavData 获取左侧导航数据
+//func GetLeftNavData() []*LeftTags {
+//	source:=getLeftDataSource()
+
+//}
