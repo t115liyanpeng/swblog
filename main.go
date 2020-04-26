@@ -66,22 +66,8 @@ func main() {
 
 //Index 默认页
 func indexPage(ctx *gin.Context) {
-	list := make([]*page.LeftTags, 0)
-	for i := 0; i < 2; i++ {
+	list := page.GetLeftNavData()
 
-		sub := &page.LeftTags{
-			Summary: fmt.Sprintf("test%d", i),
-			Sub:     make([]*page.SubTags, 0),
-		}
-		for j := 0; j < 3; j++ {
-			subdetail := &page.SubTags{
-				NavName: fmt.Sprintf("navgname%d", j),
-				Link:    "www.baidu.com",
-			}
-			sub.Sub = append(sub.Sub, subdetail)
-		}
-		list = append(list, sub)
-	}
 	um := page.GetWebSietUserInfo()
 	index := page.FirstPage{
 		Title:    svrCfg.Server.WebName,

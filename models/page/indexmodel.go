@@ -1,14 +1,18 @@
 package page
 
-import "swblog/swsqlx"
+import (
+	"database/sql"
+	"fmt"
+	"swblog/swsqlx"
+)
 
-//树行结构的数据源
-type treeSource struct {
-	id   int    `db:"id"`
-	pid  int    `db:"pid"`
-	name string `db:"name"`
-	link string `db:"link"`
-	icon string `db:"icon"`
+//TreeSource 树行结构的数据源
+type TreeSource struct {
+	ID   int            `db:"id"`
+	Pid  int            `db:"pid"`
+	Name string         `db:"name"`
+	Link sql.NullString `db:"link"`
+	Icon sql.NullString `db:"icon"`
 }
 
 //UserModule 右上角用户信息
@@ -56,17 +60,21 @@ func GetWebSietUserInfo() *UserModule {
 	err := swsqlx.Dbc.SQLDb.Get(&um, "select username,brief,email,lognum,classify,tags from t_websiteb")
 	if err == nil {
 		return &um
-	} else {
-		return nil
 	}
+	return nil
+
 }
 
 //查询数据库中的分类数据
-func getLeftDataSource() []*treeSource {
-	data := make([]*treeSource, 0)
-	err := swsqlx.Dbc.SQLDb.Get(data, "select id,pid,name,link,icon from t_classifyb")
+func getLeftDataSource() []*TreeSource {
+	data := []*TreeSource{}
+	err := swsqlx.Dbc.SQLDb.Select(&data, "select id,pid,name,link,icon from t_classifyb")
 	if err != nil {
+		fmt.Printf("err : %v\n", err)
 		return nil
+	}
+	for i, v := range data {
+		fmt.Printf("i=%d,v=%s\n", i, v.Name)
 	}
 	return data
 }
@@ -81,13 +89,13 @@ func GetLeftNavData() []*LeftTags {
 			Summary: "",
 			Sub:     make([]*SubTags, 0),
 		}
-		if v.id == 0 {
-			lt.Summary = v.name
+		if v.ID == 0 {
+			lt.Summary = v.Name
 			for _, v2 := range source {
-				if v.id == v2.pid {
+				if v.ID == v2.Pid {
 					sub := SubTags{
-						NavName: v2.name,
-						Link:    v2.link,
+						NavName: v2.Name,
+						Link:    v2.Link.String,
 					}
 					lt.Sub = append(lt.Sub, &sub)
 				}

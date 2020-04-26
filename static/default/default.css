@@ -190,8 +190,11 @@ html{
     bottom: 0;
     width: 100%;
     text-align: center;
+    /*
     background: #393D49;
     color: #E7E7E7;
+    */
+    color: #393D49;
     font-family: Arial;
     font-size: 12px;
     letter-spacing: 1px;
