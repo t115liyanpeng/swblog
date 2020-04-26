@@ -31,6 +31,7 @@ type SubTags struct {
 //LeftTags 左侧导航大类
 type LeftTags struct {
 	Summary string     //汇总类
+	Icon    string     //图标
 	Sub     []*SubTags //子分类
 }
 
@@ -71,7 +72,30 @@ func getLeftDataSource() []*treeSource {
 }
 
 //GetLeftNavData 获取左侧导航数据
-//func GetLeftNavData() []*LeftTags {
-//	source:=getLeftDataSource()
+func GetLeftNavData() []*LeftTags {
+	source := getLeftDataSource()
+	var tags []*LeftTags = make([]*LeftTags, 0)
+	//只生成二级树
+	for _, v := range source {
+		lt := LeftTags{
+			Summary: "",
+			Sub:     make([]*SubTags, 0),
+		}
+		if v.id == 0 {
+			lt.Summary = v.name
+			for _, v2 := range source {
+				if v.id == v2.pid {
+					sub := SubTags{
+						NavName: v2.name,
+						Link:    v2.link,
+					}
+					lt.Sub = append(lt.Sub, &sub)
+				}
 
-//}
+			}
+		}
+		tags = append(tags, &lt)
+	}
+
+	return tags
+}
