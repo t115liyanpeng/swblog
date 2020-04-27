@@ -46,7 +46,6 @@ html{
     margin-top: 2px;
     border: 0.5px solid #dddddd;
     box-shadow: #dddddd 0px 0px 10px 2px;
-    max-width: 280;
 }
 
 .middle{
@@ -144,7 +143,26 @@ html{
 
 #m_left_nav{
     height: 100%;
+    width: 100%;
+    /*
     background-color: #393D49;
+    */
+    background-color: red;
+}
+
+#m_left ul{
+    margin-bottom: 0px;
+}
+
+#m_left dl{
+    margin-bottom: 0px;
+}
+
+.lsm-sidebar{
+    height: auto;
+    width: 100%;
+    background-color: #393D49;
+
 }
 
 #date .layui-laydate-main{
@@ -153,6 +171,11 @@ html{
 
 .left-tree{
     width: 100%;
+    height: auto;
+}
+
+#m_nav{
+    margin-bottom: 0px;
 }
 
 .m_continer{

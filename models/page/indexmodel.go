@@ -34,6 +34,7 @@ type SubTags struct {
 
 //LeftTags 左侧导航大类
 type LeftTags struct {
+	ID      int
 	Summary string     //汇总类
 	Icon    string     //图标
 	Sub     []*SubTags //子分类
@@ -73,37 +74,36 @@ func getLeftDataSource() []*TreeSource {
 		fmt.Printf("err : %v\n", err)
 		return nil
 	}
-	for i, v := range data {
-		fmt.Printf("i=%d,v=%s\n", i, v.Name)
-	}
 	return data
 }
 
 //GetLeftNavData 获取左侧导航数据
 func GetLeftNavData() []*LeftTags {
 	source := getLeftDataSource()
-	var tags []*LeftTags = make([]*LeftTags, 0)
+	var tags []*LeftTags = []*LeftTags{}
 	//只生成二级树
 	for _, v := range source {
-		lt := LeftTags{
-			Summary: "",
-			Sub:     make([]*SubTags, 0),
-		}
-		if v.ID == 0 {
+		lt := &LeftTags{}
+		if v.Pid == 0 {
+			lt.ID = v.ID
+			lt.Icon = v.Icon.String
 			lt.Summary = v.Name
-			for _, v2 := range source {
-				if v.ID == v2.Pid {
-					sub := SubTags{
-						NavName: v2.Name,
-						Link:    v2.Link.String,
-					}
-					lt.Sub = append(lt.Sub, &sub)
-				}
-
-			}
+			lt.Sub = []*SubTags{}
+			tags = append(tags, lt)
 		}
-		tags = append(tags, &lt)
+
 	}
 
+	for _, v := range source {
+		for _, s := range tags {
+			if v.ID != 0 && v.Pid == s.ID {
+				sub := &SubTags{
+					NavName: v.Name,
+					Link:    v.Link.String,
+				}
+				s.Sub = append(s.Sub, sub)
+			}
+		}
+	}
 	return tags
 }

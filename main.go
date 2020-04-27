@@ -28,13 +28,14 @@ func main() {
 		fmt.Printf("err %v\n", err)
 		return
 	}
-	fmt.Printf("servename:%s\n", svrCfg.Server.WebName)
-	fmt.Printf("serverport:%s\n", svrCfg.Server.Port)
-	fmt.Printf("database ip address %s\n", svrCfg.Database.IPAddress)
-	fmt.Printf("database port %d\n", svrCfg.Database.Port)
-	fmt.Printf("database user %s\n", svrCfg.Database.User)
-	fmt.Printf("database password %s\n", svrCfg.Database.Password)
-
+	/*
+		fmt.Printf("servename:%s\n", svrCfg.Server.WebName)
+		fmt.Printf("serverport:%s\n", svrCfg.Server.Port)
+		fmt.Printf("database ip address %s\n", svrCfg.Database.IPAddress)
+		fmt.Printf("database port %d\n", svrCfg.Database.Port)
+		fmt.Printf("database user %s\n", svrCfg.Database.User)
+		fmt.Printf("database password %s\n", svrCfg.Database.Password)
+	*/
 	//初始化数据库连接
 	swsqlx.CreateDbcInstance(svrCfg.Database)
 
