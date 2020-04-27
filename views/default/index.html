@@ -12,10 +12,6 @@
         <link rel="icon" href="../../static/images/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="../../static/assets/waifu1.css"/>
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="../../static/jquery.qrcode.min.js"></script>
-        <script src="../../static/jquery.slimscroll.min.js"></script>
-        <script src="../../static/left-side-menu.js"></script>
-        <link rel="stylesheet" href="../../static/left-side-menu.css" />
         <script src="../../static/layui/layui.js"></script>
         <script>
             function loaded(){
@@ -111,10 +107,7 @@
                         <ul class="layui-nav layui-nav-tree left-tree" lay-filter="test">
                               {{range.Left}}
                                 <li class="layui-nav-item layui-nav-itemed">
-                                    <a href="javascript:;">
-                                        <i class="iconfont icon-weiruan"></i>&nbsp;
-                                        {{.Summary}}                                     
-                                    </a>
+                                    <a href="javascript:;"><i class="{{.Icon}}"></i>&nbsp;{{.Summary}}</a>
                                     <dl class="layui-nav-child">
                                         {{range.Sub}}
                                         <dd><a href="javascript;;">{{.NavName}}</a></dd>
