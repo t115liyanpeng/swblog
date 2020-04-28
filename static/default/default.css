@@ -230,30 +230,30 @@ html{
     letter-spacing: 1px;
 
 }
-#w_title{
+.w_title{
     padding-top: 10px;
     text-align: center;
     height: 35px;
     color: #999;
 }
 
-#w_title a {
+.w_title a {
     color: #777;
     font-size: 23px;
     font-family: Langdon;  
 }
 
-#w_title a:hover{
+.w_title a:hover{
     color: #01AAED;
     cursor: pointer;
 }
-#w_tags{
+.w_tags{
     text-align: center;
     color: #999;
     font-size: Langdon;
 }
 
-#w_content{
+.w_content{
     border: 0.5px;
     padding: 10px 20px 10px 20px;
     min-height: 120px;
@@ -264,13 +264,13 @@ html{
     text-overflow: ellipsis;
 }
 
-#w_content span{
+.w_content span{
     display:block;
     text-indent: 2em;
     overflow-wrap: break-word;   
 }
 
-#w_footer{ 
+.w_footer{ 
     width: 100%;
     height: auto;
     margin-top: 6px;
@@ -279,7 +279,7 @@ html{
 
 }
 
-#w_footer a{
+.w_footer a{
     
     padding: 20px;
     text-decoration: underline;
@@ -287,7 +287,7 @@ html{
     font-size: 14px;   
 }
 
-#w_footer a:hover{
+.w_footer a:hover{
     text-decoration: underline;
     color: #01AAED;
     cursor: pointer;
