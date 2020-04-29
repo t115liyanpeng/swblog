@@ -122,65 +122,69 @@
 
                 <div id="m_middle" class="middle">
                     <div>
+                        {{range.Articles}}
                         <div class="m_continer">
                             <div class="w_title">
-                            <a>文章标题</a>
+                            <a>{{.Name}}</a>
                             </div>
-                            <div class="w_tags">
-                            <span>日期：2020.01.01</span>
+                            <div class="w_tags">                                                       
+                            <span>作者：{{.Author}}</span>
                             &nbsp;
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            <span>作者：李艳朋</span>
+                            <span>分类：{{.Classify}}</span>
                             &nbsp;
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            <span>标签：C#</span>
+                            <span>标签：{{.Tag}}</span>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span>日期：{{.CreateTime}}</span>
                             </div>
                             <div class="w_content">
                             <span>
-                                3132132131231214324324324324324324324321321321321321321321321321321321321321321321321321321321321321
+                                {{.Content}}
                             </span>
                             </div>
                             <div class="w_footer">
-                            <a>开始阅读</a>
+                                <!--<a>评论(0)</a>-->
+                                <a>开始阅读</a>
                             </div>
                         </div>
-
-                        <!--<div class="m_continer">
-                            <div class="w_title">
-                            <a>文章标题</a>
-                            </div>
-                            <div class="w_tags">
-                            <span>日期：2020.01.01</span>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <span>作者：李艳朋</span>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <span>标签：C#</span>
-                            </div>
-                            <div class="w_content">
-                            <span>
-                                3132132131231214324324324324324324324321321321321321321321321321321321321321321321321321321321321321
-                            </span>
-                            </div>
-                            <div class="w_footer">
-                            <a>开始阅读</a>
-                            </div>
-                        </div>-->
+                        {{end}}
                     </div>
                    
                 </div>
 
-                <div id="m_right" class="right">
-                    <span>test12321321321</span>
+                <div id="m_right" >
+                    <div id="lately" class="right">
+                        <div class="r_title">
+                            <span>最近更新</span>
+                        </div>
+                        <div class="r_content">
+                            <ul class="r_content_ul">
+                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <div id="hot" class="right">
+                        <div class="r_title">
+                            <span>热门文章</span>
+                        </div>
+                        <div class="r_content">
+                            <ul class="r_content_ul">
+                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="clearfloat"></div>
@@ -254,6 +258,13 @@
             });
             
           
+        });
+       
+       //点赞
+       $(function() {
+            $(".heart").on("click", function() {
+                $(this).toggleClass("is-active");
+            });
         });
     </script>
 </html>

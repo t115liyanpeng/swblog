@@ -67,13 +67,16 @@ func main() {
 
 //Index 默认页
 func indexPage(ctx *gin.Context) {
-	list := page.GetLeftNavData()
-
-	um := page.GetWebSietUserInfo()
+	//userid 默认展示用户的信息的用户id
+	userid := "c999a2f041c84dc1b5970bb973c1da74"
+	list := page.GetLeftNavData(userid)
+	um := page.GetWebSietUserInfo(userid)
+	articles := page.GetContent(userid)
 	index := page.FirstPage{
 		Title:    svrCfg.Server.WebName,
 		UserInfo: um,
 		Left:     list,
+		Articles: articles,
 	}
 
 	ctx.HTML(http.StatusOK, "index", index)
