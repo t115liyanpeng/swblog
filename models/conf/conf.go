@@ -2,8 +2,9 @@ package conf
 
 //Servercfg 服务配置信息
 type Servercfg struct {
-	WebName string `json:"webname"`
-	Port 	string `json:"port"`
+	WebName       string `json:"webname"`
+	Port          string `json:"port"`
+	IndexPageSize int    `json:"indexpagesize"`
 }
 
 //Databasecfg 数据库配置

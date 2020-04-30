@@ -1,7 +1,8 @@
 {
     "servercfg":{
         "webname":"swblog",
-        "port":"8080"
+        "port":"8080",
+        "indexpagesize":5
     },
     "databasecfg":{
         "address":"122.51.213.223",

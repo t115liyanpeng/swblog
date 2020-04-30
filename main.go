@@ -71,13 +71,15 @@ func indexPage(ctx *gin.Context) {
 	userid := "c999a2f041c84dc1b5970bb973c1da74"
 	list := page.GetLeftNavData(userid)
 	um := page.GetWebSietUserInfo(userid)
-	articles := page.GetContent(userid)
+	articles, count := page.GetContent(userid, svrCfg.Server.IndexPageSize, 1)
 	index := page.FirstPage{
 		Title:    svrCfg.Server.WebName,
 		UserInfo: um,
 		Left:     list,
 		Articles: articles,
+		ArtCount: count,
+		News:     page.ArtBiref(articles),
+		Hots:     page.GetHots(userid),
 	}
-
 	ctx.HTML(http.StatusOK, "index", index)
 }

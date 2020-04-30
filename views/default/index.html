@@ -152,10 +152,13 @@
                             </div>
                             <div class="w_footer">
                                 <!--<a>评论(0)</a>-->
+                                
                                 <a>开始阅读</a>
                             </div>
                         </div>
                         {{end}}
+                        <!--分页-->
+                        <div id="pager"></div>
                     </div>
                    
                 </div>
@@ -167,10 +170,9 @@
                         </div>
                         <div class="r_content">
                             <ul class="r_content_ul">
-                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
-                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
-                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
-                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                                {{range.News}}
+                                <li><a>[{{.Num}}]&nbsp;{{.Title}}</a></li>
+                                {{end}}
                             </ul>
                         </div>
                         
@@ -181,7 +183,9 @@
                         </div>
                         <div class="r_content">
                             <ul class="r_content_ul">
-                                <li><a>[1]&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</a></li>
+                                {{range.Hots}}
+                                <li><a>[{{.Num}}]&nbsp;{{.Title}}</a></li>
+                                {{end}}
                             </ul>
                         </div>
                     </div>
@@ -218,7 +222,7 @@
     </footer>
     <script>
         //注意：导航 依赖 element 模块，否则无法进行功能性操作
-        layui.use(['element','carousel','laydate'], function(){
+        layui.use(['element','carousel','laydate','laypage'], function(){
           var element = layui.element;         
           //carousel轮播模块加载。
           var carousel = layui.carousel;
@@ -257,15 +261,22 @@
               ,showBottom:false
             });
             
-          
-        });
-       
-       //点赞
-       $(function() {
-            $(".heart").on("click", function() {
-                $(this).toggleClass("is-active");
+            //分页控件
+            var laypage = layui.laypage;
+  
+            //执行一个laypage实例
+            laypage.render({
+              elem: 'pager' 
+              ,count:'{{.ArtCount}}' //数据总数，从服务端得到
             });
         });
+       
+        //点赞
+        //$(function() {
+        //    $(".heart").on("click", function() {
+        //          $(this).toggleClass("is-active");
+        //    });
+        //});
     </script>
 </html>
 {{end}}

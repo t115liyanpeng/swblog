@@ -25,6 +25,9 @@ html{
     z-index: 99;
     display: block;
 }
+.layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after{
+    background-color: #009688;
+}
 
 #zhanwei{
     width: 100%;
@@ -338,4 +341,4 @@ html{
     color: #01AAED;
 }
 
-
+/*点赞效果*/
