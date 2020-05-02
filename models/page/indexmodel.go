@@ -2,6 +2,7 @@ package page
 
 import (
 	"database/sql"
+	"swblog/models/artciles"
 	"swblog/swsqlx"
 )
 
@@ -39,36 +40,15 @@ type LeftTags struct {
 	Sub     []*SubTags //子分类
 }
 
-//Article 文章
-type Article struct {
-	ID         int    `db:"id"`         //id
-	Name       string `db:"name"`       //文章名称
-	Content    string `db:"subsummary"` //文章摘要
-	Top        bool   `db:"up"`         //是否置顶
-	Like       int    `db:"ulike"`      //喜欢
-	Click      int    `db:"click"`      //点击次数
-	Classify   string `db:"classify"`   //分类
-	Tag        string `db:"tag"`        //标签
-	Author     string `db:"author"`     //作者
-	CreateTime string `db:"createtime"` //创建时间
-}
-
-//ArtSummary 文章汇总标题
-type ArtSummary struct {
-	ID    int    `db:"id"`    //id
-	Num   int    `db:"num"`   //文章序号
-	Title string `db:"title"` //文章标题
-}
-
 //FirstPage 首页对应实体类
 type FirstPage struct {
-	Title    string        //标题
-	UserInfo *UserModule   //用户模块信息
-	Left     []*LeftTags   //左侧导航
-	Articles []*Article    //文章
-	ArtCount int           //文章总数，分页使用
-	News     []*ArtSummary //最新文章
-	Hots     []*ArtSummary //热门
+	Title    string                 //标题
+	UserInfo *UserModule            //用户模块信息
+	Left     []*LeftTags            //左侧导航
+	Articles []*artciles.Article    //文章
+	ArtCount int                    //文章总数，分页使用
+	News     []*artciles.ArtSummary //最新文章
+	Hots     []*artciles.ArtSummary //热门
 }
 
 //GetWebSietUserInfo 获取网站用户模块的信息
@@ -138,9 +118,9 @@ func GetLeftNavData(uid string) []*LeftTags {
 }
 
 //GetContent 获取文章主体
-func GetContent(uid string, pagesize, pageindex int) (articles []*Article, count int) {
+func GetContent(uid string, pagesize, pageindex int) (articles []*artciles.Article, count int) {
 	curpage := (pageindex - 1) * pagesize
-	articles = []*Article{}
+	articles = []*artciles.Article{}
 	count = 0
 	err := swsqlx.Dbc.SQLDb.Select(&articles, `SELECT t1.id,t1.name,LEFT(t1.content,200) as subsummary,up,t1.ulike ,
 	t1.click,t2.name as classify,t3.name as tag,t4.name as author,t1.createtime FROM t_articleb t1 inner JOIN t_classifyb t2
@@ -154,18 +134,18 @@ func GetContent(uid string, pagesize, pageindex int) (articles []*Article, count
 }
 
 //ArtBiref 获取文章简介
-func ArtBiref(arts []*Article) (summarys []*ArtSummary) {
+func ArtBiref(arts []*artciles.Article) (summarys []*artciles.ArtSummary) {
 
 	if arts != nil {
-		summarys = make([]*ArtSummary, 0)
-		temparts := make([]*Article, 0)
+		summarys = make([]*artciles.ArtSummary, 0)
+		temparts := make([]*artciles.Article, 0)
 		if len(arts) > 4 {
 			temparts = append(temparts, arts[:5]...)
 		} else {
 			temparts = append(temparts, arts...)
 		}
 		for i, v := range temparts {
-			summarys = append(summarys, &ArtSummary{
+			summarys = append(summarys, &artciles.ArtSummary{
 				ID:    v.ID,
 				Num:   i + 1,
 				Title: v.Name,
@@ -177,8 +157,8 @@ func ArtBiref(arts []*Article) (summarys []*ArtSummary) {
 }
 
 //GetHots 获取热门文章标题
-func GetHots(uid string) []*ArtSummary {
-	data := []*ArtSummary{}
+func GetHots(uid string) []*artciles.ArtSummary {
+	data := []*artciles.ArtSummary{}
 	err := swsqlx.Dbc.SQLDb.Select(&data, `SELECT  @rownum:=@rownum+1 as num,t1.id,t1.name as title FROM 
 	(SELECT @rownum := 0) t2,t_articleb t1 WHERE userid=? ORDER BY t1.click OR t1.ulike DESC LIMIT 10`, uid)
 	if err != nil {

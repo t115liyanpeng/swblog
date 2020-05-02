@@ -60,6 +60,7 @@ func main() {
 
 	//注册路由
 	router.RegisterUserGroup(engine)
+	router.RegisterArtilcesGroup(engine)
 
 	engine.Run(fmt.Sprintf(":%s", svrCfg.Server.Port))
 

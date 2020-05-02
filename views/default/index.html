@@ -14,53 +14,26 @@
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <script src="../../static/layui/layui.js"></script>
         <script>
-            function loaded(){
-               //alert(1);
-               var head=document.getElementById("nav");
-               var main=document.getElementById("main");
-               head.style.width=parseInt(document.body.clientWidth)+"px";
-               main.style.width=parseInt(document.body.clientWidth)+"px";
-               //foot.style.width=parseInt(document.body.clientWidth)+"px";
-           };
+            $(document).ready(function(){
+               
+               $("body").ready(function(){
+                   var w=parseInt(document.body.clientWidth)+"px";
+                  $("#nav").css("width",w);
+                  $("#main").css("width",w);
+               });
+                
+               $(window).resize(function(){
+                var w=parseInt(document.body.clientWidth)+"px";
+                  $("#nav").css("width",w);
+                  $("#main").css("width",w);
+               });
+              
+            });
        </script>
     </head>
-    <body onload="loaded();" onresize="loaded();">
+    <body>
         <!--导航栏-->
-        <div id="nav" class="allwidth">
-             <!--导航-->
-             <div>
-                <ul class="layui-nav" lay-filter="">
-                    <li class="layui-nav-item">
-                        <a><i class="iconfont icon-zhuye"></i>&nbsp;主页</a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a><i class="iconfont icon-wenzhang-copy"></i>&nbsp;文章</a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a href="https://github.com/t115liyanpeng?tab=repositories">
-                            <i class="iconfont icon-GitHub"></i>&nbsp;
-                            开源项目</a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a>
-                            <i class="iconfont icon-ziyuan"></i>&nbsp;
-                            书籍</a>
-                    </li>
-                    <li class="layui-nav-item">
-                        <a>
-                            <i class="iconfont icon-guanyu"></i>&nbsp;
-                            关于</a>
-                    </li>   
-                    <!--<li class="layui-nav-item  layui-layout-right">
-                        <a href="/user/login">
-                            <img src="../../static/images/unlogin_user.png" class="layui-nav-img" />
-                            登录
-                        </a>
-                    </li>-->                  
-                </ul>
-            </div>
-        </div>
-        <div id="zhanwei"></div>
+        {{template "navigate"}}
         <div id="main">
             <div id="top" class="allwidth">
                 <div id="t_left" class="left">
@@ -216,9 +189,7 @@
         </div>
     </body>
     <footer>
-        <div id="f_bottom" class="allwidth">
-            CopyRight&copy;SwBlog.All Rights Reserved
-        </div>
+        {{template "footer"}}
     </footer>
     <script>
         //注意：导航 依赖 element 模块，否则无法进行功能性操作

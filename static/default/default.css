@@ -39,6 +39,7 @@ html{
     width: 100%;
     height: auto;
     margin: auto;
+    min-height: 600px;
 }
 
 .left{
