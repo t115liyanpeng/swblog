@@ -2,7 +2,8 @@ package router
 
 import (
 	"net/http"
-	"swblog/models/artciles"
+	"swblog/controllers"
+	"swblog/tools"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,17 +20,11 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 
 func artDetail(ctx *gin.Context) {
 
-	artdetail := &artciles.Article{
-		ID:         1,
-		Name:       "章名称",
-		Content:    "章摘要",
-		Top:        false,
-		Like:       10,
-		Click:      1,
-		Classify:   "类",
-		Tag:        "签",
-		Author:     "者",
-		CreateTime: "建时间",
+	artid := ctx.Query("artid")
+	artdetail := controllers.GetArticleDetail(artid, tools.SvrCfg.Server.UserID)
+	if artid == "" {
+		ctx.HTML(http.StatusOK, "404", nil)
+		return
 	}
 	ctx.HTML(http.StatusOK, "detail", artdetail)
 }

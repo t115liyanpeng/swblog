@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"swblog/models/conf"
 	"swblog/models/page"
 	"swblog/router"
 	"swblog/swsqlx"
@@ -11,9 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-//配置信息
-var svrCfg *conf.Config
 
 //gin引擎
 var engine *gin.Engine
@@ -23,7 +19,8 @@ func main() {
 	//读取配置文件
 
 	var err error
-	svrCfg, err = tools.ReadConfig()
+
+	tools.SvrCfg, err = tools.ReadConfig()
 	if err != nil {
 		fmt.Printf("err %v\n", err)
 		return
@@ -37,7 +34,7 @@ func main() {
 		fmt.Printf("database password %s\n", svrCfg.Database.Password)
 	*/
 	//初始化数据库连接
-	swsqlx.CreateDbcInstance(svrCfg.Database)
+	swsqlx.CreateDbcInstance(tools.SvrCfg.Database)
 
 	//初始化gin
 	gin.SetMode(gin.ReleaseMode)
@@ -62,25 +59,33 @@ func main() {
 	router.RegisterUserGroup(engine)
 	router.RegisterArtilcesGroup(engine)
 
-	engine.Run(fmt.Sprintf(":%s", svrCfg.Server.Port))
+	//定义404
+	engine.NoRoute(go404)
+
+	engine.Run(fmt.Sprintf(":%s", tools.SvrCfg.Server.Port))
 
 }
 
 //Index 默认页
 func indexPage(ctx *gin.Context) {
 	//userid 默认展示用户的信息的用户id
-	userid := "c999a2f041c84dc1b5970bb973c1da74"
-	list := page.GetLeftNavData(userid)
-	um := page.GetWebSietUserInfo(userid)
-	articles, count := page.GetContent(userid, svrCfg.Server.IndexPageSize, 1)
+	//userid := "c999a2f041c84dc1b5970bb973c1da74"
+	list := page.GetLeftNavData(tools.SvrCfg.Server.UserID)
+	um := page.GetWebSietUserInfo(tools.SvrCfg.Server.UserID)
+	articles, count := page.GetContent(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.IndexPageSize, 1)
 	index := page.FirstPage{
-		Title:    svrCfg.Server.WebName,
+		Title:    tools.SvrCfg.Server.WebName,
 		UserInfo: um,
 		Left:     list,
 		Articles: articles,
 		ArtCount: count,
 		News:     page.ArtBiref(articles),
-		Hots:     page.GetHots(userid),
+		Hots:     page.GetHots(tools.SvrCfg.Server.UserID),
 	}
 	ctx.HTML(http.StatusOK, "index", index)
+}
+
+//404
+func go404(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "404", nil)
 }

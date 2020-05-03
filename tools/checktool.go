@@ -9,6 +9,9 @@ import (
 	"swblog/models/conf"
 )
 
+//SvrCfg 配置信息 全局变量存储服务的基础信息
+var SvrCfg *conf.Config = &conf.Config{}
+
 //ReadConfig 读取配置文件
 func ReadConfig() (cf *conf.Config, err error) {
 	cfg, err := CheckConfig()

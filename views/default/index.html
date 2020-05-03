@@ -98,7 +98,7 @@
                         {{range.Articles}}
                         <div class="m_continer">
                             <div class="w_title">
-                            <a>{{.Name}}</a>
+                            <a href="/article/detail?artid={{.ID}}">{{.Name}}</a>
                             </div>
                             <div class="w_tags">                                                       
                             <span>作者：{{.Author}}</span>
@@ -126,7 +126,7 @@
                             <div class="w_footer">
                                 <!--<a>评论(0)</a>-->
                                 
-                                <a>开始阅读</a>
+                                <a href="/article/detail?artid={{.ID}}">开始阅读</a>
                             </div>
                         </div>
                         {{end}}
@@ -144,7 +144,7 @@
                         <div class="r_content">
                             <ul class="r_content_ul">
                                 {{range.News}}
-                                <li><a>[{{.Num}}]&nbsp;{{.Title}}</a></li>
+                                <li><a href="/article/detail?artid={{.ID}}">[{{.Num}}]&nbsp;{{.Title}}</a></li>
                                 {{end}}
                             </ul>
                         </div>
@@ -157,7 +157,7 @@
                         <div class="r_content">
                             <ul class="r_content_ul">
                                 {{range.Hots}}
-                                <li><a>[{{.Num}}]&nbsp;{{.Title}}</a></li>
+                                <li><a href="/article/detail?artid={{.ID}}">[{{.Num}}]&nbsp;{{.Title}}</a></li>
                                 {{end}}
                             </ul>
                         </div>
@@ -168,23 +168,7 @@
             </div>
             <div id="foot" class="allwidth">
                 <!--看板娘-->
-                <div class="waifu" id="waifu">
-                    <div class="waifu-tips" style="opacity: 1;"></div>
-                    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
-                    <div class="waifu-tool">
-                        <span class="fui-home"></span>
-                        <span class="fui-chat"></span>
-                        <span class="fui-eye"></span>
-                        <span class="fui-user"></span>
-                        <span class="fui-photo"></span>
-                        <span class="fui-info-circle"></span>
-                        <span class="fui-cross"></span>
-                    </div>
-                </div>
-                <script src="../../static/assets/live2d.min.js"></script>
-                <script src="../../static/assets/waifu-tips.js"></script>
-                <script type="text/javascript">initModel()</script>
-                <link rel="stylesheet" type="text/css" href="../../static/assets/flat-ui.min.css"/>
+                {{template "kanbanniang"}}
             </div>
         </div>
     </body>

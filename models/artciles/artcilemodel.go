@@ -12,6 +12,7 @@ type Article struct {
 	Tag        string `db:"tag"`        //标签
 	Author     string `db:"author"`     //作者
 	CreateTime string `db:"createtime"` //创建时间
+	Comid      int    `db:"commentid"`  //评论id
 }
 
 //ArtSummary 文章汇总标题

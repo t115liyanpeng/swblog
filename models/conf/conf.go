@@ -5,6 +5,7 @@ type Servercfg struct {
 	WebName       string `json:"webname"`
 	Port          string `json:"port"`
 	IndexPageSize int    `json:"indexpagesize"`
+	UserID        string `json:"userid"`
 }
 
 //Databasecfg 数据库配置

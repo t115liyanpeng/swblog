@@ -19,7 +19,8 @@
                    var w=parseInt(document.body.clientWidth)+"px";
                    var h=parseInt(document.body.clientHeight)+"px"
                   $("#nav").css("width",w);
-                  $("#main").css({"width":w,"height":h});
+                  $("#main").css({"width":w,});
+                  //$("#main").css({"width":w,"min-height":h});
                });
                 
                $(window).resize(function(){
@@ -35,7 +36,43 @@
         {{template "navigate"}}
         <div id="main">
             <div id="artcile">
-
+                <!--标题-->
+                <div id="arthead" class="ctx">
+                    <div id="title">
+                        <h1>{{.Name}}</h1>
+                    </div>                    
+                    <div id="info" class="ctx">
+                        <p>
+                            <span>作者：{{.Author}}</span>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span>分类：{{.Classify}}</span>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span>标签：{{.Tag}}</span>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span>日期：{{.CreateTime}}</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <div id="content">
+                    <div id="textbody">
+                        {{.Content}}
+                    </div>
+                    
+                </div>
+            </div>
+            <!--看板娘-->
+            <div>
+                {{template "kanbanniang"}}
             </div>
         </div>
     </body>
