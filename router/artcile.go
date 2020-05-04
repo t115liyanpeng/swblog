@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"swblog/controllers"
@@ -38,11 +39,17 @@ func artDetail(ctx *gin.Context) {
 func artFile(ctx *gin.Context) {
 	var pageindex int = 1
 	index := ctx.Query("index")
-	if index != "" {
+	if index == "" {
+		//跳转
+		line := controllers.GetTimeLineArticle(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.FilePageSize, pageindex)
+		ctx.HTML(http.StatusOK, "articlefile", line)
+	} else {
+		//分页
+		fmt.Printf("test loading page\n")
 		pageindex, _ = strconv.Atoi(index)
+		line := controllers.GetTimeLineArticle(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.FilePageSize, pageindex)
+		ctx.HTML(http.StatusOK, "artfilepage", line)
 	}
-	line := controllers.GetTimeLineArticle(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.FilePageSize, pageindex)
-	ctx.HTML(http.StatusOK, "articlefile", line)
 }
 
 func artPage(ctx *gin.Context) {

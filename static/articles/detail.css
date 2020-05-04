@@ -108,7 +108,7 @@ body{
 
 .file_timeline{
     max-height: 1000px;
-    height: 75%;
+    min-height: 650px;
 }
 
 #pagecontent{

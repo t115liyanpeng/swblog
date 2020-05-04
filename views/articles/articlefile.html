@@ -44,17 +44,17 @@
 
                         <ul class="layui-timeline">
                             {{range.LineItems}}
-                            <li class="layui-timeline-item">
-                              <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                              <div class="layui-timeline-content layui-text">
-                                <h3 class="layui-timeline-title">
-                                    {{.CreateTime}}
-                                </h3>
-                                <p>
-                                  <a href="/article/detail?artid={{.ID}}">{{.Name}}</a>
-                                </p>
-                              </div>
-                            </li>
+                                <li class="layui-timeline-item">
+                                  <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                                  <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">
+                                        {{.CreateTime}}
+                                    </h3>
+                                    <p>
+                                      <a href="/article/detail?artid={{.ID}}">{{.Name}}</a>
+                                    </p>
+                                  </div>
+                                </li>
                             {{end}}
                         </ul>    
                 </div>                
@@ -73,11 +73,12 @@
         {{template "footer"}}
     </footer>
     <script>
-        layui.use(['element','laypage'],function(){
+        layui.use(['element','laypage','layer'],function(){
             var element = layui.element;
              //分页控件
             var laypage = layui.laypage;
-  
+            //弹出层
+            var layer=layui.layer;
             //执行一个laypage实例
             laypage.render({
               elem: 'pager' 
@@ -91,8 +92,28 @@
                 //首次不执行
                 if(!first){
                   //do something
-                 
-                  alert(obj.curr);
+                  var urlstr='/article/articlefile?index='+obj.curr;
+                  var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                  $.ajax({
+                      url:urlstr,
+                      type:'get',
+                      async:true,
+                      timeout:5000,
+                      success:function(datas){
+                        layer.close(loading);
+                        $(".layui-timeline").html(datas);
+                      },
+                      error:function(){
+                        layer.close(loading);
+                        layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                        });
+                        //if(obj.curr>1){
+                        //    obj.curr=parseInt(obj.curr)-1
+                        //}
+                      }
+                    });
                 }
               }
             });
