@@ -22,7 +22,9 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	//文章归档
 	artilcegroup.GET("/articlefile", artFile)
 	//首页文章汇总分页
-	artilcegroup.GET("page", artPage)
+	artilcegroup.GET("/page", artPage)
+	//文章分类列表
+	artilcegroup.GET("/artclassifylst", artList)
 }
 
 func artDetail(ctx *gin.Context) {
@@ -63,4 +65,8 @@ func artPage(ctx *gin.Context) {
 	//ctx.JSON(http.StatusOK, gin.H{
 	//	"msg": "test",
 	//})
+}
+
+func artList(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "artclassifylst", nil)
 }
