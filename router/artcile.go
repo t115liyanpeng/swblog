@@ -2,7 +2,9 @@ package router
 
 import (
 	"net/http"
+	"strconv"
 	"swblog/controllers"
+	"swblog/models/page"
 	"swblog/tools"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +18,10 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 
 	//注册查看文章详情路由
 	artilcegroup.GET("/detail", artDetail)
+	//文章归档
+	artilcegroup.GET("/articlefile", artFile)
+	//首页文章汇总分页
+	artilcegroup.GET("page", artPage)
 }
 
 func artDetail(ctx *gin.Context) {
@@ -27,4 +33,27 @@ func artDetail(ctx *gin.Context) {
 		return
 	}
 	ctx.HTML(http.StatusOK, "detail", artdetail)
+}
+
+func artFile(ctx *gin.Context) {
+	var pageindex int = 1
+	index := ctx.Query("index")
+	if index != "" {
+		pageindex, _ = strconv.Atoi(index)
+	}
+	line := controllers.GetTimeLineArticle(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.FilePageSize, pageindex)
+	ctx.HTML(http.StatusOK, "articlefile", line)
+}
+
+func artPage(ctx *gin.Context) {
+	index := ctx.Query("index")
+	pageindex, err := strconv.Atoi(index)
+	if err == nil {
+		articles, _ := page.GetContent(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.IndexPageSize, pageindex)
+		//fmt.Printf("arts : %v count %d", articles, count)
+		ctx.HTML(http.StatusOK, "artpage", articles)
+	}
+	//ctx.JSON(http.StatusOK, gin.H{
+	//	"msg": "test",
+	//})
 }

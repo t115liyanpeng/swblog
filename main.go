@@ -74,13 +74,14 @@ func indexPage(ctx *gin.Context) {
 	um := page.GetWebSietUserInfo(tools.SvrCfg.Server.UserID)
 	articles, count := page.GetContent(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.IndexPageSize, 1)
 	index := page.FirstPage{
-		Title:    tools.SvrCfg.Server.WebName,
-		UserInfo: um,
-		Left:     list,
-		Articles: articles,
-		ArtCount: count,
-		News:     page.ArtBiref(articles),
-		Hots:     page.GetHots(tools.SvrCfg.Server.UserID),
+		Title:       tools.SvrCfg.Server.WebName,
+		UserInfo:    um,
+		Left:        list,
+		Articles:    articles,
+		ArtCount:    count,
+		ArtPageSize: tools.SvrCfg.Server.IndexPageSize,
+		News:        page.ArtBiref(articles),
+		Hots:        page.GetHots(tools.SvrCfg.Server.UserID),
 	}
 	ctx.HTML(http.StatusOK, "index", index)
 }

@@ -21,3 +21,17 @@ type ArtSummary struct {
 	Num   int    `db:"num"`   //文章序号
 	Title string `db:"title"` //文章标题
 }
+
+//TimeLine 文章时间线item
+type TimeLine struct {
+	ID         int    `db:"id"`         //文章id
+	Name       string `db:"name"`       //文章名称
+	CreateTime string `db:"createtime"` //创建时间
+}
+
+//ArtTimeLine 文章时间线
+type ArtTimeLine struct {
+	LineItems []*TimeLine //时间线items
+	ArtCount  int         //总条数
+	PageSize  int         //每页大小
+}

@@ -1,6 +1,6 @@
 {{define "index"}}
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
     <head>
         <title>{{.Title}}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -94,7 +94,7 @@
                 </div>
 
                 <div id="m_middle" class="middle">
-                    <div>
+                    <div id="arts">
                         {{range.Articles}}
                         <div class="m_continer">
                             <div class="w_title">
@@ -130,9 +130,10 @@
                             </div>
                         </div>
                         {{end}}
-                        <!--分页-->
-                        <div id="pager"></div>
+                       
                     </div>
+                     <!--分页-->
+                     <div id="pager"></div>
                    
                 </div>
 
@@ -177,7 +178,7 @@
     </footer>
     <script>
         //注意：导航 依赖 element 模块，否则无法进行功能性操作
-        layui.use(['element','carousel','laydate','laypage'], function(){
+        layui.use(['element','carousel','laydate','laypage','layer'], function(){
           var element = layui.element;         
           //carousel轮播模块加载。
           var carousel = layui.carousel;
@@ -216,13 +217,47 @@
               ,showBottom:false
             });
             
+            var layer=layui.layer;
+
             //分页控件
             var laypage = layui.laypage;
   
             //执行一个laypage实例
             laypage.render({
               elem: 'pager' 
+              ,limit:'{{.ArtPageSize}}'
               ,count:'{{.ArtCount}}' //数据总数，从服务端得到
+              ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                //console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                //console.log(obj.limit); //得到每页显示的条数
+                //首次不执行
+                if(!first){
+                  //do something
+                  var urlstr='/article/page?index='+obj.curr;
+                  var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                  $.ajax({
+                      url:urlstr,
+                      type:'get',
+                      async:true,
+                      timeout:5000,
+                      success:function(datas){
+                        layer.close(loading);
+                        $("#arts").html(datas)
+                      },
+                      error:function(){
+                        layer.close(loading);
+                        layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                        });
+                        //if(obj.curr>1){
+                        //    obj.curr=parseInt(obj.curr)-1
+                        //}
+                      }
+                  });
+                }
+              }
             });
         });
        

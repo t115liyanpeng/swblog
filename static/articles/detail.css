@@ -97,14 +97,30 @@ body{
     border-style: solid;
     border-width: 0.5px 0px 0px 0px;
     border-color: #768093;
+}
+#t_content{
+    padding-top: 30px;
+}
 
+.layui-timeline-title{
+    margin-top: 0px;
+}
+
+.file_timeline{
+    max-height: 1000px;
+    height: 75%;
+}
+
+#pagecontent{
+    height: auto;
+    padding: 3px 30px;
 }
 
 #textbody{
     margin: 1rem;
     font-size: 16px;
     line-height: 2;
-    color: rebeccapurple;
+    color: #666;
 }
 
 #f_bottom{

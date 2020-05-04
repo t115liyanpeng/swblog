@@ -5,6 +5,7 @@ type Servercfg struct {
 	WebName       string `json:"webname"`
 	Port          string `json:"port"`
 	IndexPageSize int    `json:"indexpagesize"`
+	FilePageSize  int    `json:"artfilepagesize"`
 	UserID        string `json:"userid"`
 }
 

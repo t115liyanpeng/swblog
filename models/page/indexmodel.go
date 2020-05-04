@@ -42,13 +42,14 @@ type LeftTags struct {
 
 //FirstPage 首页对应实体类
 type FirstPage struct {
-	Title    string                 //标题
-	UserInfo *UserModule            //用户模块信息
-	Left     []*LeftTags            //左侧导航
-	Articles []*artciles.Article    //文章
-	ArtCount int                    //文章总数，分页使用
-	News     []*artciles.ArtSummary //最新文章
-	Hots     []*artciles.ArtSummary //热门
+	Title       string                 //标题
+	UserInfo    *UserModule            //用户模块信息
+	Left        []*LeftTags            //左侧导航
+	Articles    []*artciles.Article    //文章
+	ArtCount    int                    //文章总数，分页使用
+	ArtPageSize int                    //每页大小
+	News        []*artciles.ArtSummary //最新文章
+	Hots        []*artciles.ArtSummary //热门
 }
 
 //GetWebSietUserInfo 获取网站用户模块的信息
