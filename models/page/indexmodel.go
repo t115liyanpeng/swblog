@@ -28,6 +28,7 @@ type UserModule struct {
 
 //SubTags 子分类
 type SubTags struct {
+	SubID   int
 	NavName string
 	Link    string
 }
@@ -110,6 +111,7 @@ func GetLeftNavData(uid string) []*LeftTags {
 				sub := &SubTags{
 					NavName: v.Name,
 					Link:    v.Link.String,
+					SubID:   v.ID,
 				}
 				s.Sub = append(s.Sub, sub)
 			}

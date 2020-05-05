@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"swblog/models/artciles"
 	"swblog/swsqlx"
 )
@@ -33,6 +34,44 @@ func GetTimeLineArticle(uid string, pagesize, pageindex int) *artciles.ArtTimeLi
 			PageSize:  pagesize,
 		}
 		return &arts
+	}
+	return nil
+}
+
+//GetArtList 获取文章列表
+func GetArtList(pageindex, pagesize int, classify, tag, uid, name string) *artciles.ArtList {
+	curpage := (pageindex - 1) * pagesize
+	items := []*artciles.Article{}
+	count := 0
+	var artsql string = fmt.Sprintf(`SELECT t1.id,t1.name,LEFT(t1.content,200) as subsummary,up,t1.ulike ,
+	t1.click,t2.name as classify,t3.name as tag,t4.name as author,t1.createtime FROM t_articleb t1 inner JOIN t_classifyb t2
+	 ON t1.userid=t2.userid inner JOIN t_classifyb t3 ON t1.userid=t3.userid INNER JOIN t_userb t4 ON t1.userid=t4.id 
+	 WHERE t2.id=t3.pid  and t1.tag=t3.id and t1.userid='%s' `, uid)
+	var artcount string = fmt.Sprintf(`SELECT COUNT(t1.id) as count FROM t_articleb t1 LEFT JOIN t_classifyb t2 
+	ON t1.classify=t2.id LEFT JOIN t_classifyb t3 ON t1.tag =t3.id WHERE t1.userid='%s'`, uid)
+	if classify != "" {
+		artsql = fmt.Sprintf("%s and t2.id=%s ", artsql, classify)
+		artcount = fmt.Sprintf("%s and t2.id=%s ", artcount, classify)
+	}
+	if tag != "" {
+		artsql = fmt.Sprintf("%s and t3.id=%s ", artsql, tag)
+		artcount = fmt.Sprintf("%s and t3.id=%s ", artcount, tag)
+	}
+	if name != "" {
+		artsql = fmt.Sprintf("%s and t1.name like '%s"+"%s"+"%s' ", artsql, "%", name, "%")
+		artcount = fmt.Sprintf("%s and t1.name like '%s"+"%s"+"%s' ", artcount, "%", name, "%")
+	}
+
+	artsql = fmt.Sprintf("%s order by createtime desc LIMIT %d,%d", artsql, curpage, pagesize)
+	err := swsqlx.Dbc.SQLDb.Select(&items, artsql)
+	err = swsqlx.Dbc.SQLDb.Get(&count, artcount)
+	if err == nil {
+		list := artciles.ArtList{
+			List:     items,
+			ArtCount: count,
+			PageSize: pagesize,
+		}
+		return &list
 	}
 	return nil
 }

@@ -48,9 +48,9 @@
                             <p>{{.UserInfo.Brief}}</p>
                             <p id="email">E-mail:<a href="mailto:{{.UserInfo.Email}}">{{.UserInfo.Email}}</a></p>
                             <span id="summary" >
-                                <a href="">日志{{.UserInfo.LogNum}}</a>&nbsp;|
-                                <a href="">分类{{.UserInfo.Classify}}</a>&nbsp;|
-                                <a href="">标签{{.UserInfo.Tags}}</a>
+                                <a href="/article/artclassifylst?index=1">日志{{.UserInfo.LogNum}}</a>&nbsp;|
+                                <a href="#">分类{{.UserInfo.Classify}}</a>&nbsp;|
+                                <a href="#">标签{{.UserInfo.Tags}}</a>
                             </span>
                         </div>
                     </div>
@@ -80,10 +80,14 @@
                         <ul class="layui-nav layui-nav-tree left-tree" lay-filter="test">
                               {{range.Left}}
                                 <li class="layui-nav-item layui-nav-itemed">
-                                    <a href="javascript:;"><i class="{{.Icon}}"></i>&nbsp;&nbsp;{{.Summary}}</a>
+                                    <a href="/article/artclassifylst?index=1&classify={{.ID}}&title={{.Summary}}"><i class="{{.Icon}}"></i>&nbsp;&nbsp;{{.Summary}}</a>
                                     <dl class="layui-nav-child">
                                         {{range.Sub}}
-                                        <dd><a href="/article/artclassifylst">&nbsp;&nbsp;{{.NavName}}</a></dd>
+                                        <dd>
+                                            <a href="/article/artclassifylst?index=1&tag={{.SubID}}&title={{.NavName}}">
+                                                &nbsp;&nbsp;{{.NavName}}
+                                            </a>
+                                        </dd>
                                         {{end}}
                                     </dl>
                                 </li>

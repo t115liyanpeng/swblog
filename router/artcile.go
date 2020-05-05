@@ -1,10 +1,10 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"swblog/controllers"
+	"swblog/models/artciles"
 	"swblog/models/page"
 	"swblog/tools"
 
@@ -25,6 +25,8 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup.GET("/page", artPage)
 	//文章分类列表
 	artilcegroup.GET("/artclassifylst", artList)
+	//文章分类列表分页
+	artilcegroup.GET("/artclassifylstpage", artListPage)
 }
 
 func artDetail(ctx *gin.Context) {
@@ -47,7 +49,7 @@ func artFile(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, "articlefile", line)
 	} else {
 		//分页
-		fmt.Printf("test loading page\n")
+		//fmt.Printf("test loading page\n")
 		pageindex, _ = strconv.Atoi(index)
 		line := controllers.GetTimeLineArticle(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.FilePageSize, pageindex)
 		ctx.HTML(http.StatusOK, "artfilepage", line)
@@ -68,5 +70,35 @@ func artPage(ctx *gin.Context) {
 }
 
 func artList(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "artclassifylst", nil)
+	pageindex := 1
+	index := ctx.Query("index")
+	classify := ctx.Query("classify")
+	tag := ctx.Query("tag")
+	title := ctx.Query("title")
+	name := ctx.Query("name")
+	if index != "" {
+		pageindex, _ = strconv.Atoi(index)
+	}
+	data := controllers.GetArtList(pageindex, tools.SvrCfg.Server.IndexPageSize, classify, tag, tools.SvrCfg.Server.UserID, name)
+	data.Title = title
+	data.Param = &artciles.ArtListParam{
+		Classify: classify,
+		Tag:      tag,
+		Name:     name,
+	}
+	ctx.HTML(http.StatusOK, "artclassifylst", data)
+}
+
+func artListPage(ctx *gin.Context) {
+	pageindex := 1
+	index := ctx.Query("index")
+	classify := ctx.Query("classify")
+	tag := ctx.Query("tag")
+	//title := ctx.Query("title")
+	name := ctx.Query("name")
+	if index != "" {
+		pageindex, _ = strconv.Atoi(index)
+	}
+	data := controllers.GetArtList(pageindex, tools.SvrCfg.Server.IndexPageSize, classify, tag, tools.SvrCfg.Server.UserID, name)
+	ctx.HTML(http.StatusOK, "artpage", data.List)
 }

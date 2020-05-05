@@ -35,3 +35,19 @@ type ArtTimeLine struct {
 	ArtCount  int         //总条数
 	PageSize  int         //每页大小
 }
+
+//ArtListParam 参数
+type ArtListParam struct {
+	Classify string
+	Tag      string
+	Name     string
+}
+
+//ArtList 文章列表
+type ArtList struct {
+	Title    string        //分类标题
+	List     []*Article    // 文章列表
+	ArtCount int           //总条数
+	PageSize int           //每页大小
+	Param    *ArtListParam //参数
+}

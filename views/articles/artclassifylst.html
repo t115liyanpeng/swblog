@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head>
-        <title>test</title>
+        <title>{{.Title}}</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="../../static/layui/css/modules/code.css" />
@@ -35,14 +35,57 @@
         {{template "navigate"}}
         <div id="main">
             <div id="sreach">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索关键字" class="layui-input">
-                <button type="button" class="layui-btn layui-btn-radius">搜索一下</button>
+                <div id="left">
+                  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入文章名关键字" class="layui-input">
+                  
+                </div>
+                <div id="right">
+                  <button id="sreach-btn" type="button" class="layui-btn">搜索一下</button>
+                </div>
             </div>
             <div style="clear: both;"></div>
+            <div id="artcontiner">
+              {{range.List}}
+              <div class="m_continer">
+                <div class="w_title">
+                <a href="/article/detail?artid={{.ID}}">{{.Name}}</a>
+                </div>
+                <div class="w_tags">                                                       
+                <span>作者：{{.Author}}</span>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <span>分类：{{.Classify}}</span>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <span>标签：{{.Tag}}</span>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <span>日期：{{.CreateTime}}</span>
+                </div>
+                <div class="w_content">
+                <span>
+                    {{.Content}}
+                </span>
+                </div>
+                <div class="w_footer">
+                    <!--<a>评论(0)</a>-->
+                    
+                    <a href="/article/detail?artid={{.ID}}">开始阅读</a>
+                </div>
+              </div>
+              {{end}}
+            </div>
+            <div id="pagercontent">
+              <div id="pager"></div>
+          </div>
         </div>
-        <div id="pagercontent">
-            <div id="pager"></div>
-        </div>
+        
     </body>
     <footer>
         {{template "footer"}}
@@ -67,7 +110,7 @@
                 //首次不执行
                 if(!first){
                   //do something
-                  var urlstr='/article/articlefile?index='+obj.curr;
+                  var urlstr='/article/artclassifylstpage?index='+obj.curr+'&classify={{.Param.Classify}}&tag={{.Param.Tag}}&name={{.Param.Name}}';
                   var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
                   $.ajax({
                       url:urlstr,
@@ -76,7 +119,7 @@
                       timeout:5000,
                       success:function(datas){
                         layer.close(loading);
-                        $(".layui-timeline").html(datas);
+                        $("#artcontiner").html(datas);
                       },
                       error:function(){
                         layer.close(loading);
@@ -92,7 +135,16 @@
                 }
               }
             });
+
+            //搜索
+            $("#sreach-btn").click(function(){
+              layer.open({
+                            title: 'test',
+                            content: "test!"
+               });
+            });
         });
+        
     </script>
 </html>
 {{end}}
