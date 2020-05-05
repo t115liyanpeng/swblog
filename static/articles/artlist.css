@@ -10,6 +10,34 @@ body{
     line-height: 24px;
     font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
 }
+.layui-input{
+    width: 80%;
+    min-width: 300px;
+    display:inline-block;
+}
+
+#main{
+    width: 70%;
+    max-width: 950px;
+    min-width: 200px;
+    min-height: 800px;
+    height: auto;
+    margin: auto;
+    padding-top: 10px;
+    
+}
+
+#sreach{
+    margin: auto;
+}
+
+#pagercontent{
+    width: 70%;
+    max-width: 950px;
+    min-width: 200px;
+    min-height: 800px;
+    height: auto;
+}
 
 #f_bottom{
     margin: auto;

@@ -33,10 +33,66 @@
     </head>
     <body>
         {{template "navigate"}}
-        <div id="continer"></div>
+        <div id="main">
+            <div id="sreach">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索关键字" class="layui-input">
+                <button type="button" class="layui-btn layui-btn-radius">搜索一下</button>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+        <div id="pagercontent">
+            <div id="pager"></div>
+        </div>
     </body>
     <footer>
         {{template "footer"}}
     </footer>
+    <script>
+        layui.use(['element','laypage','layer'],function(){
+            var element = layui.element;
+             //分页控件
+            var laypage = layui.laypage;
+            //弹出层
+            var layer=layui.layer;
+            //执行一个laypage实例
+            laypage.render({
+              elem: 'pager' 
+              ,count:'{{.ArtCount}}' //数据总数，从服务端得到
+              ,limit:'{{.PageSize}}'
+              ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                console.log(obj.limit); //得到每页显示的条数
+
+                //首次不执行
+                if(!first){
+                  //do something
+                  var urlstr='/article/articlefile?index='+obj.curr;
+                  var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                  $.ajax({
+                      url:urlstr,
+                      type:'get',
+                      async:true,
+                      timeout:5000,
+                      success:function(datas){
+                        layer.close(loading);
+                        $(".layui-timeline").html(datas);
+                      },
+                      error:function(){
+                        layer.close(loading);
+                        layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                        });
+                        //if(obj.curr>1){
+                        //    obj.curr=parseInt(obj.curr)-1
+                        //}
+                      }
+                    });
+                }
+              }
+            });
+        });
+    </script>
 </html>
 {{end}}
