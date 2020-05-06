@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"swblog/controllers"
 	"swblog/models/artciles"
+	"swblog/models/artclassify"
 	"swblog/models/page"
 	"swblog/tools"
 
@@ -27,6 +28,10 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup.GET("/artclassifylst", artList)
 	//文章分类列表分页
 	artilcegroup.GET("/artclassifylstpage", artListPage)
+	//获取所有分类
+	artilcegroup.GET("/artclassify", artClassify)
+	//获取所有分类分页
+	artilcegroup.GET("/artclassifypage", artClassifyPage)
 }
 
 func artDetail(ctx *gin.Context) {
@@ -101,4 +106,35 @@ func artListPage(ctx *gin.Context) {
 	}
 	data := controllers.GetArtList(pageindex, tools.SvrCfg.Server.IndexPageSize, classify, tag, tools.SvrCfg.Server.UserID, name)
 	ctx.HTML(http.StatusOK, "artpage", data.List)
+}
+
+func artClassify(ctx *gin.Context) {
+	pageindex := 1
+	index := ctx.Query("index")
+	param := ctx.Query("param")
+	pageindex, _ = strconv.Atoi(index)
+	paramInt, _ := strconv.Atoi(param)
+	items, cnt := controllers.GetClassOrTags(pageindex, tools.SvrCfg.Server.FilePageSize, paramInt, tools.SvrCfg.Server.UserID)
+	title := "全部分类"
+	if paramInt == 1 {
+		title = "全部标签"
+	}
+	data := artclassify.ArtClassTag{
+		Title:      title,
+		List:       items,
+		PageSize:   tools.SvrCfg.Server.FilePageSize,
+		ArtCount:   cnt,
+		ClassOrTag: paramInt,
+	}
+	ctx.HTML(http.StatusOK, "artclassify", data)
+}
+
+func artClassifyPage(ctx *gin.Context) {
+	pageindex := 1
+	index := ctx.Query("index")
+	param := ctx.Query("param")
+	pageindex, _ = strconv.Atoi(index)
+	paramInt, _ := strconv.Atoi(param)
+	items, _ := controllers.GetClassOrTags(pageindex, tools.SvrCfg.Server.FilePageSize, paramInt, tools.SvrCfg.Server.UserID)
+	ctx.HTML(http.StatusOK, "artclassifypage", items)
 }

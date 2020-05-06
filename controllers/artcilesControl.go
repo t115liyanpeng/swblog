@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"swblog/models/artciles"
+	"swblog/models/page"
 	"swblog/swsqlx"
 )
 
@@ -74,4 +75,26 @@ func GetArtList(pageindex, pagesize int, classify, tag, uid, name string) *artci
 		return &list
 	}
 	return nil
+}
+
+//GetClassOrTags 获取分类或标签
+func GetClassOrTags(pageindex, pagesize, classOrtag int, uid string) (data []*page.TreeSource, count int) {
+	curpage := (pageindex - 1) * pagesize
+	data = []*page.TreeSource{}
+	count = 1
+	sqlstr := ""
+	sqlstrcnt := ""
+	if classOrtag == 0 {
+		sqlstr = "select id,pid,name,link,icon from t_classifyb where userid=? and pid=0 LIMIT ?,?"
+		sqlstrcnt = "select count(id) as count from t_classifyb where userid=? and pid=0"
+	} else {
+		sqlstr = "select id,pid,name,link,icon from t_classifyb where userid=? and pid!=0 LIMIT ?,?"
+		sqlstrcnt = "select count(id) as count from t_classifyb where userid=? and pid!=0"
+	}
+	err := swsqlx.Dbc.SQLDb.Select(&data, sqlstr, uid, curpage, pagesize)
+	err = swsqlx.Dbc.SQLDb.Get(&count, sqlstrcnt, uid)
+	if err == nil {
+		return data, count
+	}
+	return nil, 1
 }

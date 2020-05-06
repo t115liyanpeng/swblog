@@ -11,60 +11,39 @@ body{
     font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
 }
 
-.allwidth{
-    width: 1200px;
-    margin: auto;
-    display: block;
-}
-
-.clearfloat{
-    clear: both;
-}
-
-#nav{
-    margin: auto;
-    position: fixed;
-    z-index: 99;
-    display: block;
-}
 .layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after{
     background-color: #009688;
 }
 
-#zhanwei{
-    width: 100%;
-    height: 65px;
-    
+.layui-timeline-title{
+    margin-top: 0px;
+}
+
+.layui-timeline-item{
+    padding-bottom: 3px;
 }
 
 #main{
-    width: 100%;
-    height: auto;
-    margin: auto;
-    padding-top: 10px;
-}
-
-#artcile{
-    background-color:#F8F8F8;
     width: 70%;
     max-width: 950px;
     min-width: 200px;
-    border: 0.5px solid #dddddd;
-    box-shadow: #dddddd 0px 0px 10px 2px;
     min-height: 600px;
     height: auto;
     margin: auto;
 }
 
-.ctx{
+#continer{
     width: 100%;
-    text-align: center;
+    min-height: 600px;
+    height: auto;
+    background-color:#F8F8F8;
+    border: 0.5px solid #dddddd;
+    box-shadow: #dddddd 0px 0px 10px 2px;
 }
 
 #title{
-    padding-top: 30px;
+    padding-top: 10px;
 }
-
 #title h1{
     margin: 0;
     color: #444;
@@ -73,54 +52,15 @@ body{
     text-align: center;
     margin-bottom: 10px;
 }
-
-#info{
-    height: 30px;
-    /*
-    border-style: solid;
-    border-width: 0px 0px 0.5px 0px;
-    border-color: #768093;
-    background-color: rosybrown;
-    */
-}
-
-#info p{
-    text-align: center;
-    vertical-align: middle;
-    color: #768093;
-    font-size: 16px;
-    line-height: 2;
-}
-
 #content{
     margin: 10px 20px;
     border-style: solid;
     border-width: 0.5px 0px 0px 0px;
     border-color: #768093;
 }
-#t_content{
-    padding-top: 30px;
-}
 
-.layui-timeline-title{
-    margin-top: 0px;
-}
-
-.file_timeline{
-    max-height: 1000px;
-    min-height: 600px;
-}
-
-#pagecontent{
-    height: auto;
-    padding: 3px 30px;
-}
-
-#textbody{
-    margin: 1rem;
-    font-size: 16px;
-    line-height: 2;
-    color: #666;
+#data{
+    margin: 30px;
 }
 
 #f_bottom{

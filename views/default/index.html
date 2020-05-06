@@ -49,8 +49,8 @@
                             <p id="email">E-mail:<a href="mailto:{{.UserInfo.Email}}">{{.UserInfo.Email}}</a></p>
                             <span id="summary" >
                                 <a href="/article/artclassifylst?index=1&title=所有文章">日志{{.UserInfo.LogNum}}</a>&nbsp;|
-                                <a href="#">分类{{.UserInfo.Classify}}</a>&nbsp;|
-                                <a href="#">标签{{.UserInfo.Tags}}</a>
+                                <a href="/article/artclassify?index=1&param=0">分类{{.UserInfo.Classify}}</a>&nbsp;|
+                                <a href="/article/artclassify?index=1&param=1">标签{{.UserInfo.Tags}}</a>
                             </span>
                         </div>
                     </div>
