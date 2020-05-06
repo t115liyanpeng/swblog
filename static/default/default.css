@@ -342,4 +342,28 @@ html{
     color: #01AAED;
 }
 
+#sreach{
+    background-color: transparent;
+    border: transparent;
+    margin-bottom: 3px;
+}
+
+
+.layui-icon:hover{
+    cursor: pointer;
+}
+
+#sreachbtn{
+    font-size: 20px;
+    color: #009688;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#sreachtxt{
+    height: 25px;
+    width: 88%;
+    display: inline-block;
+}
+
 /*点赞效果*/

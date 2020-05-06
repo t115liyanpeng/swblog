@@ -143,6 +143,10 @@
                 </div>
 
                 <div id="m_right" >
+                    <div id="sreach" class="right">
+                        <input type="text" id="sreachtxt"name="title" lay-verify="title" autocomplete="off" placeholder="请文章名称输关键字" class="layui-input">
+                        <i id="sreachbtn" class="layui-icon layui-icon-search"></i>  
+                    </div>
                     <div id="lately" class="right">
                         <div class="r_title">
                             <span>最近更新</span>
@@ -264,8 +268,29 @@
                 }
               }
             });
+            //搜索
+            $("#sreachbtn").click(function(){
+                var name= $("#sreachtxt").val();
+              var namelen= $("#sreachtxt").val().length;
+              if(namelen>0){
+                var reg=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+                if(reg.test(name)==false){
+                    layer.msg("请输入中英文或数字！");
+                    return
+                }
+                if(namelen>20){
+                    layer.msg("输入的关键字太多啦！");
+                    return;
+                }
+              }else{
+                    layer.msg("文章名称关键字不能空！");
+                    return
+              }
+              var urlstr='/article/artclassifylst?index=1&title=搜索&name='+name;
+              window.location.href=urlstr;
+            });
         });
-       
+        
         //点赞
         //$(function() {
         //    $(".heart").on("click", function() {
