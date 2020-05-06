@@ -137,13 +137,16 @@
             $("#sreach-btn").click(function(){
               var name= $("#sreachtxt").val();
               var namelen= $("#sreachtxt").val().length;
-              if(namelen==0){
-                layer.msg("请输入文章名称的关键字！");
-                return;
-              }
-              if(namelen>20){
-                layer.msg("输入的关键字太多啦！");
-                return;
+              if(namelen>0){
+                var reg=/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/;
+                if(reg.test(name)==false){
+                  layer.msg("请输入中英文或数字！");
+                  return
+                }
+                if(namelen>20){
+                  layer.msg("输入的关键字太多啦！");
+                  return;
+                }
               }
               var urlstr='/article/artclassifylstpage?index=1&classify={{.Param.Classify}}&tag={{.Param.Tag}}&name='+name;
               var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
