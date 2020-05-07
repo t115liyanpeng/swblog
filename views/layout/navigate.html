@@ -19,7 +19,7 @@
                     <i class="iconfont icon-ziyuan"></i>&nbsp;
                     书籍</a>
             </li>
-            <li class="layui-nav-item">
+            <li id="aboutbtn" class="layui-nav-item">
                 <a>
                     <i class="iconfont icon-guanyu"></i>&nbsp;
                     关于</a>
@@ -34,4 +34,15 @@
     </div>
 </div>
 <div id="zhanwei"></div>
+<!--关于-->
+<div id="modal">
+    <div id="about"></div>
+</div>
+<script>
+    var btn = document.getElementById("aboutbtn");
+    var modal=document.getElementById("modal")
+    btn.onclick=function(){
+        modal.style.display = "block";
+    };
+</script>
 {{end}}
