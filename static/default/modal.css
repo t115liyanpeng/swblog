@@ -13,7 +13,7 @@
 
 #about{
     position: relative;
-	background-color: #fefefe;
+	background-color: #eeeeee;
 	margin: auto;
 	padding: 0;
 	border: 1px solid #888;
@@ -25,6 +25,17 @@
 	-webkit-animation-duration: 0.4s;
 	animation-name: animatetop;
 	animation-duration: 0.4s
+}
+#a_title{
+    height: 15%;
+    width: 100%;
+}
+#a_content{
+    height: 75%;
+    width: 100%;
+}
+#close-btn{
+    position: relative;
 }
 /* Add Animation */
 @-webkit-keyframes animatetop {

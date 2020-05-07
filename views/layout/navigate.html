@@ -36,13 +36,26 @@
 <div id="zhanwei"></div>
 <!--关于-->
 <div id="modal">
-    <div id="about"></div>
+    <div id="about">
+        <!--标题-->
+        <div id="a_title"></div>
+        <!--内容-->
+        <div id="a_content"></div>
+        <!--操作-->
+        <div>
+            <button id="close-btn" type="button" class="layui-btn">关闭</button>
+        </div>
+    </div>
 </div>
 <script>
     var btn = document.getElementById("aboutbtn");
-    var modal=document.getElementById("modal")
+    var modal=document.getElementById("modal");
+    var close=document.getElementById("close-btn");
     btn.onclick=function(){
         modal.style.display = "block";
     };
+    close.onclick=function(){
+        modal.style.display="none";
+    }
 </script>
 {{end}}

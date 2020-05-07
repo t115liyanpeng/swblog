@@ -29,6 +29,10 @@ html{
     background-color: #009688;
 }
 
+#aboutbtn a:hover{
+    cursor: pointer;
+}
+
 #zhanwei{
     width: 100%;
     height: 65px;
