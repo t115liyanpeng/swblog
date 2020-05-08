@@ -16,9 +16,10 @@
 	background-color: #eeeeee;
 	margin: auto;
 	padding: 0;
-	border: 1px solid #888;
-    width: 50%;
-    height: 50%;
+    border: 1px solid #888;
+    border-radius: 20px;
+    width: 600px;
+    height: 400px;
     top: 25%;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 	-webkit-animation-name: animatetop;
@@ -27,16 +28,40 @@
 	animation-duration: 0.4s
 }
 #a_title{
-    height: 15%;
+    height: 35px;
+    width: auto;
+    margin: auto;
+    text-align: center;
+}
+
+#a_title h4{
+    font: 20px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
+}
+
+#a_content{
+    height: 300px;
+    max-height: 300px;
     width: 100%;
 }
-#a_content{
-    height: 75%;
+#a_content div{
+    height: 100%;
+    width: 90%;
+    margin: auto;
+    background-color: #F8F8F8;
+}
+
+#a_foot{
     width: 100%;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
 }
 #close-btn{
     position: relative;
+    vertical-align: middle;
+    top: 5px;
 }
+
 /* Add Animation */
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
