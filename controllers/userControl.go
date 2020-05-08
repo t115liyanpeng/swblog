@@ -9,16 +9,15 @@ import (
 
 //UserLoginFunc 用户登录处理函数
 func UserLoginFunc(ctx *gin.Context) {
+
 	var u user.User = user.User{
 		State: &user.LoginState{},
 	}
-	err := ctx.Bind(&u)
+	err := ctx.BindJSON(&u)
 	if err == nil {
+
 		err = u.UserLogin()
 		if err == nil {
-			//jsonstr, _ := json.Marshal(u)
-			//fmt.Printf("resault:%s\n", string(jsonstr))
-			//ctx.JSON(http.StatusOK, string(jsonstr))
 			ctx.JSON(http.StatusOK, gin.H{
 				"loginname": u.LoginName,
 				"code":      u.State.Code,
@@ -27,7 +26,8 @@ func UserLoginFunc(ctx *gin.Context) {
 			})
 		} else {
 			ctx.JSON(http.StatusOK, gin.H{
-				"msg": u.State.Msg,
+				"msg":  u.State.Msg,
+				"code": -1,
 			})
 		}
 	} else {

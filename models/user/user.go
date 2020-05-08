@@ -4,9 +4,15 @@ import (
 	"swblog/swsqlx"
 )
 
+//LoginInfo 登录时使用
+type LoginInfo struct {
+	UserName string `json:"username"`
+	PassWord string `json:"password"`
+}
+
 //User 用户类
 type User struct {
-	Name      string      `json:"name" db:"name"`
+	Name      string      `json:"username" db:"name"`
 	LoginName string      `json:"loginname" db:"loginname" form:"username"`
 	PassWord  string      `json:"password" db:"password" form:"password"`
 	CheckSvae bool        `json:"chksave" form:"chksave"`

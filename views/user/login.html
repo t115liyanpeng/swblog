@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../../static/user/user.css"/>
         <script src="../../static/layui/layui.js"></script>
         <script src="../../static/md5.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <title>欢迎登录</title>
     </head>
     <body>
@@ -44,58 +45,47 @@
             layui.use('form',function(){
                 var form=layui.form;
                 form.on('submit(login)',function(data){
-                    /*
-                    var loading = layer.load(2, {
-                    shade: 0.5,
-                   
-                    });
-                    */
-                    var loading = layer.msg('正在登录', {icon: 16, shade: 0.3, time:0});
                     var username=data.field.username
                     var password=hex_md5(data.field.password);
-                    var xmlhttp;
-                    if (window.XMLHttpRequest) {
-                            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-                            xmlhttp = new XMLHttpRequest();
-                    } else {
-                             // IE6, IE5 浏览器执行代码
-                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    //var jsonstr="\"{\"username\":\""+username+"\",\"password\":\""+password+"\"}\"";
+                    //var senddata=JSON.parse(jsonstr);
+                    var jsondata={
+                        "loginname":username,
+                        "password":password
                     }
-
-                    
-                    xmlhttp.onreadystatechange=change_state;
-                    xmlhttp.open("POST","/user/login",true);
-                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xmlhttp.send("username=" + username + "&password=" + password);
-
-                    function change_state(){
-                        //请求已完成且响应已就绪
-                        if(xmlhttp.readyState==4){
-                            if(xmlhttp.status==200){
-                                layer.close(loading);
-                                var res = JSON.parse(xmlhttp.response); 
-                                if(res.code==0){
-                                    layer.open({
-                                        title:"欢迎回来",
-                                        content:"你好，"+res.name+"!"
-                                    });
-                                    //跳转页面
-
-                                }else{
-                                    layer.open({
-                                        title:"登录失败",
-                                        content:res.msg
-                                    });
-                                }
-                            }else{
-                                layer.close(loading);
+                    var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                    $.ajax({
+                        url:'/user/login',
+                        type:'post',
+                        async:true,
+                        timeout:5000,
+                        dataType:'json',
+                        contentType:'application/json',
+                        data:JSON.stringify(jsondata),
+                        success:function(data){
+                            layer.close(loading);
+                            if(data.code==0){
                                 layer.open({
-                                title: '服务器无响应',
-                                content: "服务器跑到月球啦！！"
-                        });
-                            }
+                                    title:"欢迎回来",
+                                    content:"你好，"+data.name+"!"
+                                });
+                                //跳转页面
+                                
+                            }else{
+                                layer.open({
+                                    title:"登录失败",
+                                    content:data.msg
+                                });
+                            }   
+                        },
+                        error:function(){
+                            layer.close(loading);
+                            layer.open({
+                                    title: '服务器无响应',
+                                    content: "服务器跑到月球啦！！"
+                            });
                         }
-                    }                   
+                    });
                     return false;
                 });
             });
