@@ -68,11 +68,14 @@
                             if(jsondata.loginstate.code==0){
                                 layer.open({
                                     title:"欢迎回来",
-                                    content:"你好，"+jsondata.username+"!"
+                                    content:"你好，"+jsondata.username+"!",
+                                    yes:function(){
+                                        //跳转页面
+                                        var bgurl='/backstage/index';
+                                        window.location.href=bgurl;
+                                    }
                                 });
-                                //跳转页面
-                                var bgurl='/backstage/index';
-                                window.location.href=bgurl;
+                                
                                 
                             }else{
                                 layer.open({
