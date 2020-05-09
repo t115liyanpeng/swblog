@@ -10,7 +10,28 @@ html{
      min-width: 1200px;
      font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
  }
- 
+ #content{
+     width: 100%;
+     min-width: 1000px;
+     height: 100%;
+     min-height: 600px;
+
+ }
+ #c_left{
+     width: 15%;
+     height: 100%;
+     min-height: 600px;
+     float: left;
+     background-color: rebeccapurple;
+ }
+ #c_right{
+     width: 85%;
+     height: 100%;
+     min-height: 600px;
+     float: left;
+     background-color: rosybrown;
+ }
+
  .clear{
      clear: both;
  }

@@ -64,17 +64,20 @@
                         data:JSON.stringify(jsondata),
                         success:function(data){
                             layer.close(loading);
-                            if(data.code==0){
+                            var jsondata=JSON.parse(data);
+                            if(jsondata.loginstate.code==0){
                                 layer.open({
                                     title:"欢迎回来",
-                                    content:"你好，"+data.name+"!"
+                                    content:"你好，"+jsondata.username+"!"
                                 });
                                 //跳转页面
+                                var bgurl='/backstage/index';
+                                window.location.href=bgurl;
                                 
                             }else{
                                 layer.open({
                                     title:"登录失败",
-                                    content:data.msg
+                                    content:jsondata.loginstate.msg
                                 });
                             }   
                         },

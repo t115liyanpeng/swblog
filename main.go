@@ -56,8 +56,12 @@ func main() {
 	engine.GET("/", indexPage)
 
 	//注册路由
+	//注册用户模块
 	router.RegisterUserGroup(engine)
+	//注册文章模块
 	router.RegisterArtilcesGroup(engine)
+	//注册后台模块
+	router.RegisterBackStageRoute(engine)
 
 	//定义404
 	engine.NoRoute(go404)
