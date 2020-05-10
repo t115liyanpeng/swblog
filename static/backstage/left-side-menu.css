@@ -40,9 +40,9 @@ a{text-decoration:none;}
 
 .lsm-sidebar-more{float:right;margin-right: 20px;font-size: 12px;transition: transform .3s;}
 
-/* 导航右侧箭头 换用其他字体需要替换*/
+/* 导航右侧箭头 换用其他字体需要替换
 .lsm-sidebar-more::after{content: "\e621";}
-
+*/
 
 .lsm-sidebar-show > a > i.my-icon.lsm-sidebar-more{transform:rotate(90deg);}
 .lsm-sidebar-show,.lsm-sidebar-item>a:hover{color: #FFF;background: rgba(0, 0, 0, 0.2);}

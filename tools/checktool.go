@@ -22,14 +22,13 @@ func ReadConfig() (cf *conf.Config, err error) {
 	if err != nil {
 		fmt.Println("read file err")
 		return nil, err
-	} else {
-		cf = &conf.Config{}
-		err = json.Unmarshal(cfgbytes, cf)
-		if err != nil {
-			return nil, err
-		}
-		return cf, nil
 	}
+	cf = &conf.Config{}
+	err = json.Unmarshal(cfgbytes, cf)
+	if err != nil {
+		return nil, err
+	}
+	return cf, nil
 }
 
 //CheckConfig 检查配置文件
