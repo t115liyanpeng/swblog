@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"swblog/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,5 +16,6 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 }
 
 func backstageIndex(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, "backstageIndex", nil)
+	data := controllers.GetBgIndex("")
+	ctx.HTML(http.StatusOK, "backstageIndex", data)
 }
