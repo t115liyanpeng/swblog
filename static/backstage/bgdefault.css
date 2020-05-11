@@ -22,16 +22,57 @@ html{
      height: 100%;
      min-height: 550px;
      float: left;
-     background-color: rebeccapurple;
  }
  #c_right{
      width: 85%;
      height: 100%;
      min-height: 550px;
      float: left;
-     background-color: rosybrown;
+     background-color: #eeeeee;
  }
-
+ #c-r-content{
+    width: 100%;
+    height: 100%;
+   
+ }
+ #dashconter{
+     width: 930px;
+     height: 200px;
+     background-color: white;
+     padding: 3;
+ }
+.dsashboard{
+    width: 300px;
+    height: 200px;
+    
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 0px;
+    float: left;
+}
+#dcontent{
+    margin: 30px;
+}
+.dtitle{
+    width: 100%;
+    height: 30px;
+    vertical-align: middle;
+    color: #FFFF;
+}
+.dcount{
+    color: #FFFF;
+    font-size: 60px;
+    height: 100px;
+    vertical-align: middle;
+}
+.dbotom{
+    border-top: 1px;
+    border-color: white;
+    vertical-align: middle;
+}
+.dbotom span:hover{
+    cursor: pointer;
+}
  .clear{
      clear: both;
  }

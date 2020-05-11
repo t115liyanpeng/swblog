@@ -18,7 +18,7 @@ a{text-decoration:none;}
 .lsm-expand-btn{height: 65px;}
 .lsm-container {height: calc(100% - 65px); transition: all .3s;z-index: 100}
 
-.lsm-container li>a.active{ background: #c55b03; color: #fff; }
+.lsm-container li>a.active{ background: #c55b03; color: #fff;}
 
 
 .lsm-sidebar a{display: block;overflow: hidden;padding-left: 20px;line-height: 40px;max-height: 40px;color: #b2b8be;transition: all .3s;}

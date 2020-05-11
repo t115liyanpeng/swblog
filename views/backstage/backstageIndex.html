@@ -12,6 +12,21 @@
         <link rel="stylesheet" type="text/css" href="../../static/backstage/left-side-menu.css">
         <script type="text/javascript" src="../../static/backstage/jquery.slimscroll.min.js"></script>
         <script type="text/javascript" src="../../static/backstage/left-side-menu.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.lsm-sidebar-item').click(function(){
+                     if(!$(this).hasClass('lsm-sidebar-show')){
+                         $('.system-base').css({"background-color":"transparent"});
+                     }
+                    
+                });
+                $('.system-base').click(function(){
+                    $(this).css({ "background-color": "#c55b03", "color": "#fff" });
+                    $(this).siblings().css({"background-color":"transparent"});
+                });
+                
+            });
+        </script>
     </head>
     <body>
         <!--顶部栏-->
@@ -24,10 +39,14 @@
                            <a href="#">SwBlog后台管理</a>
                        </li>
                        <li class="layui-nav-item  layui-layout-right">
-                           <a href="/user/login">
-                               <img src="../../static/images/unlogin_user.png" class="layui-nav-img" />
-                               登录
+                           <a href="#">
+                               <img src="../../static/user/user_tx.PNG" class="layui-nav-img" />
+                               李艳朋
                            </a>
+                           <!--<dl class="layui-nav-child">
+                               <dd>修改密码</dd>
+                               <dd>退出登录</dd>
+                           </dl>-->
                        </li>            
                    </ul>
                </div>
@@ -60,17 +79,33 @@
                                     <li class="lsm-sidebar-item">
                                         <a href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i><span>系统设置</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
                                         <ul>
-                                            <li><a class="active" href="javascript:;"><span>基础信息</span></a></li>
-                                            <li><a   href="javascript:;"><span>无线月读</span></a></li>
-                                            <li><a href="javascript:;"><span>一乐拉面</span></a></li>
+                                            <!--<li><a id="system-base" class="active" href="javascript:;"><span>基础信息</span></a></li>-->
+                                            <li class="system-base"><a href="javascript:;"><span>基础信息</span></a></li>
+                                            <li class="system-base"><a href="javascript:;"><span>用户信息</span></a></li>
                                         </ul>
                                     </li> 
                                     <li class="lsm-sidebar-item">
-                                        <a href="javascript:;"><i class="layui-icon layui-icon-list"></i><span>文章管理</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
+                                        <a href="javascript:;"><i class="layui-icon layui-icon-app"></i><span>文章管理</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
                                         <ul>
-                                            <li><a class="active" href="javascript:;"><span>基础信息</span></a></li>
-                                            <li><a   href="javascript:;"><span>无线月读</span></a></li>
-                                            <li><a href="javascript:;"><span>一乐拉面</span></a></li>
+                                            <li class="system-base"><a href="javascript:;"><span>文章总览</span></a></li>
+                                            <li class="system-base"><a href="javascript:;"><span>新增文章</span></a></li>
+                                            
+                                        </ul>
+                                    </li>      
+                                    <li class="lsm-sidebar-item">
+                                        <a href="javascript:;"><i class="layui-icon layui-icon-dialogue"></i><span>评论管理</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
+                                        <ul>
+                                            <li class="system-base"><a href="javascript:;"><span>新增评论审核</span></a></li>
+                                            <li class="system-base"><a href="javascript:;"><span>历史评论管理</span></a></li>
+                                            
+                                        </ul>
+                                    </li> 
+                                    <li class="lsm-sidebar-item">
+                                        <a href="javascript:;"><i class="layui-icon layui-icon-note"></i><span>分类&amp;标签</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
+                                        <ul>
+                                            <li class="system-base"><a href="javascript:;"><span>分类管理</span></a></li>
+                                            <li class="system-base"><a href="javascript:;"><span>标签管理</span></a></li>
+                                            
                                         </ul>
                                     </li>                                  
                                 </ul>
@@ -81,9 +116,39 @@
                 </div>
             </div>
             <!--右侧主体内容-->
-            <div id="c_right"></div>
+            <div id="c_right">
+                <div id="c-r-content">
+                    <div id="bgindex">
+                        <div id="dashconter">
+                            <div  class="dsashboard layui-bg-blue">
+                                <div id="dcontent">
+                                    <div class="dtitle">文章总数</div>
+                                    <div class="dcount">100</div>
+                                    <div class="dbotom"><span>点击进入文章管理</span></div>
+                                </div>
+                                
+                            </div>
+                            <div  class="dsashboard layui-bg-green">
+                                <div id="dcontent">
+                                    <div class="dtitle">评论总数</div>
+                                    <div class="dcount">100</div>
+                                    <div class="dbotom"><span>点击进入评论管理</span></div>
+                                </div>
+                            </div>
+                            <div  class="dsashboard layui-bg-orange">
+                                <div id="dcontent">
+                                    <div class="dtitle">访问总数</div>
+                                    <div class="dcount">100</div>
+                                    <div class="dbotom">今日访问数量：100</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
             <!--清除浮动-->
-            <div class=".clear"></div>
+            <div class="clear"></div>
         </div>
         
     </body>
@@ -91,7 +156,10 @@
         {{template "footer"}}
     </footer>
     <script>
-        
+        /*layui.use('element',function(){
+
+        });
+        */
     </script>
 </html>
 {{end}}
