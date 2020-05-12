@@ -49,3 +49,18 @@ func CheckConfig() (string, error) {
 	}
 	return cfgpath, nil
 }
+
+//SetConfigJSONFile 更新配置文件
+func SetConfigJSONFile(json []byte) bool {
+	cfgpath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		return false
+	}
+
+	cfgpath = fmt.Sprintf("%s/conf/conf.json", cfgpath)
+	err = ioutil.WriteFile(cfgpath, json, 0777)
+	if err != nil {
+		return false
+	}
+	return true
+}

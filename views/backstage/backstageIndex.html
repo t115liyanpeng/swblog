@@ -24,7 +24,6 @@
                     $(this).css({ "background-color": "#c55b03", "color": "#fff" });
                     $(this).siblings().css({"background-color":"transparent"});
                 });
-                
             });
         </script>
     </head>
@@ -36,7 +35,7 @@
                 <div>
                    <ul class="layui-nav" lay-filter="">
                        <li class="layui-nav-item">
-                           <a href="#">SwBlog后台管理</a>
+                           <a href="/backstage/index">SwBlog后台管理</a>
                        </li>
                        <li class="layui-nav-item  layui-layout-right">
                            <a href="#">
@@ -80,7 +79,7 @@
                                         <a href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i><span>系统设置</span><i class="layui-icon layui-icon-triangle-d lsm-sidebar-more"></i></a>
                                         <ul>
                                             <!--<li><a id="system-base" class="active" href="javascript:;"><span>基础信息</span></a></li>-->
-                                            <li class="system-base"><a href="javascript:;"><span>基础信息</span></a></li>
+                                            <li id="baseconfig" class="system-base"><a href="javascript:;"><span>基础信息</span></a></li>
                                             <li class="system-base"><a href="javascript:;"><span>用户信息</span></a></li>
                                         </ul>
                                     </li> 
@@ -119,6 +118,7 @@
             <div id="c_right">
                 <div id="c-r-content">
                    {{template "backstagedefault" .}}
+                   
                 </div>
             </div>
             <!--清除浮动-->
@@ -130,10 +130,37 @@
         {{template "footer"}}
     </footer>
     <script>
-        /*layui.use('element',function(){
+        layui.use(['layer','form'],function(){
+            var layer=layui.layer;
+            //web基础配置
+            $('#baseconfig').click(function(){
+                    var urlstr='/backstage/wbconfig';
+                    var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                    $.ajax({
+                        type:'get',
+                        url:urlstr,
+                        async:true,
+                        timeout:5000,
+                        success:function(data){
+                            layer.close(loading);
+                            $('#c-r-content').html(data);
+                        },
+                        error:function(){
+                            layer.close(loading);
+                            layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                            });
+                        }
+                    });
+                });
+        
+            //用户基础信息
 
+        
+            
         });
-        */
+        
     </script>
 </html>
 {{end}}

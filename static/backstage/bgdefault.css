@@ -76,9 +76,26 @@ html{
 .dbotom span:hover{
     cursor: pointer;
 }
- .clear{
+.clear{
      clear: both;
  }
+#baseconfig{
+    width: 100%;
+    height: 100%;
+}
+#configsave{
+    margin-left: 12px;
+    margin-top: 10px;
+}
+.conf{
+    width: auto;
+    height: auto;
+    padding: 0px 10px;
+}
+.layui-elem-field {
+    border-color: #2F4056;
+}
+
 
 #f_bottom{
     height: auto;
