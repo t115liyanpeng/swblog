@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"swblog/controllers"
 	"swblog/models/conf"
@@ -29,13 +30,19 @@ func backstageBaseConfig(ctx *gin.Context) {
 }
 
 func setconfig(ctx *gin.Context) {
-	cfg := &conf.Config{}
-	err := ctx.BindJSON(cfg)
+	cfg := conf.Config{
+		Server:   &conf.Servercfg{},
+		Database: &conf.Databasecfg{},
+	}
+	err := ctx.BindJSON(&cfg)
 	if err == nil {
-		ctx.JSON(http.StatusOK, gin.H{
-			"code": "1",
-		})
-		return
+		if controllers.SetConfig(&cfg) {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": "1",
+			})
+			return
+		}
+		err = fmt.Errorf("set json faild")
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"code":  "0",

@@ -83,12 +83,12 @@
                                      "servercfg":{
                                          "webname":data.field.webname,
                                          "port":data.field.webport,
-                                         "indexpagesize":data.field.indexpagesize,
-                                         "artfilepagesize":data.field.artpagesize,
+                                         "indexpagesize":parseInt(data.field.indexpagesize),
+                                         "artfilepagesize":parseInt(data.field.artpagesize),
                                      },
                                      "databasecfg":{
                                          "address":data.field.dbaddress,
-                                         "port":data.field.dbport,
+                                         "port":parseInt(data.field.dbport),
                                          "user":data.field.dbuser,
                                          "password":data.field.dbpassword,
                                          "dbname":data.field.dbname
@@ -105,9 +105,9 @@
                         contentType:'application/json',
                         data:JSON.stringify(jsondata),
                         success:function(data){
+                            console.log(data);
                             layer.close(loading);
-                            var jsdt= JSON.parse(data);
-                            if(jsdt.code==1){
+                            if(data.code=="1"){
                                  layer.open({
                                 title: '提示',
                                 content: "修改成功！是否重启服务器？",
@@ -118,7 +118,7 @@
                             }else{
                                 layer.open({
                                 title: '服务器无响应',
-                                content: jsdt.error
+                                content: data.error
                             });
                             }
                         },
