@@ -7,6 +7,7 @@ import (
 	"swblog/router"
 	"swblog/swsqlx"
 	"swblog/tools"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -66,12 +67,24 @@ func main() {
 	//定义404
 	engine.NoRoute(go404)
 
+	//启动维护日访问量的定时器
+	todayCntTimer()
+
 	engine.Run(fmt.Sprintf(":%s", tools.SvrCfg.Server.Port))
 
 }
 
 //Index 默认页
 func indexPage(ctx *gin.Context) {
+
+	//获取cookies查看有没有浏览过
+	ck, err := ctx.Cookie(tools.SvrCfg.Server.WebName)
+	if err != nil {
+		setCountSeeCookies(tools.SvrCfg.Server.WebName, tools.SvrCfg.Server.UserID, ctx)
+	}
+	if ck != tools.SvrCfg.Server.UserID {
+		setCountSeeCookies(tools.SvrCfg.Server.WebName, tools.SvrCfg.Server.UserID, ctx)
+	}
 	//userid 默认展示用户的信息的用户id
 	//userid := "c999a2f041c84dc1b5970bb973c1da74"
 	list := page.GetLeftNavData(tools.SvrCfg.Server.UserID)
@@ -88,9 +101,37 @@ func indexPage(ctx *gin.Context) {
 		Hots:        page.GetHots(tools.SvrCfg.Server.UserID),
 	}
 	ctx.HTML(http.StatusOK, "index", index)
+
 }
 
 //404
 func go404(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "404", nil)
+}
+
+//set see cookies
+func setCountSeeCookies(key, value string, ctx *gin.Context) {
+	//设置cookies
+	ctx.SetCookie(key, value, 1800, "/", "localhost", false, true)
+	//记录访问
+	go tools.UpdateSeeCnt()
+}
+
+//维护日访问量的计时器
+func todayCntTimer() {
+	today := time.NewTimer(10 * time.Second)
+	select {
+	case <-today.C:
+		updatetoday()
+	}
+
+}
+
+func updatetoday() {
+	go func() {
+		dt := time.Now()
+		if dt.Hour() == 1 {
+			tools.TodayCnt = 0
+		}
+	}()
 }

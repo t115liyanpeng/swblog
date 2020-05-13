@@ -1,0 +1,3 @@
+{{define "wuserconfig"}}
+
+{{end}}

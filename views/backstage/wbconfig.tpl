@@ -110,10 +110,7 @@
                             if(data.code=="1"){
                                  layer.open({
                                 title: '提示',
-                                content: "修改成功！是否重启服务器？",
-                                yes:function(){
-                                    alert('test');
-                                }
+                                content: "修改成功，需要重启服务器新配置才能生效！",
                             });
                             }else{
                                 layer.open({

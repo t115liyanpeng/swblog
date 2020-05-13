@@ -21,7 +21,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 }
 
 func backstageIndex(ctx *gin.Context) {
-	data := controllers.GetBgIndex("")
+	data := controllers.GetBgIndex(tools.SvrCfg.Server.UserID)
 	ctx.HTML(http.StatusOK, "backstageIndex", data)
 }
 

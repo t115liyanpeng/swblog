@@ -7,10 +7,14 @@ import (
 	"os"
 	"path/filepath"
 	"swblog/models/conf"
+	"swblog/swsqlx"
 )
 
 //SvrCfg 配置信息 全局变量存储服务的基础信息
 var SvrCfg *conf.Config = &conf.Config{}
+
+//TodayCnt 日浏览量
+var TodayCnt int
 
 //ReadConfig 读取配置文件
 func ReadConfig() (cf *conf.Config, err error) {
@@ -63,4 +67,10 @@ func SetConfigJSONFile(json []byte) bool {
 		return false
 	}
 	return true
+}
+
+//UpdateSeeCnt 更新访问量
+func UpdateSeeCnt() {
+	swsqlx.Dbc.SQLDb.Exec("update t_swsystemb set allsee=allsee+1 where id = 1")
+	TodayCnt++
 }
