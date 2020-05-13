@@ -18,6 +18,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/index", backstageIndex)
 	backstage.GET("/wbconfig", backstageBaseConfig)
 	backstage.POST("/setconfig", setconfig)
+	backstage.GET("/wuconfig", wuconfig)
 }
 
 func backstageIndex(ctx *gin.Context) {
@@ -49,4 +50,9 @@ func setconfig(ctx *gin.Context) {
 		"error": err.Error,
 	})
 
+}
+
+func wuconfig(ctx *gin.Context) {
+	data := controllers.GetDbUserInfo(tools.SvrCfg.Server.UserID)
+	ctx.HTML(http.StatusOK, "wuserconfig", data)
 }

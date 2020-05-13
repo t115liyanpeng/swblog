@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -73,4 +74,12 @@ func SetConfigJSONFile(json []byte) bool {
 func UpdateSeeCnt() {
 	swsqlx.Dbc.SQLDb.Exec("update t_swsystemb set allsee=allsee+1 where id = 1")
 	TodayCnt++
+}
+
+//GetMd5Str 获取md5加密字符串
+func GetMd5Str(src string) string {
+	data := []byte(src)
+	has := md5.Sum(data)
+	md5str := fmt.Sprintf("%x", has)
+	return md5str
 }

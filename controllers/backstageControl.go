@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"swblog/models/conf"
 	"swblog/models/page"
+	"swblog/models/user"
 	"swblog/swsqlx"
 	"swblog/tools"
 	"sync"
@@ -41,4 +42,13 @@ func SetConfig(cfg *conf.Config) bool {
 		return tools.SetConfigJSONFile(js)
 	}
 	return false
+}
+
+//GetDbUserInfo 获取数据库用户信息
+func GetDbUserInfo(uid string) *user.DbUser {
+	dbu := &user.DbUser{}
+	if dbu.GetUserByID(uid) == nil {
+		return dbu
+	}
+	return nil
 }
