@@ -1,16 +1,16 @@
 {
-    "servercfg":{
-        "webname":"swblog",
-        "port":"8080",
-        "indexpagesize":3,
-        "artfilepagesize":10,
-        "userid":"c999a2f041c84dc1b5970bb973c1da74"
-    },
-    "databasecfg":{
-        "address":"122.51.213.223",
-        "port":3307,
-        "user":"swblog",
-        "password":"swblog",
-        "dbname":"swblogdb"
-    }
+	"servercfg": {
+		"webname": "swblog",
+		"port": "8080",
+		"indexpagesize": 2,
+		"artfilepagesize": 10,
+		"userid": "c999a2f041c84dc1b5970bb973c1da74"
+	},
+	"databasecfg": {
+		"address": "122.51.213.223",
+		"port": 3307,
+		"user": "swblog",
+		"password": "swblog",
+		"dbname": "swblogdb"
+	}
 }

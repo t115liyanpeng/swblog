@@ -1,16 +1,16 @@
 {{define "wuserconfig"}}
 <div id="baseconfig">
-    <form class="layui-form" method="POST">
+    <form class="layui-form">
         <div id="svrinfo" class="conf">
          <fieldset class="layui-elem-field">
              <legend>管理用户信息</legend>
              <div class="layui-field-box">
-             <div class="layui-form-item">
-                 <label class="layui-form-label">用户名</label>
-                 <div class="layui-input-block">
-                   <input type="text" name="name" value="{{.Name}}" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input"/>
-                 </div>
-               </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">用户名</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="name" value="{{.Name}}" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input"/>
+                  </div>
+                </div>
                <div class="layui-form-item">
                  <label class="layui-form-label">登录名</label>
                  <div class="layui-input-block">
@@ -20,7 +20,7 @@
                <div class="layui-form-item">
                  <label class="layui-form-label">登录密码</label>
                  <div class="layui-input-block">
-                   <input type="text" name="brief" value="{{.PassWord}}" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"/>
+                   <input type="password" name="password" value="{{.PassWord}}" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"/>
                  </div>
                </div>
                <div class="layui-form-item">
@@ -45,17 +45,17 @@
 <script>
     layui.use('form',function(){
                 var form=layui.form;
-                form.on('submit(savecfg)',function(data){
+                form.on('submit(saveuser)',function(data){
                      var password=hex_md5(data.field.password);
                     var jsondata={
+                                    "id":{{.ID}},
                                     "name":data.field.name,
                                     "loginname":data.field.loginname,
                                     "password":password,
                                     "brief":data.field.brief,
                                     "email":data.field.email
-                                 }
+                     }
                     var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
-                    //alert(JSON.stringify(jsondata));
                     $.ajax({
                         type:'post',
                         url:'/backstage/setuser',
@@ -70,8 +70,9 @@
                             if(data.code=="1"){
                                  layer.open({
                                 title: '提示',
-                                content: "修改成功，需要重启服务器新配置才能生效！",
-                            });
+                                content: "修改成功！",
+                              });
+
                             }else{
                                 layer.open({
                                 title: '服务器无响应',

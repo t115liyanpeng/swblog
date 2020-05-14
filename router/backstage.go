@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"swblog/controllers"
 	"swblog/models/conf"
+	"swblog/models/user"
 	"swblog/tools"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/wbconfig", backstageBaseConfig)
 	backstage.POST("/setconfig", setconfig)
 	backstage.GET("/wuconfig", wuconfig)
+	backstage.POST("/setuser", setuserconfig)
 }
 
 func backstageIndex(ctx *gin.Context) {
@@ -55,4 +57,28 @@ func setconfig(ctx *gin.Context) {
 func wuconfig(ctx *gin.Context) {
 	data := controllers.GetDbUserInfo(tools.SvrCfg.Server.UserID)
 	ctx.HTML(http.StatusOK, "wuserconfig", data)
+}
+
+func setuserconfig(ctx *gin.Context) {
+	dbu := &user.DbUser{}
+	err := ctx.BindJSON(dbu)
+	if err == nil {
+		ret, msg := dbu.UpdateDbUser()
+		if ret {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": "1",
+				"msg":  msg,
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": "1",
+				"msg":  msg,
+			})
+		}
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": "-1",
+			"msg":  "read json faild",
+		})
+	}
 }
