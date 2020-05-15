@@ -2,6 +2,12 @@
 <div id="baseconfig">
     <form class="layui-form">
         <div id="svrinfo" class="conf">
+          <!--<fieldset>
+            <legend>用户头像</legend>
+            <div class="layui-field-box">
+              
+            </div>
+          </fieldset>-->
          <fieldset class="layui-elem-field">
              <legend>管理用户信息</legend>
              <div class="layui-field-box">
