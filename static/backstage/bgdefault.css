@@ -95,8 +95,25 @@ html{
 .layui-elem-field {
     border-color: #2F4056;
 }
-
-
+#tx img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+   
+}
+#modetx{
+    background-color: #1E9FFF;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 3px;
+    margin-top: 2px;
+    margin-left: 130px;
+}
+#modetx:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
 #f_bottom{
     height: auto;
     margin: auto;
