@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"swblog/swsqlx"
 )
 
@@ -55,6 +56,8 @@ func (user *User) UserLogin() error {
 	}
 
 	if tUser.LoginName == user.LoginName {
+		fmt.Printf("sql pwd :%s\n", tUser.PassWord)
+		fmt.Printf("input pwd %s\n", user.PassWord)
 		if tUser.PassWord == user.PassWord {
 			user.Name = tUser.Name
 			user.State.State = true

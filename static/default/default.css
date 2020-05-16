@@ -300,6 +300,20 @@ html{
     color: #01AAED;
     cursor: pointer;
 }
+.layui-icon-read{
+    font-size: 20px;
+    margin-right: 20px;
+}
+.w_footer i{
+    font-size: 20px;
+    color: red;
+}
+
+.likenum{
+    font-size: 15px;
+    color: #999;
+}
+
 
 #lately{
     min-height: 115px;

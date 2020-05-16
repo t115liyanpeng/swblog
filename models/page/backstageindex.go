@@ -7,3 +7,11 @@ type BackageStage struct {
 	AllSee       int //总访问量
 	TodaySee     int //今日访问
 }
+
+//TableJSONData 表json通用结构体
+type TableJSONData struct {
+	Code  int         `json:"code"`
+	Msg   string      `json:"msg"`
+	Count int         `json:"count"`
+	Data  interface{} `json:"data"`
+}

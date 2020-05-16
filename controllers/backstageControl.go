@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
 	"swblog/models/user"
@@ -49,6 +50,24 @@ func GetDbUserInfo(uid string) *user.DbUser {
 	dbu := &user.DbUser{}
 	if dbu.GetUserByID(uid) == nil {
 		return dbu
+	}
+	return nil
+}
+
+//GetClassJosn 获取用户所有分类
+func GetClassJosn(uid string) *page.TableJSONData {
+
+	classify := make([]*artclassify.Classify, 0)
+	err := swsqlx.Dbc.SQLDb.Select(&classify, "SELECT id,name,icon,brief FROM t_classifyb WHERE pid=0 AND userid=?", uid)
+	if err == nil {
+		data := page.TableJSONData{
+			Code:  0,
+			Msg:   "",
+			Count: 1,
+			Data:  classify,
+		}
+
+		return &data
 	}
 	return nil
 }

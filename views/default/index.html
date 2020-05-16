@@ -100,43 +100,8 @@
                 </div>
 
                 <div id="m_middle" class="middle">
-                    <div id="arts">
-                        {{range.Articles}}
-                        <div class="m_continer">
-                            <div class="w_title">
-                            <a href="/article/detail?artid={{.ID}}">{{.Name}}</a>
-                            </div>
-                            <div class="w_tags">                                                       
-                            <span>作者：{{.Author}}</span>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <span>分类：{{.Classify}}</span>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <span>标签：{{.Tag}}</span>
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            <span>日期：{{.CreateTime}}</span>
-                            </div>
-                            <div class="w_content">
-                            <span>
-                                {{.Content}}
-                            </span>
-                            </div>
-                            <div class="w_footer">
-                                <!--<a>评论(0)</a>-->
-                                
-                                <a href="/article/detail?artid={{.ID}}">开始阅读</a>
-                            </div>
-                        </div>
-                        {{end}}
-                       
+                    <div id="arts" >
+                        {{template "artpage" .Articles}}                      
                     </div>
                      <!--分页-->
                      <div id="pager"></div>
@@ -290,14 +255,10 @@
               var urlstr='/article/artclassifylst?index=1&title=搜索&name='+name;
               window.location.href=urlstr;
             });
+            
         });
         
-        //点赞
-        //$(function() {
-        //    $(".heart").on("click", function() {
-        //          $(this).toggleClass("is-active");
-        //    });
-        //});
+        
     </script>
 </html>
 {{end}}

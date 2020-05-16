@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"swblog/models/conf"
 	"swblog/swsqlx"
+
+	"github.com/gin-gonic/gin"
 )
 
 //SvrCfg 配置信息 全局变量存储服务的基础信息
@@ -82,4 +84,9 @@ func GetMd5Str(src string) string {
 	has := md5.Sum(data)
 	md5str := fmt.Sprintf("%x", has)
 	return md5str
+}
+
+//SetMyCookies 设置cookies
+func SetMyCookies(key, value string, second int, ctx *gin.Context) {
+	ctx.SetCookie(key, value, second, "/", "localhost", false, true)
 }

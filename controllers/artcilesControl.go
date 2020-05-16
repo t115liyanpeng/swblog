@@ -98,3 +98,15 @@ func GetClassOrTags(pageindex, pagesize, classOrtag int, uid string) (data []*pa
 	}
 	return nil, 1
 }
+
+//SetArtLike 更新喜欢
+func SetArtLike(uid, artid string) {
+	sqlstr := `update t_articleb set ulike=ulike+1 where userid=? and id=?`
+	swsqlx.Dbc.SQLDb.Exec(sqlstr, uid, artid)
+}
+
+//SetArtSeeCnt 更新文章浏览量
+func SetArtSeeCnt(artid string) {
+	sqlstr := `update t_articleb set click=click+1 where id=?`
+	swsqlx.Dbc.SQLDb.Exec(sqlstr, artid)
+}

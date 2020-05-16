@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"swblog/controllers"
@@ -19,7 +20,7 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup = eng.Group("/article")
 
 	//注册查看文章详情路由
-	artilcegroup.GET("/detail", artDetail)
+	artilcegroup.GET("/detail", countNum, artDetail)
 	//文章归档
 	artilcegroup.GET("/articlefile", artFile)
 	//首页文章汇总分页
@@ -32,6 +33,22 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup.GET("/artclassify", artClassify)
 	//获取所有分类分页
 	artilcegroup.GET("/artclassifypage", artClassifyPage)
+	//文章点赞
+	artilcegroup.GET("like", setLike)
+}
+
+//统计文章访问数量
+func countNum(ctx *gin.Context) {
+	artid := ctx.Query("artid")
+	if artid != "" {
+		mycookie := "art-detail"
+		cookie, err := ctx.Cookie(mycookie)
+		if err != nil || cookie != artid {
+			go controllers.SetArtSeeCnt(artid)
+			tools.SetMyCookies(mycookie, artid, 1800, ctx)
+		}
+
+	}
 }
 
 func artDetail(ctx *gin.Context) {
@@ -137,4 +154,27 @@ func artClassifyPage(ctx *gin.Context) {
 	paramInt, _ := strconv.Atoi(param)
 	items, _ := controllers.GetClassOrTags(pageindex, tools.SvrCfg.Server.FilePageSize, paramInt, tools.SvrCfg.Server.UserID)
 	ctx.HTML(http.StatusOK, "artclassifypage", items)
+}
+
+func setLike(ctx *gin.Context) {
+	artid := ctx.Query("id")
+	if artid != "" {
+		key := fmt.Sprintf("likeartid-%s", artid)
+		ck, err := ctx.Cookie(key)
+		if err == nil {
+			if ck == artid {
+				ctx.JSON(http.StatusOK, gin.H{
+					"code": "0",
+					"msg":  "您已经点过喜欢了哟！^_^",
+				})
+				return
+			}
+		}
+		tools.SetMyCookies(key, artid, 1800, ctx)
+		go controllers.SetArtLike(tools.SvrCfg.Server.UserID, artid)
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": "1",
+			"msg":  "您的点赞支持是对我的鼓励！(>‿◠)",
+		})
+	}
 }

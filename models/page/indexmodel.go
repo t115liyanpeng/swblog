@@ -80,7 +80,7 @@ func GetWebSietUserInfo(userid string) *UserModule {
 //查询数据库中的分类数据
 func getLeftDataSource(userid string) []*TreeSource {
 	data := []*TreeSource{}
-	err := swsqlx.Dbc.SQLDb.Select(&data, "select id,pid,name,link,icon from t_classifyb where userid=?", userid)
+	err := swsqlx.Dbc.SQLDb.Select(&data, "select id,pid,name,icon from t_classifyb where userid=?", userid)
 	if err != nil {
 		//fmt.Printf("err : %v\n", err)
 		return nil

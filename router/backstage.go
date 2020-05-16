@@ -21,6 +21,8 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.POST("/setconfig", setconfig)
 	backstage.GET("/wuconfig", wuconfig)
 	backstage.POST("/setuser", setuserconfig)
+	backstage.GET("/classify", getClassify)
+	backstage.GET("/getclassjson", getclassjson)
 }
 
 func backstageIndex(ctx *gin.Context) {
@@ -81,4 +83,18 @@ func setuserconfig(ctx *gin.Context) {
 			"msg":  "read json faild",
 		})
 	}
+}
+
+func getClassify(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "classifycfg", nil)
+}
+
+func getclassjson(ctx *gin.Context) {
+	jsonstr := controllers.GetClassJosn(tools.SvrCfg.Server.UserID)
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":  jsonstr.Code,
+		"msg":   jsonstr.Msg,
+		"count": jsonstr.Count,
+		"data":  jsonstr.Data,
+	})
 }
