@@ -6,7 +6,7 @@
         <button class="layui-btn" data-type="isAll">验证是否全选</button>
       </div>
        
-      <table class="layui-table" lay-data="{width: 892, height:330, url:'/backstage/getclassjson/', page:true, id:'idTest'}" lay-filter="demo">
+      <!--<table class="layui-table" lay-data="{url:'/backstage/getclassjson/', page:true, id:'idTest'}" lay-filter="demo">
         <thead>
           <tr>
             <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
@@ -17,56 +17,31 @@
             <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
           </tr>
         </thead>
-      </table>
+      </table>-->
+      <table class="layui-hide" id="classifytb" lay-filter="classify"></table> 
 </div>
-<script type="text/html" id="barDemo">
+<!--<script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-  </script>
+  </script>-->
 <script>
     layui.use('table', function(){
         var table = layui.table;
-        //监听表格复选框选择
-        table.on('checkbox(demo)', function(obj){
-          console.log(obj)
+        table.render({
+          elem:'#classifytb'
+          ,url:'/backstage/getclassjson'
+          ,cellMinWidth: 200
+          ,cols:[[
+            {checkbox: true, fixed: false}
+            ,{field:'id',title:'ID',sort:true,fixed:false}
+            ,{field:'name',title:'分类名称'}
+            ,{field:'icon',title:'标签图标',template:function(d){
+              
+            }}
+            ,{field:'brief',title:'描述'}
+          ]]
         });
-        //监听工具条
-        table.on('tool(demo)', function(obj){
-          var data = obj.data;
-          if(obj.event === 'detail'){
-            layer.msg('ID：'+ data.id + ' 的查看操作');
-          } else if(obj.event === 'del'){
-            layer.confirm('真的删除行么', function(index){
-              obj.del();
-              layer.close(index);
-            });
-          } else if(obj.event === 'edit'){
-            layer.alert('编辑行：<br>'+ JSON.stringify(data))
-          }
-        });
-
-        var $ = layui.$, active = {
-          getCheckData: function(){ //获取选中数据
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
-          }
-          ,getCheckLength: function(){ //获取选中数目
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.msg('选中了：'+ data.length + ' 个');
-          }
-          ,isAll: function(){ //验证是否全选
-            var checkStatus = table.checkStatus('idTest');
-            layer.msg(checkStatus.isAll ? '全选': '未全选')
-          }
-        };
-  
-  $('.demoTable .layui-btn').on('click', function(){
-    var type = $(this).data('type');
-    active[type] ? active[type].call(this) : '';
-  });
-});
+    });
 </script>
 {{end}}
