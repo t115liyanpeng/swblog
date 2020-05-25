@@ -71,3 +71,24 @@ func GetClassJosn(uid string) *page.TableJSONData {
 	}
 	return nil
 }
+
+//AddClassify 添加新分类
+func AddClassify(uid string, classinfo *artclassify.Classify) bool {
+	_, err := swsqlx.Dbc.SQLDb.Exec("insert into t_classifyb (pid,userid,name,icon,brief)values(?,?,?,?,?)",
+		0, uid, classinfo.Name, classinfo.Icon, classinfo.Brief)
+	if err == nil {
+		return true
+	}
+	return false
+}
+
+//DelClassify 删除分类by classid
+func DelClassify(classid string) (ret bool, err error) {
+	ret = false
+	_, err = swsqlx.Dbc.SQLDb.Exec("DELETE FROM t_classifyb WHERE id=?", classid)
+	if err == nil {
+		ret = true
+		return
+	}
+	return
+}

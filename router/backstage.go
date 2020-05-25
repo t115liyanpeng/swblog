@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"swblog/controllers"
+	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/user"
 	"swblog/tools"
@@ -23,6 +24,8 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.POST("/setuser", setuserconfig)
 	backstage.GET("/classify", getClassify)
 	backstage.GET("/getclassjson", getclassjson)
+	backstage.POST("/addclass", addclassify)
+	backstage.GET("/delclassify", delclass)
 }
 
 func backstageIndex(ctx *gin.Context) {
@@ -97,4 +100,48 @@ func getclassjson(ctx *gin.Context) {
 		"count": jsonstr.Count,
 		"data":  jsonstr.Data,
 	})
+}
+func addclassify(ctx *gin.Context) {
+	data := artclassify.Classify{}
+	err := ctx.BindJSON(&data)
+	if err == nil {
+
+		if controllers.AddClassify(tools.SvrCfg.Server.UserID, &data) {
+
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": "1",
+				"msg":  "success",
+			})
+			return
+		}
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": "0",
+		"msg":  "faild",
+	})
+}
+
+func delclass(ctx *gin.Context) {
+	id := ctx.Query("id")
+	if id != "" {
+		r, e := controllers.DelClassify(id)
+		var code int = 0
+		var msg string = ""
+		if r {
+			code = 1
+		}
+		if e != nil {
+			msg = e.Error()
+		}
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  msg,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "ID不存在哦",
+		})
+	}
+
 }
