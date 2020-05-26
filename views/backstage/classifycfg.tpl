@@ -88,6 +88,7 @@
 <div id="bgindex">
     <div class="layui-btn-group toolsbar">
         <button id="addclassify" class="layui-btn">添加</button>
+        <button id="reflushclassify" class="layui-btn">刷新</button>
     </div>
       <table class="layui-hide" id="classifytb" lay-filter="classifytb"></table> 
 </div>
@@ -116,12 +117,14 @@
           ]]
           ,id:'classtable'
         });
-
+        $('#reflushclassify').click(function(){
+          table.reload('classtable', 'data');
+        });
         //表头工具栏
         //表格操作栏
         table.on('tool(classifytb)',function(obj){
           if(obj.event === 'del'){
-            layer.confirm('真的删除行么', function(index){
+            layer.confirm('真的删除'+obj.data.name+'么?', function(index){
               
               var urlstr='/backstage/delclassify?id='+obj.data.id;
               $.ajax({
@@ -130,7 +133,7 @@
                 async:true,
                 timeout:5000,
                 success:function(data){
-                  if(data.code==0){
+                  if(data.code==1){
                     obj.del();
                   }else{
                       layer.open({
@@ -175,8 +178,11 @@
               if(data.code==1){
                 //关闭当前添加界面
                 $('#bkzz').css("display","none");
-                //刷新表格
-                //执行重载
+                //清空提交窗口内容
+                $('#name').val("");
+                $('#icon').val("");
+                $('#brief').val("");
+                //执行重载表格
                 table.reload('classtable', 'data');
               }else{
                 layer.open({
@@ -198,6 +204,7 @@
         });
 
     });
+    
     $('#addclassify').click(function(){
         $('#bkzz').css("display","block");
     });

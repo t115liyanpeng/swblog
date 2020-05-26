@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
@@ -86,6 +87,7 @@ func AddClassify(uid string, classinfo *artclassify.Classify) bool {
 func DelClassify(classid string) (ret bool, err error) {
 	ret = false
 	_, err = swsqlx.Dbc.SQLDb.Exec("DELETE FROM t_classifyb WHERE id=?", classid)
+	fmt.Printf("del err %v\n", err)
 	if err == nil {
 		ret = true
 		return
