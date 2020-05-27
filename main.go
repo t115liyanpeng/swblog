@@ -3,10 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"swblog/models/artciles"
 	"swblog/models/page"
 	"swblog/router"
 	"swblog/swsqlx"
 	"swblog/tools"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -87,9 +89,31 @@ func indexPage(ctx *gin.Context) {
 	}
 	//userid 默认展示用户的信息的用户id
 	//userid := "c999a2f041c84dc1b5970bb973c1da74"
-	list := page.GetLeftNavData(tools.SvrCfg.Server.UserID)
-	um := page.GetWebSietUserInfo(tools.SvrCfg.Server.UserID)
-	articles, count := page.GetContent(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.IndexPageSize, 1)
+	var wait sync.WaitGroup
+
+	list := make([]*page.LeftTags, 0)
+	um := &page.UserModule{}
+	articles := make([]*artciles.Article, 0)
+	count := 0
+	pics := make([]string, 0)
+	wait.Add(4)
+	go func() {
+		list = page.GetLeftNavData(tools.SvrCfg.Server.UserID)
+		wait.Done()
+	}()
+	go func() {
+		um = page.GetWebSietUserInfo(tools.SvrCfg.Server.UserID)
+		wait.Done()
+	}()
+	go func() {
+		articles, count = page.GetContent(tools.SvrCfg.Server.UserID, tools.SvrCfg.Server.IndexPageSize, 1)
+		wait.Done()
+	}()
+	go func() {
+		pics = page.GetLunBoPicPath(tools.SvrCfg.Server.UserID)
+		wait.Done()
+	}()
+	wait.Wait()
 	index := page.FirstPage{
 		Title:       tools.SvrCfg.Server.WebName,
 		UserInfo:    um,
@@ -99,6 +123,7 @@ func indexPage(ctx *gin.Context) {
 		ArtPageSize: tools.SvrCfg.Server.IndexPageSize,
 		News:        page.ArtBiref(articles),
 		Hots:        page.GetHots(tools.SvrCfg.Server.UserID),
+		Pics:        pics,
 	}
 	ctx.HTML(http.StatusOK, "index", index)
 

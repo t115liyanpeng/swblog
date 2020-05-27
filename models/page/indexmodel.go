@@ -51,6 +51,16 @@ type FirstPage struct {
 	ArtPageSize int                    //每页大小
 	News        []*artciles.ArtSummary //最新文章
 	Hots        []*artciles.ArtSummary //热门
+	Pics        []string               //轮播图片
+}
+
+//LunBoPic 轮播图片
+type LunBoPic struct {
+	ID     int    `db:"id" json:"id"`
+	UserID string `db:"userid" json:"userid"`
+	Name   string `db:"name" json:"name"`
+	MD5    string `db:"md5" json:"md5"`
+	WebDir string `db:"webdir" json:"webdir"`
 }
 
 //GetWebSietUserInfo 获取网站用户模块的信息
@@ -168,4 +178,21 @@ func GetHots(uid string) []*artciles.ArtSummary {
 		return nil
 	}
 	return data
+}
+
+//GetLunBoPic 获取轮播图片对象
+func GetLunBoPic(uid string) []*LunBoPic {
+	pics := make([]*LunBoPic, 0)
+	swsqlx.Dbc.SQLDb.Select(&pics, "SELECT id,userid,name,md5,webdir FROM t_lubopicb WHERE userid=?", uid)
+	return pics
+}
+
+//GetLunBoPicPath 获取轮播图片路径
+func GetLunBoPicPath(uid string) []string {
+	picspath := make([]string, 0)
+	pics := GetLunBoPic(uid)
+	for _, v := range pics {
+		picspath = append(picspath, v.WebDir)
+	}
+	return picspath
 }

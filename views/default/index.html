@@ -61,12 +61,11 @@
                     <div id="t_wheel">
                         <div class="layui-carousel" id="wheel" lay-filter="test4">
                             <div carousel-item="" >
+                                {{range.Pics}}
                                 <div class="lb">
-                                  <img class="lb_item" src="../../static/user/default1.jpg" />
+                                  <img class="lb_item" src="{{.}}" />
                                 </div>
-                                <div class="lb">
-                                  <img class="lb_item" src="../../static/user/default2.JPG" />
-                                </div>              
+                                {{end}}           
                             </div>
                         </div> 
                 </div>
