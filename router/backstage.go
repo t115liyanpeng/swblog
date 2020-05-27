@@ -26,6 +26,11 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/getclassjson", getclassjson)
 	backstage.POST("/addclass", addclassify)
 	backstage.GET("/delclassify", delclass)
+	backstage.POST("/modclass", modclassify)
+	backstage.GET("/tagcfg", tagcfg)
+	backstage.GET("/gettagsjson", gettagsjson)
+	backstage.POST("/addtag", addtag)
+	backstage.POST("/modtag", modtag)
 }
 
 func backstageIndex(ctx *gin.Context) {
@@ -94,18 +99,27 @@ func getClassify(ctx *gin.Context) {
 
 func getclassjson(ctx *gin.Context) {
 	jsonstr := controllers.GetClassJosn(tools.SvrCfg.Server.UserID)
-	ctx.JSON(http.StatusOK, gin.H{
-		"code":  jsonstr.Code,
-		"msg":   jsonstr.Msg,
-		"count": jsonstr.Count,
-		"data":  jsonstr.Data,
-	})
+	if jsonstr != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":  jsonstr.Code,
+			"msg":   jsonstr.Msg,
+			"count": jsonstr.Count,
+			"data":  jsonstr.Data,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":  -1,
+			"msg":   "没有数据",
+			"count": 0,
+			"data":  "",
+		})
+	}
 }
+
 func addclassify(ctx *gin.Context) {
 	data := artclassify.Classify{}
 	err := ctx.BindJSON(&data)
 	if err == nil {
-
 		if controllers.AddClassify(tools.SvrCfg.Server.UserID, &data) {
 
 			ctx.JSON(http.StatusOK, gin.H{
@@ -144,4 +158,101 @@ func delclass(ctx *gin.Context) {
 		})
 	}
 
+}
+
+func modclassify(ctx *gin.Context) {
+	var cla artclassify.Classify
+	err := ctx.BindJSON(&cla)
+	if err == nil {
+		ret, err := controllers.UpdateClass(&cla)
+		var code int
+		var msg string
+		if ret {
+			code = 1
+			msg = ""
+		} else {
+			code = 0
+			msg = err.Error()
+		}
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  msg,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  err.Error,
+		})
+	}
+}
+
+func tagcfg(ctx *gin.Context) {
+	droplist := controllers.GetClassDropList(tools.SvrCfg.Server.UserID)
+	ctx.HTML(http.StatusOK, "tagcfg", droplist)
+}
+
+func gettagsjson(ctx *gin.Context) {
+	jsonstr := controllers.GetTagsJSON(tools.SvrCfg.Server.UserID)
+	if jsonstr != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":  jsonstr.Code,
+			"msg":   jsonstr.Msg,
+			"count": jsonstr.Count,
+			"data":  jsonstr.Data,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code":  -1,
+			"msg":   "没有数据",
+			"count": 0,
+			"data":  "",
+		})
+	}
+}
+
+func addtag(ctx *gin.Context) {
+	var tag artclassify.Tags = artclassify.Tags{}
+	err := ctx.BindJSON(&tag)
+	if err == nil {
+		if controllers.AddTag(tools.SvrCfg.Server.UserID, &tag) {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 1,
+				"msg":  "添加成功！",
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 0,
+				"msg":  "添加失败！",
+			})
+		}
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "请求参数不正确！",
+		})
+	}
+
+}
+
+func modtag(ctx *gin.Context) {
+	var tag artclassify.Tags = artclassify.Tags{}
+	err := ctx.BindJSON(&tag)
+	if err == nil {
+		if controllers.UpdateTag(&tag) {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 1,
+				"msg":  "修改成功！",
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 0,
+				"msg":  "修改失败！",
+			})
+		}
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "请求参数不正确！",
+		})
+	}
 }

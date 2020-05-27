@@ -1,4 +1,4 @@
-{{define "classifycfg"}}
+{{define "tagcfg"}}
 <style>
 
 #bkzz{
@@ -59,32 +59,37 @@
             <input id="classid" type="hidden" />
             <div class="layui-field-box">
                 <div class="layui-form-item">
-                  <label class="layui-form-label">分类名称</label>
+                  <label class="layui-form-label">所属分类</label>
                   <div class="layui-input-block">
-                    <input type="text" name="name" id="name" required  lay-verify="required" placeholder="分类名称" autocomplete="off" class="layui-input"/>
+                    <select id="classname" name="classname" lay-verify="required" lay-filter="classname">
+                      <option value=""></option>
+                      {{range.}}
+                        <option value="{{.ID}}">{{.Name}}</option>
+                      {{end}}
+                    </select>
                   </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">图标</label>
+                    <label class="layui-form-label">标签名称</label>
                     <div class="layui-input-block">
-                      <input type="text" name="icon" id="icon"  required  lay-verify="required" placeholder="图标名称" autocomplete="off" class="layui-input"/>
+                      <input type="text" name="name" id="name"  required  lay-verify="required" placeholder="标签名称" autocomplete="off" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                  <label class="layui-form-label">分类描述</label>
+                  <label class="layui-form-label">标签描述</label>
                   <div class="layui-input-block">
-                    <input type="text" name="brief" id="brief" required  lay-verify="required" placeholder="分类描述" autocomplete="off" class="layui-input"/>
+                    <input type="text" name="brief" id="brief" required  lay-verify="required" placeholder="标签描述" autocomplete="off" class="layui-input"/>
                   </div>
                 </div>
                 <input id="operflg" type="hidden" value="add" />
               </div>
               <div id="operbtn">
-              <div class="layui-btn-group">
-                <button id="add" class="layui-btn layui-btn-normal" type="submit" lay-submit lay-filter="addclass">确定</button>
-              </div>      
-            </div>
+                <div class="layui-btn-group">
+                  <button id="add" class="layui-btn layui-btn-normal" type="submit" lay-submit lay-filter="addclass">确定</button>
+                </div>  
+              </div>
           </form>
-        </div>        
+        </div>
   </div>
 </div>
 <div id="bgindex">
@@ -101,19 +106,18 @@
 <script>
     layui.use(['table','form'], function(){
         var table = layui.table;
-        
+        //表单
+        var form=layui.form;
         table.render({
           elem:'#classifytb'
-          ,url:'/backstage/getclassjson'
+          ,url:'/backstage/gettagsjson'
           ,cellMinWidth: 200
           ,toolbar:'#toolsbar'
           ,cols:[[
-            {checkbox: true, fixed: false}
+             {checkbox: true, fixed: false}
             ,{field:'id',title:'ID',sort:true,fixed:false}
-            ,{field:'name',title:'分类名称'}
-            ,{field:'icon',title:'标签图标',templet:function(d){
-              return '<i class="layui-icon '+d.icon+'""></i>'
-            }}
+            ,{field:'name',title:'标签名称'}
+            ,{field:'classname',title:'所属分类'}
             ,{field:'brief',title:'描述'}
             ,{fixed: 'right', title:'操作', toolbar: '#operbar'}
           ]]
@@ -122,7 +126,6 @@
         $('#reflushclassify').click(function(){
           table.reload('classtable', 'data');
         });
-        //表头工具栏
         //表格操作栏
         table.on('tool(classifytb)',function(obj){
           if(obj.event === 'del'){
@@ -159,23 +162,25 @@
             $('#operflg').val("edit");
              $('#classid').val(obj.data.id);
             $('#name').val(obj.data.name);
-            $('#icon').val(obj.data.icon);
+            $('#classname').val(obj.data.pid);
             $('#brief').val(obj.data.brief);
             $('#bkzz').css("display","block");
+            form.render();
           }
         });  
-        //表单
-        var form=layui.form;
+        
         form.on('submit(addclass)',function(data){
+          console.log(data);
           var jd={
             "id":parseInt($('#classid').val()),
-            "name":$('#name').val(),
-            "icon":$('#icon').val(),
-            "brief":$('#brief').val()
+            "pid":parseInt(data.field.classname),
+            "name":data.field.name,
+            "brief":data.field.brief
           }
+         
           var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
           var flg=$('#operflg').val();
-          var urlstr='/backstage/addclass';
+          var urlstr='/backstage/addtag';
           if(flg==="edit"){
             urlstr='/backstage/modclass';
           }
@@ -214,16 +219,21 @@
           return false;
         });
 
+        form.render();
+
+        $('#addclassify').click(function(){
+            $('#operflg').val("add")
+            $('#classid').val("");
+            $('#classname').val("");
+            $('#name').val("");
+            $('#icon').val("");
+            $('#brief').val("");
+            $('#bkzz').css("display","block");
+            form.render();
+        });
     });
     
-    $('#addclassify').click(function(){
-        $('#operflg').val("add")
-        $('#classid').val("");
-        $('#name').val("");
-        $('#icon').val("");
-        $('#brief').val("");
-        $('#bkzz').css("display","block");
-    });
+   
     $('#close').click(function(){
         $('#bkzz').css("display","none");
     });

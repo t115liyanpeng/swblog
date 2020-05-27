@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
@@ -73,6 +72,13 @@ func GetClassJosn(uid string) *page.TableJSONData {
 	return nil
 }
 
+//GetClassDropList 获取类别下拉列表
+func GetClassDropList(uid string) []*artclassify.ClassSimple {
+	droplist := make([]*artclassify.ClassSimple, 0)
+	swsqlx.Dbc.SQLDb.Select(&droplist, "SELECT id,name FROM t_classifyb WHERE pid=0 AND userid=?", uid)
+	return droplist
+}
+
 //AddClassify 添加新分类
 func AddClassify(uid string, classinfo *artclassify.Classify) bool {
 	_, err := swsqlx.Dbc.SQLDb.Exec("insert into t_classifyb (pid,userid,name,icon,brief)values(?,?,?,?,?)",
@@ -87,7 +93,55 @@ func AddClassify(uid string, classinfo *artclassify.Classify) bool {
 func DelClassify(classid string) (ret bool, err error) {
 	ret = false
 	_, err = swsqlx.Dbc.SQLDb.Exec("DELETE FROM t_classifyb WHERE id=?", classid)
-	fmt.Printf("del err %v\n", err)
+	if err == nil {
+		ret = true
+		return
+	}
+	return
+}
+
+//UpdateClass 更新分类信息
+func UpdateClass(data *artclassify.Classify) (ret bool, err error) {
+	ret = false
+	_, err = swsqlx.Dbc.SQLDb.Exec("UPDATE t_classifyb SET name=?,icon=?,brief=? WHERE id=?", data.Name, data.Icon, data.Brief, data.ID)
+	if err == nil {
+		ret = true
+		return
+	}
+	return
+}
+
+//GetTagsJSON 获取标签
+func GetTagsJSON(uid string) *page.TableJSONData {
+	tags := make([]*artclassify.Tags, 0)
+	err := swsqlx.Dbc.SQLDb.Select(&tags, "SELECT t1.id,t1.pid,t1.name,t2.name as classname,t1.brief FROM t_classifyb t1 LEFT JOIN t_classifyb t2 ON t1.pid=t2.id WHERE t1.pid<>0 AND t1.userid=?", uid)
+	if err == nil {
+		data := page.TableJSONData{
+			Code:  0,
+			Msg:   "",
+			Count: 1,
+			Data:  tags,
+		}
+
+		return &data
+	}
+	return nil
+}
+
+//AddTag 添加新标签
+func AddTag(uid string, tag *artclassify.Tags) bool {
+	_, err := swsqlx.Dbc.SQLDb.Exec("INSERT INTO t_classifyb (userid,pid,name,brief) VALUES(?,?,?,?)",
+		uid, tag.PID, tag.Name, tag.Brief)
+	if err == nil {
+		return true
+	}
+	return false
+}
+
+//UpdateTag 更新标签内容
+func UpdateTag(data *artclassify.Tags) (ret bool) {
+	ret = false
+	_, err := swsqlx.Dbc.SQLDb.Exec("UPDATE t_classifyb SET name=?,pid=?,brief=? WHERE id=?", data.Name, data.PID, data.Brief, data.ID)
 	if err == nil {
 		ret = true
 		return
