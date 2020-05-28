@@ -2,8 +2,10 @@ package tools
 
 import (
 	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -18,6 +20,9 @@ var SvrCfg *conf.Config = &conf.Config{}
 
 //TodayCnt 日浏览量
 var TodayCnt int
+
+//AppPath web服务跟目录
+var AppPath string
 
 //ReadConfig 读取配置文件
 func ReadConfig() (cf *conf.Config, err error) {
@@ -45,7 +50,7 @@ func CheckConfig() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
+	AppPath = cfgpath
 	cfgpath = fmt.Sprintf("%s/conf/conf.json", cfgpath)
 	_, err = os.Stat(cfgpath)
 	if err != nil {
@@ -84,6 +89,24 @@ func GetMd5Str(src string) string {
 	has := md5.Sum(data)
 	md5str := fmt.Sprintf("%x", has)
 	return md5str
+}
+
+//GetMd5File 获取文件的md5
+func GetMd5File(filepath string) (md5str string, err error) {
+	//判断文件是否存在
+	info, err := os.Stat(filepath)
+	if err == nil && !info.IsDir() {
+
+		f, err := os.Open(filepath)
+		if err == nil {
+			defer f.Close()
+			md5f := md5.New()
+			io.Copy(md5f, f)
+			md5str = hex.EncodeToString(md5f.Sum(nil))
+
+		}
+	}
+	return md5str, err
 }
 
 //SetMyCookies 设置cookies

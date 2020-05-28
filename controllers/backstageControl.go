@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
@@ -146,5 +147,13 @@ func UpdateTag(data *artclassify.Tags) (ret bool) {
 		ret = true
 		return
 	}
+	return
+}
+
+//SaveLunBoPic 保存录播图片
+func SaveLunBoPic(path, name string) (err error) {
+	md5, err := tools.GetMd5File(path)
+	webdir := fmt.Sprintf("/static/user/%s", name)
+	_, err = swsqlx.Dbc.SQLDb.Exec("INSERT INTO t_lubopicb SET name=?,userid=?,md5=?,webdir=?", name, tools.SvrCfg.Server.UserID, md5, webdir)
 	return
 }
