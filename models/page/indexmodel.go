@@ -23,6 +23,7 @@ type UserModule struct {
 	LogNum   int    `db:"lognum"`   //文章总数
 	Classify int    `db:"classify"` //分类数
 	Tags     int    `db:"tags"`     //标签数
+	TxURL    string `db:"txurl"`    //头像
 
 }
 
@@ -72,9 +73,10 @@ func GetWebSietUserInfo(userid string) *UserModule {
 		LogNum:   0,
 		Classify: 0,
 		Tags:     0,
+		TxURL:    "",
 	}
 	//没有办法了 好久没写过sql 自己写不出来了 只好用了 子查询
-	err := swsqlx.Dbc.SQLDb.Get(&um, `SELECT  t1.name as username,t1.brief,t1.email,
+	err := swsqlx.Dbc.SQLDb.Get(&um, `SELECT  t1.name as username,t1.brief,t1.email,t1.txurl,
 	(SELECT COUNT(id) FROM  t_classifyb WHERE pid=0 and userid=?) as classify,
 	 (SELECT COUNT(id) FROM t_classifyb WHERE pid!=0 AND userid=?) as tags ,
 	 (SELECT COUNT(id) FROM t_articleb WHERE userid=?)as lognum FROM t_userb t1`, userid, userid, userid)

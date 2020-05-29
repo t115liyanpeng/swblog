@@ -10,7 +10,7 @@
           </fieldset>-->
          <fieldset class="layui-elem-field">
              <legend>管理用户信息</legend>
-             <!--<div class="layui-form-item">
+             <div class="layui-form-item">
                 <label class="layui-form-label">头像</label>
                 <div id="tx" class="layui-input-block">
                   <img src="/static/user/user_tx.PNG" /> 
@@ -18,7 +18,7 @@
                  
              </div>
              <span id="modetx" class="layui-input-block">修改头像</span>
-             -->
+             
 
              <div class="layui-field-box">
                 <div class="layui-form-item">
