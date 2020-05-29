@@ -35,6 +35,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/lunbo", lunbo)
 	backstage.GET("/getlunbojson", getlunbojson)
 	backstage.POST("uploadlunboimg", uploadlunboimg)
+	backstage.GET("/dellunboimg", dellunboimg)
 }
 
 //后台默认页
@@ -314,9 +315,10 @@ func uploadlunboimg(ctx *gin.Context) {
 		savepath := fmt.Sprintf("%s/static/user/%s", tools.AppPath, file.Filename)
 		err = ctx.SaveUploadedFile(file, savepath)
 		if err == nil {
+
 			err = controllers.SaveLunBoPic(savepath, file.Filename)
 			if err == nil {
-				code = 0
+				code = 1
 				msg = "上传成功"
 			}
 		} else {
@@ -330,4 +332,25 @@ func uploadlunboimg(ctx *gin.Context) {
 		"code": code,
 		"msg":  msg,
 	})
+}
+
+//删除轮播图片
+func dellunboimg(ctx *gin.Context) {
+	code := 0
+	msg := ""
+	id := ctx.Query("id")
+	if id != "" {
+		err := controllers.DelLunBoPic(id)
+		if err == nil {
+			code = 1
+		}
+	} else {
+		msg = "参数错误"
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  msg,
+	})
+
 }

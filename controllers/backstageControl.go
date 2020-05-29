@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
@@ -153,7 +154,50 @@ func UpdateTag(data *artclassify.Tags) (ret bool) {
 //SaveLunBoPic 保存录播图片
 func SaveLunBoPic(path, name string) (err error) {
 	md5, err := tools.GetMd5File(path)
+	if err != nil {
+		err = fmt.Errorf("获取文件MD5值失败！")
+		return
+	}
+	//查重
+	id := ""
+	err = swsqlx.Dbc.SQLDb.Get(&id, "select id from t_lubopicb where md5=?", md5)
+	if err == nil || id != "" {
+		err = fmt.Errorf("文件已存在！请不要重复上传")
+		return
+	}
+
 	webdir := fmt.Sprintf("/static/user/%s", name)
 	_, err = swsqlx.Dbc.SQLDb.Exec("INSERT INTO t_lubopicb SET name=?,userid=?,md5=?,webdir=?", name, tools.SvrCfg.Server.UserID, md5, webdir)
+	return
+}
+
+//DelLunBoPic 删除轮播图片
+func DelLunBoPic(picid string) (err error) {
+	webdir := ""
+	err = swsqlx.Dbc.SQLDb.Get(&webdir, "select webdir from t_lubopicb where id=?", picid)
+	if err == nil {
+		tx, err := swsqlx.Dbc.SQLDb.Begin()
+		if err == nil {
+			//现在数据库事务中删除数据
+			_, err = tx.Exec("delete from t_lubopicb WHERE id=?", picid)
+			if err == nil {
+				savepath := fmt.Sprintf("%s%s", tools.AppPath, webdir)
+				_, err = os.Stat(savepath)
+				if err == nil {
+					err = os.Remove(savepath)
+					if err == nil {
+						tx.Commit()
+					}
+
+				} else if os.IsNotExist(err) {
+					tx.Commit()
+				} else {
+					tx.Rollback()
+				}
+			} else {
+				tx.Rollback()
+			}
+		}
+	}
 	return
 }

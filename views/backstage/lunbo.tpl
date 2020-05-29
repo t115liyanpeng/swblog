@@ -36,7 +36,8 @@
     layui.use(['upload','table','layer'],function(){
 
         var table = layui.table;
-        
+        var upload = layui.upload;
+        var layer=layui.layer;
         table.render({
           elem:'#lunboimg'
           ,url:'/backstage/getlunbojson'
@@ -52,11 +53,10 @@
             ,{field:'md5',title:'MD5值'}
             ,{fixed: 'right', title:'操作', toolbar: '#operbar'}
           ]]
-          ,id:'imgtable'
+          ,id:'luboimgs'
         });
 
-        upload = layui.upload;
-        layer=layui.layer;
+       
         //选完文件后不自动上传
         upload.render({
           elem: '#selectfile'
@@ -68,12 +68,10 @@
           //,multiple: true
           ,bindAction: '#startupload'
           ,done: function(res){
-            console.log(res)
+            console.log(res)  
             if(res.code==1){
-                layer.open({
-                    title: '提示',
-                    content: res.msg
-                });
+                //刷新数据
+                table.reload('luboimgs', 'data');
             }else{
                 layer.open({
                     title: '错误',
@@ -81,6 +79,37 @@
                 });
             }
           }
+        });
+        //table操作
+        table.on('tool(lunboimg)',function(obj){
+            if(obj.event === 'del'){
+                layer.confirm('真的删除“'+obj.data.name+'”么?', function(index){
+                    var urlstr='/backstage/dellunboimg?id='+obj.data.id;
+                    $.ajax({
+                        url:urlstr,
+                        type:'get',
+                        timeout:5000,
+                        success:function(data){
+                            if(data.code==1){
+                                obj.del();
+                            }else{
+                                layer.open({
+                                    title: '提示',
+                                    content: res.msg
+                                });
+                            }
+                        },
+                        error:function(){
+                            layer.open({
+                              title: '服务器无响应',
+                              content: "服务器跑到月球啦！！"
+                            });
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
         });
     });
 </script>
