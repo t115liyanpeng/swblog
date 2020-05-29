@@ -13,7 +13,7 @@
              <div class="layui-form-item">
                 <label class="layui-form-label">头像</label>
                 <div id="tx" class="layui-input-block">
-                  <img src="/static/user/user_tx.PNG" /> 
+                  <img id="tximg" src="{{.TxURL}}" /> 
                 </div>
                  
              </div>
@@ -59,8 +59,11 @@
     </form>
 </div>
 <script>
-    layui.use('form',function(){
+    layui.config({
+        base: '/static/cropper/' //layui自定义layui组件目录
+    }).use(['form','croppers'],function(){
                 var form=layui.form;
+                var cropper=layui.croppers;
                 form.on('submit(saveuser)',function(data){
                      var password=hex_md5(data.field.password);
                     var jsondata={
@@ -106,6 +109,19 @@
                     });
                     return false;
                 });
+                var modurl="/backstage/modusertx?userid="+{{.ID}};
+                cropper.render({
+                      elem: '#modetx'
+                      ,saveW:150     //保存宽度
+                      ,saveH:150
+                      ,mark:1/1    //选取比例
+                      ,area:'900px'  //弹窗宽度
+                      ,url:modurl //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+                      ,done: function(url){ //上传完毕回调
+                          //$("#inputimgurl").val(url);
+                          $("#tximg").attr('src',url);
+                      }
+                  });
             });
 </script>
 {{end}}

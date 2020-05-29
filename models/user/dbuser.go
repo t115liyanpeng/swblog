@@ -13,6 +13,7 @@ type DbUser struct {
 	PassWord  string `db:"password" json:"password"`
 	Brief     string `db:"brief" json:"brief"`
 	Email     string `db:"email" json:"email"`
+	TxURL     string `db:"txurl" json:"txurl"`
 }
 
 //UpdateDbUser 更新数据库用户信息
@@ -54,7 +55,7 @@ func (dbu *DbUser) UpdateDbUser() (ret bool, msg string) {
 
 //GetUserByID 获取用户信息
 func (dbu *DbUser) GetUserByID(id string) error {
-	sqlstr := `SELECT id,name,loginname,password,brief,email FROM t_userb WHERE id=?`
+	sqlstr := `SELECT id,name,loginname,password,brief,email,txurl FROM t_userb WHERE id=?`
 	err := swsqlx.Dbc.SQLDb.Get(dbu, sqlstr, id)
 	//fmt.Printf("user id is %v\n", dbu.ID)
 	return err

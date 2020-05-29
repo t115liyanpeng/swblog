@@ -36,6 +36,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/getlunbojson", getlunbojson)
 	backstage.POST("uploadlunboimg", uploadlunboimg)
 	backstage.GET("/dellunboimg", dellunboimg)
+	backstage.POST("/modusertx", modusertx)
 }
 
 //后台默认页
@@ -343,6 +344,34 @@ func dellunboimg(ctx *gin.Context) {
 		err := controllers.DelLunBoPic(id)
 		if err == nil {
 			code = 1
+		}
+	} else {
+		msg = "参数错误"
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  msg,
+	})
+
+}
+
+//修改用户头像
+func modusertx(ctx *gin.Context) {
+	code := -1
+	msg := ""
+	uid := ctx.Query("userid")
+
+	if uid != "" {
+		file, err := ctx.FormFile("file")
+		if err == nil {
+			//直接覆盖掉现有的用户头像 图片 简单 粗暴 又有效
+			savepath := fmt.Sprintf("%s/static/user/user_tx.PNG", tools.AppPath)
+			err = ctx.SaveUploadedFile(file, savepath)
+			if err == nil {
+				code = 0
+				msg = ""
+			}
 		}
 	} else {
 		msg = "参数错误"
