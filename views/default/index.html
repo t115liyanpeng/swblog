@@ -28,7 +28,8 @@
                   $("#nav").css("width",w);
                   $("#main").css("width",w);
                });
-              
+               var txurl="{{.UserInfo.TxURL}}?time="+Math.random();
+               $("#tximg").attr('src',txurl);
             });
        </script>
     </head>
@@ -41,7 +42,7 @@
                     <div id="user">
                         <div id="portrait">
                             <div id="tx">
-                                <img src="{{.UserInfo.TxURL}}" />
+                                <img id="tximg"  />
                             </div>
                         </div>
                         <div id="user_info">
