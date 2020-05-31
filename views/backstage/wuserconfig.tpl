@@ -63,7 +63,6 @@
         base: '/static/cropper/' //layui自定义layui组件目录
     }).use(['form','croppers'],function(){
                 var form=layui.form;
-                var cropper=layui.croppers;
                 form.on('submit(saveuser)',function(data){
                      var password=hex_md5(data.field.password);
                     var jsondata={
@@ -84,13 +83,14 @@
                         contentType:'application/json',
                         data:JSON.stringify(jsondata),
                         success:function(data){
-                            console.log(data);
                             layer.close(loading);
                             if(data.code=="1"){
                                  layer.open({
-                                title: '提示',
-                                content: "修改成功！",
-                              });
+                                    title: '提示',
+                                    content: "修改成功！",
+                                  });
+                                console.log(jsondata.name);
+                                $('#author').text(jsondata.name);
 
                             }else{
                                 layer.open({
@@ -110,6 +110,9 @@
                     return false;
                 });
                 var modurl="/backstage/modusertx?userid="+{{.ID}};
+                var $ = layui.jquery
+                  ,cropper = layui.croppers
+                  ,layer= layui.layer;
                 cropper.render({
                       elem: '#modetx'
                       ,saveW:150     //保存宽度
@@ -119,7 +122,11 @@
                       ,url:modurl //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
                       ,done: function(url){ //上传完毕回调
                           //$("#inputimgurl").val(url);
-                          $("#tximg").attr('src',url);
+                          //console.log(url);
+                          var txturl="/static/user/user_tx.PNG?time="+Math.random();
+                          $("#tximg").attr('src',txturl);
+                          $("#navtx").attr('src',txturl);
+                          //alert(url);
                       }
                   });
             });

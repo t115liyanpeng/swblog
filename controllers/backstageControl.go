@@ -19,7 +19,8 @@ func GetBgIndex(uid string) *page.BackageStage {
 	all := 0
 	artc := 0
 	tx := ""
-	wg.Add(3)
+	author := ""
+	wg.Add(4)
 	go func() {
 		swsqlx.Dbc.SQLDb.Get(&all, "select allsee from t_swsystemb where id=1")
 		wg.Done()
@@ -29,12 +30,17 @@ func GetBgIndex(uid string) *page.BackageStage {
 		wg.Done()
 	}()
 	go func() {
-		swsqlx.Dbc.SQLDb.Get(&tx, "SELECT txurl FROM t_userb WHERE userid=?", uid)
+		swsqlx.Dbc.SQLDb.Get(&tx, "SELECT txurl FROM t_userb WHERE id=?", uid)
+		wg.Done()
+	}()
+	go func() {
+		swsqlx.Dbc.SQLDb.Get(&author, "SELECT name FROM t_userb WHERE id=?", uid)
 		wg.Done()
 	}()
 
 	wg.Wait()
 	return &page.BackageStage{
+		Author:       author,
 		ArtCount:     artc,
 		CommentCount: 0,
 		AllSee:       all,

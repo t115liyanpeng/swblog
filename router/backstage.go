@@ -42,6 +42,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 //后台默认页
 func backstageIndex(ctx *gin.Context) {
 	data := controllers.GetBgIndex(tools.SvrCfg.Server.UserID)
+	fmt.Printf("author %s\n", data.Author)
 	ctx.HTML(http.StatusOK, "backstageIndex", data)
 }
 

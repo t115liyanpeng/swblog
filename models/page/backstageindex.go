@@ -2,6 +2,7 @@ package page
 
 //BackageStage 后台访问
 type BackageStage struct {
+	Author       string //登录名
 	ArtCount     int    //文章总数
 	CommentCount int    //评论总数
 	AllSee       int    //总访问量
