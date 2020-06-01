@@ -1,8 +1,6 @@
 package artclassify
 
-import (
-	"swblog/models/page"
-)
+import "swblog/models/page"
 
 //ArtClassTag 分类和标签
 type ArtClassTag struct {
@@ -34,4 +32,10 @@ type Tags struct {
 type ClassSimple struct {
 	ID   int    `db:"id" json:"id"`
 	Name string `db:"name" json:"name"`
+}
+
+//AddArtPage 添加文章页的模型
+type AddArtPage struct {
+	ClassDropList []*ClassSimple //分类下拉列表
+
 }

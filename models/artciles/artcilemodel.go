@@ -2,17 +2,17 @@ package artciles
 
 //Article 文章
 type Article struct {
-	ID         int    `db:"id"`         //id
-	Name       string `db:"name"`       //文章名称
-	Content    string `db:"subsummary"` //文章摘要
-	Top        bool   `db:"up"`         //是否置顶
-	Like       int    `db:"ulike"`      //喜欢
-	Click      int    `db:"click"`      //点击次数
-	Classify   string `db:"classify"`   //分类
-	Tag        string `db:"tag"`        //标签
-	Author     string `db:"author"`     //作者
-	CreateTime string `db:"createtime"` //创建时间
-	Comid      int    `db:"commentid"`  //评论id
+	ID         int    `db:"id" json:"id"`                 //id
+	Name       string `db:"name" json:"name"`             //文章名称
+	Content    string `db:"subsummary" json:"content"`    //文章摘要 或主体
+	Top        bool   `db:"up" json:"up"`                 //是否置顶
+	Like       int    `db:"ulike" json:"ulike"`           //喜欢
+	Click      int    `db:"click" json:"click"`           //点击次数
+	Classify   string `db:"classify" json:"classify"`     //分类
+	Tag        string `db:"tag" json:"tag"`               //标签
+	Author     string `db:"author" json:"author"`         //作者
+	CreateTime string `db:"createtime" json:"createtime"` //创建时间
+	Comid      int    `db:"commentid" json:"commentid"`   //评论id
 }
 
 //ArtSummary 文章汇总标题

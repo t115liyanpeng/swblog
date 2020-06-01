@@ -1,0 +1,96 @@
+{{define "addarticle"}}
+<style>
+    #addart-panel{width: 100%;height: auto;padding-top: 20px;}
+    #artcontent{width: 90%; height: auto; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
+    .titleinfo{width: 100%;height: auto;padding: 3px; margin: auto;}
+    #arttitle{width: 90%;height: auto;margin-top: 10px;}
+
+</style>
+<div id="addart-panel">
+
+    <form class="layui-form" method="POST">
+        <div id="artcontent">
+            <div id="title-info" class="titleinfo">
+                    <div id="arttitle">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章名称</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="artattinfo">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                              <label class="layui-form-label">文章分类</label>
+                              <div class="layui-input-inline">
+                                <select name="classify" lay-filter="classify">
+                                    {{range.ClassDropList}}
+                                      <option value="{{.ID}}">{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                              </div>
+                            </div>
+                            <div class="layui-inline">
+                              <label class="layui-form-label">文章标签</label>
+                              <div class="layui-input-inline">
+                                <select id="tag" name="tag" lay-verify="required">
+                                  <option value="">请先选择分类</option>
+                                  
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div id="content-text"></div>
+            <div id="submit-btn"></div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form','layer'],function(){
+        var form=layui.form;
+        var layer=layui.layer;
+        form.render();
+
+        function getTagsByClassId(data){
+          
+          var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+          $.ajax({
+              url: '/backstage/gettaglist?id='+data.value, 
+              type: 'get',
+              success: function (resault) {
+                layer.close(loading);
+                  if(resault.code==1){
+                      $("#tag").empty();//清空下拉框的值
+                      $.each(resault.data, function (index, item) {
+                         $('#tag').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+                      });
+                      layui.form.render("select");//重新渲染 固定写法
+                  }else{
+                    layer.open({
+                      title: '提示',
+                      content: resault.msg
+                  });
+                  }
+                },
+                error:function(){
+                  layer.close(loading);
+                  layer.open({
+                      title: '服务器无响应',
+                      content: "服务器跑到月球啦！！"
+                  });
+                }
+
+          });
+
+        }
+
+        form.on('select(classify)', function(data){
+          getTagsByClassId(data);
+        });
+    });
+</script>
+{{end}}

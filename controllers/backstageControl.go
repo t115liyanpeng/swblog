@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
+	"swblog/models/artciles"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
@@ -90,6 +92,13 @@ func GetClassJosn(uid string) *page.TableJSONData {
 func GetClassDropList(uid string) []*artclassify.ClassSimple {
 	droplist := make([]*artclassify.ClassSimple, 0)
 	swsqlx.Dbc.SQLDb.Select(&droplist, "SELECT id,name FROM t_classifyb WHERE pid=0 AND userid=?", uid)
+	return droplist
+}
+
+//GetTagDropListByClassID 根据分类id获取标签下拉列表
+func GetTagDropListByClassID(id int) []*artclassify.ClassSimple {
+	droplist := make([]*artclassify.ClassSimple, 0)
+	swsqlx.Dbc.SQLDb.Select(&droplist, "SELECT id,name FROM t_classifyb WHERE  pid=?", id)
 	return droplist
 }
 
@@ -212,4 +221,42 @@ func DelLunBoPic(picid string) (err error) {
 		}
 	}
 	return
+}
+
+//GetBakArtList 获取后台管理文章列表
+func GetBakArtList(uid, index, pagesize string) (data *page.TableJSONData, err error) {
+	indexNum, _ := strconv.Atoi(index)
+	pagesizeNum, _ := strconv.Atoi(pagesize)
+	curpage := (indexNum - 1) * pagesizeNum
+	count := 0
+	arts := make([]*artciles.Article, 0)
+	sqlstr := `SELECT t1.id,t1.name,t4.name AS author,t2.name AS classify ,t3.name AS tag,t1.createtime 
+	FROM t_articleb t1 LEFT JOIN t_classifyb t2 ON t1.classify=t2.id 
+	LEFT JOIN t_classifyb t3 ON t1.tag=t3.id 
+	LEFT JOIN t_userb t4 ON t1.userid=t4.id 
+	WHERE t1.userid=?  
+	LIMIT ?,?`
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		err = swsqlx.Dbc.SQLDb.Select(&arts, sqlstr, uid, curpage, pagesize)
+		wg.Done()
+	}()
+	go func() {
+		err = swsqlx.Dbc.SQLDb.Get(&count, "SELECT COUNT(id) as count FROM t_articleb WHERE userid=?", uid)
+		wg.Done()
+	}()
+	wg.Wait()
+	msg := ""
+	code := 0
+	if err != nil {
+		msg = err.Error()
+		code = -1
+	}
+	return &page.TableJSONData{
+		Code:  code,
+		Count: count,
+		Msg:   msg,
+		Data:  arts,
+	}, err
 }

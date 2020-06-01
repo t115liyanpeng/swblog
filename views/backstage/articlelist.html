@@ -1,0 +1,105 @@
+{{define "artbaklist"}}
+<style>
+    #art-panel{
+        width: auto;
+        height: 100%;
+        padding: 10px;
+    }
+</style>
+<div id="art-panel">
+    <div class="layui-btn-group toolsbar">
+        <button id="addart" class="layui-btn layui-btn-normal">新增</button>
+        <button id="reflushartlst" class="layui-btn layui-btn-normal">刷新</button>
+    </div>
+    <div id="artcontent">
+        <table class="layui-hide" id="articlestab" lay-filter="articlestab"></table> 
+    </div>
+</div>
+<script type="text/html" id="operbar">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-normal" lay-event="del">删除</a>
+  </script>
+<script>
+    layui.use(['table','layer'],function(){
+        var table = layui.table;
+        table.render({
+          elem:'#articlestab'
+          ,url:'/backstage/getartlistjson'
+          ,cellMinWidth: 200
+          ,toolbar:'#toolsbar'
+          ,cols:[[
+            {field:'id',title:'ID',sort:true,fixed:false,width:80}
+            ,{field:'name',title:'文章名称'}
+            ,{field:'author',title:'作者',sort:true,width:100}
+            ,{field:'classify',title:'分类',sort:true,width:150}
+            ,{field:'tag',title:'标签',sort:true,width:150}
+            ,{field:'createtime',title:'创建时间',sort:true}
+            ,{fixed: 'right', title:'操作', toolbar: '#operbar'}
+          ]]
+          ,page:true
+          ,limit:30
+          ,id:'artlisttable'
+        });
+
+        table.on('tool(articlestab)',function(obj){
+            if(obj.event==='del'){
+                layer.confirm('真的删除“'+obj.data.name+'”么?', function(index){
+                var urlstr='/backstage/delart?id='+obj.data.id;
+                $.ajax({
+                    url:urlstr,
+                    type:'get',
+                    async:true,
+                    timeout:5000,
+                    success:function(data){
+                    if(data.code==1){
+                        obj.del();
+                    }else{
+                        layer.open({
+                        title: '删除失败',
+                        content: data.msg
+                        });
+                    }
+                    },
+                    error:function(){
+                    layer.open({
+                        title: '服务器无响应',
+                        content: "服务器跑到月球啦！！"
+                        });
+                    }
+                });
+             
+                layer.close(index);
+                });
+            }else if(obj.event==='edit'){
+
+            }
+        });
+
+        $('#reflushartlst').click(function(){
+            table.reload('artlisttable', 'data');
+        });
+
+        $('#addart').click(function(){
+            var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+            $.ajax({
+                    url:'/backstage/articleaddpage',
+                    type:'get',
+                    async:true,
+                    timeout:5000,
+                    success:function(data){
+                        layer.close(loading);
+                        //成功返回
+                        $('#c-r-content').html(data);
+                    },
+                    error:function(){
+                        layer.close(loading);
+                        layer.open({
+                            title: '服务器无响应',
+                            content: "服务器跑到月球啦！！"
+                        });
+                    }
+                });
+        });
+    });
+</script>
+{{end}}

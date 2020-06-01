@@ -3,12 +3,14 @@ package router
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"swblog/controllers"
 	"swblog/models/artclassify"
 	"swblog/models/conf"
 	"swblog/models/page"
 	"swblog/models/user"
 	"swblog/tools"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,12 +39,15 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.POST("uploadlunboimg", uploadlunboimg)
 	backstage.GET("/dellunboimg", dellunboimg)
 	backstage.POST("/modusertx", modusertx)
+	backstage.GET("/artbaklist", artbaklist)
+	backstage.GET("/getartlistjson", getartlistjson)
+	backstage.GET("/articleaddpage", articleaddpage)
+	backstage.GET("/gettaglist", gettaglist)
 }
 
 //后台默认页
 func backstageIndex(ctx *gin.Context) {
 	data := controllers.GetBgIndex(tools.SvrCfg.Server.UserID)
-	fmt.Printf("author %s\n", data.Author)
 	ctx.HTML(http.StatusOK, "backstageIndex", data)
 }
 
@@ -207,6 +212,24 @@ func modclassify(ctx *gin.Context) {
 func tagcfg(ctx *gin.Context) {
 	droplist := controllers.GetClassDropList(tools.SvrCfg.Server.UserID)
 	ctx.HTML(http.StatusOK, "tagcfg", droplist)
+}
+
+func gettaglist(ctx *gin.Context) {
+	id := ctx.Query("id")
+	if id != "" {
+		idNum, _ := strconv.Atoi(id)
+		data := controllers.GetTagDropListByClassID(idNum)
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 1,
+			"msg":  "success",
+			"data": data,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "参数不正确！",
+		})
+	}
 }
 
 //获取标签列表
@@ -383,4 +406,38 @@ func modusertx(ctx *gin.Context) {
 		"msg":  msg,
 	})
 
+}
+
+//文章后台列表 页面
+func artbaklist(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "artbaklist", nil)
+}
+
+//后台文章列表json
+func getartlistjson(ctx *gin.Context) {
+	page := ctx.Query("page")
+	pagesize := ctx.Query("limit")
+	data, _ := controllers.GetBakArtList(tools.SvrCfg.Server.UserID, page, pagesize)
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":  data.Code,
+		"msg":   data.Msg,
+		"count": data.Count,
+		"data":  data.Data,
+	})
+}
+
+//跳转添加文章页
+func articleaddpage(ctx *gin.Context) {
+	classdrop := make([]*artclassify.ClassSimple, 0)
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		classdrop = controllers.GetClassDropList(tools.SvrCfg.Server.UserID)
+		wg.Done()
+	}()
+	wg.Wait()
+	data := artclassify.AddArtPage{
+		ClassDropList: classdrop,
+	}
+	ctx.HTML(http.StatusOK, "addarticle", &data)
 }
