@@ -61,6 +61,11 @@
     vertical-align: middle;
     top: 5px;
 }
+img{
+    max-width: 100%;
+    max-width: 100%;
+    object-fit:cover;
+}
 
 /* Add Animation */
 @-webkit-keyframes animatetop {

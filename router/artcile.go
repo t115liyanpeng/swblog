@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"strconv"
 	"swblog/controllers"
@@ -11,6 +12,7 @@ import (
 	"swblog/tools"
 
 	"github.com/gin-gonic/gin"
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 var artilcegroup *gin.RouterGroup
@@ -63,6 +65,22 @@ func artDetail(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, "404", nil)
 		return
 	}
+	artdetail.ContentHTML = template.HTML(blackfriday.Run([]byte(artdetail.Content)))
+	/*
+		arthtml := &artciles.ArticleHTML{
+			ID:         artdetail.ID,
+			Name:       artdetail.Name,
+			Content:    template.HTML(blackfriday.Run([]byte(artdetail.Content))),
+			Top:        artdetail.Top,
+			Like:       artdetail.Like,
+			Click:      artdetail.Click,
+			Classify:   artdetail.Classify,
+			Tag:        artdetail.Tag,
+			Author:     artdetail.Author,
+			CreateTime: artdetail.CreateTime,
+			Comid:      artdetail.Comid,
+		}
+	*/
 	ctx.HTML(http.StatusOK, "detail", artdetail)
 }
 
