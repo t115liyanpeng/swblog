@@ -8,7 +8,7 @@
 </style>
 <div id="art-panel">
     <div class="layui-btn-group toolsbar">
-        <button id="addart" class="layui-btn layui-btn-normal">新增</button>
+        <button id="pageaddart" class="layui-btn layui-btn-normal">新增</button>
         <button id="reflushartlst" class="layui-btn layui-btn-normal">刷新</button>
     </div>
     <div id="artcontent">
@@ -44,7 +44,7 @@
         table.on('tool(articlestab)',function(obj){
             if(obj.event==='del'){
                 layer.confirm('真的删除“'+obj.data.name+'”么?', function(index){
-                var urlstr='/backstage/delart?id='+obj.data.id;
+                var urlstr='/article/delart?artid='+obj.data.id;
                 $.ajax({
                     url:urlstr,
                     type:'get',
@@ -79,7 +79,8 @@
             table.reload('artlisttable', 'data');
         });
 
-        $('#addart').click(function(){
+        $('#pageaddart').click(function(){
+            
             var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
             $.ajax({
                     url:'/backstage/articleaddpage',
@@ -88,8 +89,10 @@
                     timeout:5000,
                     success:function(data){
                         layer.close(loading);
+                        console.log(data);
                         //成功返回
                         $('#c-r-content').html(data);
+                       
                     },
                     error:function(){
                         layer.close(loading);
@@ -99,6 +102,7 @@
                         });
                     }
                 });
+                
         });
     });
 </script>

@@ -35,6 +35,10 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup.GET("/artclassifypage", artClassifyPage)
 	//文章点赞
 	artilcegroup.GET("like", setLike)
+	//添加文章
+	artilcegroup.POST("/addart", addart)
+	//删除文章
+	artilcegroup.GET("/delart", delart)
 }
 
 //统计文章访问数量
@@ -177,4 +181,51 @@ func setLike(ctx *gin.Context) {
 			"msg":  "您的点赞支持是对我的鼓励！(>‿◠)",
 		})
 	}
+}
+
+func addart(ctx *gin.Context) {
+	art := artciles.Article{}
+	code := -1
+	msg := ""
+	err := ctx.BindJSON(&art)
+	if err == nil {
+		err = controllers.AddArticle(&art)
+		if err == nil {
+			code = 1
+			msg = "添加成功"
+		} else {
+			code = 1
+			msg = "写入数据库失败!"
+		}
+	} else {
+		code = 0
+		msg = "参数不正确！"
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  msg,
+	})
+}
+
+func delart(ctx *gin.Context) {
+	artid := ctx.Query("artid")
+	if artid == "" {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "参数错误",
+		})
+		return
+	}
+	err := controllers.DelArticle(artid)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "删除失败！",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": 1,
+		"msg":  "删除成功",
+	})
 }

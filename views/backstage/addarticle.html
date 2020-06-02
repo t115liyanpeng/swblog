@@ -3,9 +3,10 @@
 <style>
     #addart-panel{width: 100%;height: auto;padding-top: 20px;}
     #artcontent{width: 90%; height: auto; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
-    .pleacment{width: 90%; height: auto; min-height: 500px; padding-top: 1px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
+    .pleacment{width: 90%; height: auto; min-height: 500px; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
     .titleinfo{width: 100%;height: auto;padding: 3px; margin: auto;}
     #arttitle{width: 90%;height: auto;margin-top: 10px;}
+    #submit-btn{width: 90%; margin: auto; padding: 0px 5px; background-color: white;}
 
 </style>
 <div id="addart-panel">
@@ -27,6 +28,7 @@
                               <label class="layui-form-label">文章分类</label>
                               <div class="layui-input-inline">
                                 <select name="classify" lay-filter="classify">
+                                  <option value="">请选择</option>
                                     {{range.ClassDropList}}
                                       <option value="{{.ID}}">{{.Name}}</option>
                                     {{end}}
@@ -52,17 +54,34 @@
                                 </select>
                               </div>
                             </div>
+                            
                           </div>
                     </div>
             </div>
         </div>
         <div id="content-text" class="pleacment">
-          <div id="editor-md"></div>
+          <div id="editor-md">
+            <textarea style="display:none;" id="content" name="content"></textarea>
+          </div>
         </div>
-        <div id="submit-btn"></div>
+        <div id="submit-btn">
+          <button type="submit" id="addartbtn" class="layui-btn layui-btn-normal" lay-submit lay-filter="addartbtn">立即提交</button>
+        </div>
         </div>
     </form>
 </div>
+<script src="/static/editor/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor-md", {
+             width  : "100%",
+             height : "500px",
+             syncScrolling: "single",
+             saveHTMLToTextarea: true,
+            path   : "/static/editor/lib/"
+        });
+    });
+</script>
 <script>
     layui.use(['form','layer'],function(){
         var form=layui.form;
@@ -105,16 +124,77 @@
         form.on('select(classify)', function(data){
           getTagsByClassId(data);
         });
-    });
-</script>
-<script src="/static/editor/editormd.min.js"></script>
-<script type="text/javascript">
-    $(function() {
-        var editor = editormd("editor-md", {
-             width  : "100%",
-             height : "500px",
-            path   : "/static/editor/lib/"
+
+        form.on('submit(addartbtn)',function(data){
+          var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+          var jd={
+            "name":data.field.title,
+            "classify":data.field.classify,
+            "tag":data.field.tag,
+            "author":data.field.author,
+            "content":data.field.content,
+          }
+          $.ajax({
+            url:'/article/addart',
+            dataType:'json',
+            contentType:'application/json',
+            type:'post',
+            async:true,
+            timeout:5000,
+            data:JSON.stringify(jd),
+            success:function(data){
+              layer.close(loading);
+              if(data.code==1){
+               /*
+                layer.open({
+                  title: '提示',
+                  content: data.msg,
+                  yes:function(){
+
+                  }
+                });
+                */
+                 //添加成功页面跳转到列表
+                var urlstr='/backstage/artbaklist';
+                    var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                    $.ajax({
+                        type:'get',
+                        url:urlstr,
+                        async:true,
+                        timeout:5000,
+                        success:function(data){
+                            layer.close(loading);
+                            $('#c-r-content').html(data);
+                            $('#articlelist').css({ "background-color": "#c55b03", "color": "#fff" });
+                            $('#articlelist').siblings().css({"background-color":"transparent"});
+                        },
+                        error:function(){
+                            layer.close(loading);
+                            layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                            });
+                        }
+                    });
+
+              }else{
+                layer.open({
+                  title: '错误',
+                  content: data.msg
+              });
+              }
+            },
+            error:function(){
+              layer.close(loading);
+              layer.open({
+                  title: '服务器无响应',
+                  content: "服务器跑到月球啦！！"
+              });
+            }
+          });
+          return false;
         });
     });
 </script>
+
 {{end}}

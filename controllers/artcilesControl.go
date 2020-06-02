@@ -110,3 +110,16 @@ func SetArtSeeCnt(artid string) {
 	sqlstr := `update t_articleb set click=click+1 where id=?`
 	swsqlx.Dbc.SQLDb.Exec(sqlstr, artid)
 }
+
+//AddArticle 添加文章
+func AddArticle(art *artciles.Article) error {
+	_, err := swsqlx.Dbc.SQLDb.Exec("INSERT INTO t_articleb SET name=?,userid=?,content=?,classify=?,tag=?",
+		art.Name, art.Author, art.Content, art.Classify, art.Tag)
+	return err
+}
+
+//DelArticle 删除文章
+func DelArticle(artid string) error {
+	_, err := swsqlx.Dbc.SQLDb.Exec("DELETE FROM t_articleb WHERE id=?", artid)
+	return err
+}
