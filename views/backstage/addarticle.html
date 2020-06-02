@@ -1,7 +1,9 @@
 {{define "addarticle"}}
+<link rel="stylesheet" href="../../static/editor/css/editormd.min.css" />
 <style>
     #addart-panel{width: 100%;height: auto;padding-top: 20px;}
     #artcontent{width: 90%; height: auto; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
+    .pleacment{width: 90%; height: auto; min-height: 500px; padding-top: 1px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
     .titleinfo{width: 100%;height: auto;padding: 3px; margin: auto;}
     #arttitle{width: 90%;height: auto;margin-top: 10px;}
 
@@ -52,10 +54,12 @@
                             </div>
                           </div>
                     </div>
-                </div>
             </div>
-            <div id="content-text"></div>
-            <div id="submit-btn"></div>
+        </div>
+        <div id="content-text" class="pleacment">
+          <div id="editor-md"></div>
+        </div>
+        <div id="submit-btn"></div>
         </div>
     </form>
 </div>
@@ -100,6 +104,16 @@
 
         form.on('select(classify)', function(data){
           getTagsByClassId(data);
+        });
+    });
+</script>
+<script src="/static/editor/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor-md", {
+             width  : "100%",
+             height : "500px",
+            path   : "/static/editor/lib/"
         });
     });
 </script>

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"swblog/models/artclassify"
 	"swblog/models/user"
@@ -31,8 +30,5 @@ func UserLoginFunc(ctx *gin.Context) {
 func GetUserDropList() []*artclassify.UserSimple {
 	userlist := make([]*artclassify.UserSimple, 0)
 	swsqlx.Dbc.SQLDb.Select(&userlist, "select id,name from t_userb")
-	for _, v := range userlist {
-		fmt.Printf("name=%s and id=%s\n", v.Name, v.ID)
-	}
 	return userlist
 }
