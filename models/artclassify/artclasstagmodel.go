@@ -28,14 +28,21 @@ type Tags struct {
 	Brief     string `db:"brief" json:"brief"`
 }
 
-//ClassSimple 类别下拉列表使用
+//ClassSimple 下拉列表使用
 type ClassSimple struct {
 	ID   int    `db:"id" json:"id"`
+	Name string `db:"name" json:"name"`
+}
+
+//UserSimple 下拉列表使用
+type UserSimple struct {
+	ID   string `db:"id" json:"id"`
 	Name string `db:"name" json:"name"`
 }
 
 //AddArtPage 添加文章页的模型
 type AddArtPage struct {
 	ClassDropList []*ClassSimple //分类下拉列表
+	UserDropList  []*UserSimple  //用户下拉列表
 
 }

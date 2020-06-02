@@ -34,7 +34,7 @@ func NewMysqlDbc(dbcfg *conf.Databasecfg) (dbc *MysqlDbc, err error) {
 }
 
 //CreateDbcInstance 创建dbc实例
-func CreateDbcInstance(dbcfg *conf.Databasecfg) {
+func CreateDbcInstance(dbcfg *conf.Databasecfg) (err error) {
 	if nil == Dbc {
 		db, err := initedMysql(dbcfg)
 		if err == nil {
@@ -46,5 +46,6 @@ func CreateDbcInstance(dbcfg *conf.Databasecfg) {
 		}
 
 	}
+	return
 
 }

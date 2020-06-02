@@ -429,15 +429,21 @@ func getartlistjson(ctx *gin.Context) {
 //跳转添加文章页
 func articleaddpage(ctx *gin.Context) {
 	classdrop := make([]*artclassify.ClassSimple, 0)
+	userdrop := make([]*artclassify.UserSimple, 0)
 	wg := sync.WaitGroup{}
-	wg.Add(1)
+	wg.Add(2)
 	go func() {
 		classdrop = controllers.GetClassDropList(tools.SvrCfg.Server.UserID)
+		wg.Done()
+	}()
+	go func() {
+		userdrop = controllers.GetUserDropList()
 		wg.Done()
 	}()
 	wg.Wait()
 	data := artclassify.AddArtPage{
 		ClassDropList: classdrop,
+		UserDropList:  userdrop,
 	}
 	ctx.HTML(http.StatusOK, "addarticle", &data)
 }

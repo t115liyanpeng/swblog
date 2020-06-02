@@ -40,6 +40,16 @@
                                 </select>
                               </div>
                             </div>
+                            <div class="layui-inline">
+                              <label class="layui-form-label">作者</label>
+                              <div class="layui-input-inline">
+                                <select id="author" name="author" lay-verify="required">
+                                    {{range.UserDropList}}
+                                      <option value="{{.ID}}">{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                              </div>
+                            </div>
                           </div>
                     </div>
                 </div>

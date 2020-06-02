@@ -37,7 +37,12 @@ func main() {
 	fmt.Printf("database password %s\n", tools.SvrCfg.Database.Password)
 
 	//初始化数据库连接
-	swsqlx.CreateDbcInstance(tools.SvrCfg.Database)
+	err = swsqlx.CreateDbcInstance(tools.SvrCfg.Database)
+
+	if err != nil {
+		fmt.Println("inited mysql conn faild!")
+		return
+	}
 
 	//初始化gin
 	gin.SetMode(gin.ReleaseMode)
