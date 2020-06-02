@@ -85,10 +85,10 @@ func GetClassOrTags(pageindex, pagesize, classOrtag int, uid string) (data []*pa
 	sqlstr := ""
 	sqlstrcnt := ""
 	if classOrtag == 0 {
-		sqlstr = "select id,pid,name,link,icon from t_classifyb where userid=? and pid=0 LIMIT ?,?"
+		sqlstr = "select id,pid,name,icon from t_classifyb where userid=? and pid=0 LIMIT ?,?"
 		sqlstrcnt = "select count(id) as count from t_classifyb where userid=? and pid=0"
 	} else {
-		sqlstr = "select id,pid,name,link,icon from t_classifyb where userid=? and pid!=0 LIMIT ?,?"
+		sqlstr = "select id,pid,name,icon from t_classifyb where userid=? and pid!=0 LIMIT ?,?"
 		sqlstrcnt = "select count(id) as count from t_classifyb where userid=? and pid!=0"
 	}
 	err := swsqlx.Dbc.SQLDb.Select(&data, sqlstr, uid, curpage, pagesize)

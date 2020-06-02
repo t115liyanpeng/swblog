@@ -11,7 +11,6 @@ type TreeSource struct {
 	ID   int            `db:"id"`
 	Pid  int            `db:"pid"`
 	Name string         `db:"name"`
-	Link sql.NullString `db:"link"`
 	Icon sql.NullString `db:"icon"`
 }
 
@@ -122,7 +121,6 @@ func GetLeftNavData(uid string) []*LeftTags {
 			if v.ID != 0 && v.Pid == s.ID {
 				sub := &SubTags{
 					NavName: v.Name,
-					Link:    v.Link.String,
 					SubID:   v.ID,
 				}
 				s.Sub = append(s.Sub, sub)
