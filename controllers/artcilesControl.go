@@ -20,6 +20,13 @@ func GetArticleDetail(aid, uid string) *artciles.Article {
 	return nil
 }
 
+//GetEditArtInfo 根据文章id获取编辑文章详情
+func GetEditArtInfo(aid string) *artciles.ArticleEdit {
+	art := artciles.ArticleEdit{}
+	swsqlx.Dbc.SQLDb.Get(&art, "SELECT id,name,content,classify,tag,userid FROM t_articleb WHERE id=?", aid)
+	return &art
+}
+
 //GetTimeLineArticle 获取时间线数据 先不做分页
 func GetTimeLineArticle(uid string, pagesize, pageindex int) *artciles.ArtTimeLine {
 
@@ -121,5 +128,12 @@ func AddArticle(art *artciles.Article) error {
 //DelArticle 删除文章
 func DelArticle(artid string) error {
 	_, err := swsqlx.Dbc.SQLDb.Exec("DELETE FROM t_articleb WHERE id=?", artid)
+	return err
+}
+
+//UpdateArticle 更新文章
+func UpdateArticle(editart *artciles.ArticleEdit) error {
+	_, err := swsqlx.Dbc.SQLDb.Exec("UPDATE t_articleb SET name=?,content=?,classify=?,tag=?,userid=? WHERE id=?",
+		editart.Name, editart.Content, editart.ClassifyID, editart.TagID, editart.UserID, editart.ID)
 	return err
 }

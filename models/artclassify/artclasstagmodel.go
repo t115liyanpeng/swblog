@@ -1,6 +1,9 @@
 package artclassify
 
-import "swblog/models/page"
+import (
+	"swblog/models/artciles"
+	"swblog/models/page"
+)
 
 //ArtClassTag 分类和标签
 type ArtClassTag struct {
@@ -30,7 +33,7 @@ type Tags struct {
 
 //ClassSimple 下拉列表使用
 type ClassSimple struct {
-	ID   int    `db:"id" json:"id"`
+	ID   string `db:"id" json:"id"`
 	Name string `db:"name" json:"name"`
 }
 
@@ -44,5 +47,14 @@ type UserSimple struct {
 type AddArtPage struct {
 	ClassDropList []*ClassSimple //分类下拉列表
 	UserDropList  []*UserSimple  //用户下拉列表
+
+}
+
+//EditArtData 更新文章页面打开的时候需要的数据
+type EditArtData struct {
+	ArtInfo      *artciles.ArticleEdit //文章信息
+	ClassifyDrop []*ClassSimple        //分类下拉
+	TagDrop      []*ClassSimple        //标签下拉
+	UserDrop     []*UserSimple         //作者下拉
 
 }

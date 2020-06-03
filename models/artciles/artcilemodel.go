@@ -1,6 +1,8 @@
 package artciles
 
-import "html/template"
+import (
+	"html/template"
+)
 
 //Article 文章
 type Article struct {
@@ -18,19 +20,14 @@ type Article struct {
 	//Comid      int    `db:"commentid" json:"commentid"`   //评论id
 }
 
-//ArticleHTML 文章html处理
-type ArticleHTML struct {
-	ID         int           //id
-	Name       string        //文章名称
-	Content    template.HTML //文章摘要 或主体
-	Top        bool          //是否置顶
-	Like       int           //喜欢
-	Click      int           //点击次数
-	Classify   string        //分类
-	Tag        string        //标签
-	Author     string        //作者
-	CreateTime string        //创建时间
-	Comid      int           //评论id
+//ArticleEdit 编辑文章所用到的类
+type ArticleEdit struct {
+	ID         string `db:"id" json:"id"`             //id
+	Name       string `db:"name" json:"name"`         //文章名称
+	Content    string `db:"content" json:"content"`   //文章摘要 或主体
+	ClassifyID string `db:"classify" json:"classify"` //分类
+	TagID      string `db:"tag" json:"tag"`           //标签
+	UserID     string `db:"userid" json:"userid"`     //作者
 }
 
 //ArtSummary 文章汇总标题

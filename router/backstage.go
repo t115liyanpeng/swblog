@@ -43,6 +43,7 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/getartlistjson", getartlistjson)
 	backstage.GET("/articleaddpage", articleaddpage)
 	backstage.GET("/gettaglist", gettaglist)
+	backstage.GET("/editart", editart)
 }
 
 //后台默认页
@@ -446,4 +447,40 @@ func articleaddpage(ctx *gin.Context) {
 		UserDropList:  userdrop,
 	}
 	ctx.HTML(http.StatusOK, "addarticle", &data)
+}
+
+func editart(ctx *gin.Context) {
+	artid := ctx.Query("artid")
+	if artid != "" {
+		//获取文章实体
+		art := controllers.GetEditArtInfo(artid)
+		classdrop := make([]*artclassify.ClassSimple, 0)
+		tagdrop := make([]*artclassify.ClassSimple, 0)
+		userdrop := make([]*artclassify.UserSimple, 0)
+		wg := sync.WaitGroup{}
+		wg.Add(3)
+		go func() {
+			//获取分类列表
+			classdrop = controllers.GetClassDropList(tools.SvrCfg.Server.UserID)
+			wg.Done()
+		}()
+		go func() {
+			id, _ := strconv.Atoi(art.ClassifyID)
+			tagdrop = controllers.GetTagDropListByClassID(id)
+			wg.Done()
+		}()
+		go func() {
+			userdrop = controllers.GetUserDropList()
+			wg.Done()
+		}()
+		wg.Wait()
+		editdata := &artclassify.EditArtData{
+			ArtInfo:      art,
+			ClassifyDrop: classdrop,
+			TagDrop:      tagdrop,
+			UserDrop:     userdrop,
+		}
+
+		ctx.HTML(http.StatusOK, "editarticle", editdata)
+	}
 }

@@ -1,0 +1,198 @@
+{{define "editarticle"}}
+<link rel="stylesheet" href="../../static/editor/css/editormd.min.css" />
+<style>
+    #addart-panel{width: 100%;height: auto;padding-top: 20px;}
+    #artcontent{width: 90%; height: auto; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
+    .pleacment{width: 90%; height: auto; min-height: 500px; padding: 5px; background-color: white; border: 0.5px solid #dddddd; margin: auto;}
+    .titleinfo{width: 100%;height: auto;padding: 3px; margin: auto;}
+    #arttitle{width: 90%;height: auto;margin-top: 10px;}
+    #submit-btn{width: 90%; margin: auto; padding: 0px 5px; background-color: white;}
+
+</style>
+<div id="addart-panel">
+
+    <form class="layui-form" method="POST">
+        <div id="artcontent">
+            <div id="title-info" class="titleinfo">
+              <input type="hidden" name="id" value="{{.ArtInfo.ID}}" class="layui-input"/>
+                    <div id="arttitle">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文章名称</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="title" value="{{.ArtInfo.Name}}" lay-verify="required" autocomplete="off" placeholder="请输入名称" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="artattinfo">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                              <label class="layui-form-label">文章分类</label>
+                              <div class="layui-input-inline">
+                                <select name="classify" lay-filter="classify">
+                                    {{$cid:= .ArtInfo.ClassifyID}}
+                                    {{range.ClassifyDrop}}
+                                      
+                                      <option value="{{.ID}}" {{if eq .ID $cid}} selected {{end}}>{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                              </div>
+                            </div>
+                            <div class="layui-inline">
+                              <label class="layui-form-label">文章标签</label>
+                              <div class="layui-input-inline">
+                                <select id="tag" name="tag" lay-verify="required">
+                                    {{$tid:= .ArtInfo.TagID}}
+                                    {{range.TagDrop}}
+                                      <option value="{{.ID}}" {{if eq .ID $tid}} selected {{end}} >{{.Name}}</option>
+                                    {{end}}
+                                  
+                                </select>
+                              </div>
+                            </div>
+                            <div class="layui-inline">
+                              <label class="layui-form-label">作者</label>
+                              <div class="layui-input-inline">
+                                <select id="userid" name="userid" lay-verify="required">
+                                    {{$uid:= .ArtInfo.UserID}}
+                                    {{range.UserDrop}}
+                                      <option value="{{.ID}}" {{if eq .ID $uid}} selected {{end}} >{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                              </div>
+                            </div>
+                            
+                          </div>
+                    </div>
+            </div>
+        </div>
+        <div id="content-text" class="pleacment">
+          <div id="editor-md">
+            <textarea style="display:none;" id="content" name="content">{{.ArtInfo.Content}}</textarea>
+          </div>
+        </div>
+        <div id="submit-btn">
+          <button type="submit" id="addartbtn" class="layui-btn layui-btn-normal" lay-submit lay-filter="addartbtn">立即提交</button>
+        </div>
+        </div>
+    </form>
+</div>
+<script src="/static/editor/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor-md", {
+             width  : "100%",
+             height : "500px",
+             syncScrolling: "single",
+             saveHTMLToTextarea: true,
+            path   : "/static/editor/lib/"
+        });
+    });
+</script>
+<script>
+    layui.use(['form','layer'],function(){
+       
+        var form=layui.form;
+        var layer=layui.layer;
+        form.render();
+
+        function getTagsByClassId(data){
+          
+          var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+          $.ajax({
+              url: '/backstage/gettaglist?id='+data.value, 
+              type: 'get',
+              success: function (resault) {
+                layer.close(loading);
+                  if(resault.code==1){
+                      $("#tag").empty();//清空下拉框的值
+                      $.each(resault.data, function (index, item) {
+                         $('#tag').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+                      });
+                      layui.form.render("select");//重新渲染 固定写法
+                  }else{
+                    layer.open({
+                      title: '提示',
+                      content: resault.msg
+                  });
+                  }
+                },
+                error:function(){
+                  layer.close(loading);
+                  layer.open({
+                      title: '服务器无响应',
+                      content: "服务器跑到月球啦！！"
+                  });
+                }
+
+          });
+
+        }
+
+        form.on('select(classify)', function(data){
+          getTagsByClassId(data);
+        });
+
+        form.on('submit(addartbtn)',function(data){
+          var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+          var jd={
+            "id":data.field.id,
+            "name":data.field.title,
+            "classify":data.field.classify,
+            "tag":data.field.tag,
+            "userid":data.field.userid,
+            "content":data.field.content,
+          }
+          $.ajax({
+            url:'/article/editart',
+            dataType:'json',
+            contentType:'application/json',
+            type:'post',
+            async:true,
+            timeout:5000,
+            data:JSON.stringify(jd),
+            success:function(data){
+              layer.close(loading);
+              if(data.code==1){
+                 //添加成功页面跳转到列表
+                var urlstr='/backstage/artbaklist';
+                    var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                    $.ajax({
+                        type:'get',
+                        url:urlstr,
+                        async:true,
+                        timeout:5000,
+                        success:function(data){
+                            layer.close(loading);
+                            $('#c-r-content').html(data);
+                            $('#articlelist').css({ "background-color": "#c55b03", "color": "#fff" });
+                            $('#articlelist').siblings().css({"background-color":"transparent"});
+                        },
+                        error:function(){
+                            layer.close(loading);
+                            layer.open({
+                                title: '服务器无响应',
+                                content: "服务器跑到月球啦！！"
+                            });
+                        }
+                    });
+
+              }else{
+                layer.open({
+                  title: '错误',
+                  content: data.msg
+              });
+              }
+            },
+            error:function(){
+              layer.close(loading);
+              layer.open({
+                  title: '服务器无响应',
+                  content: "服务器跑到月球啦！！"
+              });
+            }
+          });
+          return false;
+        });
+    });
+</script>
+{{end}}

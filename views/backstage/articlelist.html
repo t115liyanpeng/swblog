@@ -16,7 +16,7 @@
     </div>
 </div>
 <script type="text/html" id="operbar">
-    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">更新</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-normal" lay-event="del">删除</a>
   </script>
 <script>
@@ -71,7 +71,25 @@
                 layer.close(index);
                 });
             }else if(obj.event==='edit'){
-
+                var loading = layer.msg('加载中...', {icon: 16, shade: 0.3, time:0});
+                var urlstr='/backstage/editart?artid='+obj.data.id;
+                $.ajax({
+                    url:urlstr,
+                    type:'get',
+                    async:true,
+                    timeout:5000,
+                    success:function(data){
+                        layer.close(loading);
+                        $('#c-r-content').html(data);
+                    },
+                    error:function(){
+                        layer.close(loading);
+                        layer.open({
+                            title: '服务器无响应',
+                            content: "服务器跑到月球啦！！"
+                        });
+                    }
+                });
             }
         });
 

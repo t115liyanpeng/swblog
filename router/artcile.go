@@ -41,6 +41,8 @@ func RegisterArtilcesGroup(eng *gin.Engine) {
 	artilcegroup.POST("/addart", addart)
 	//删除文章
 	artilcegroup.GET("/delart", delart)
+	//修改文章
+	artilcegroup.POST("/editart", updateart)
 }
 
 //统计文章访问数量
@@ -246,4 +248,29 @@ func delart(ctx *gin.Context) {
 		"code": 1,
 		"msg":  "删除成功",
 	})
+}
+
+func updateart(ctx *gin.Context) {
+	editart := artciles.ArticleEdit{}
+	err := ctx.BindJSON(&editart)
+	if err == nil {
+		err = controllers.UpdateArticle(&editart)
+		if err == nil {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 1,
+				"msg":  "",
+			})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": 0,
+				"msg":  fmt.Sprintf("修改失败！%s\n", err.Error()),
+			})
+		}
+
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "参数错误！",
+		})
+	}
 }
