@@ -6,10 +6,10 @@
 - 因为本人不是专业的web前端开发 所以使用了一个layui的web框架，就目前看起来还挺容易上手的
 - 由于很多时候就是想起来做什么就开始写代码，导致最后代码比较混乱 T^T
 ### 如何配置
-####&nbsp;&nbsp;&nbsp;1、数据库
+####	1、数据库
 - 安装mysql,这里我用的mysql的版本是5.7，其他的版本应该也没有问题
 - 新建数据库swblogdb然后找到源码目录的db文件夹中的swblogdb.sql文件进行还原（我使用navicat备份下来的，包含部分测试数据）
-####&nbsp;&nbsp;&nbsp;1、swblog配置文件
+####	&nbsp;&nbsp;&nbsp;1、swblog配置文件
 - 配置文件放在conf目录下的conf.json内容如下
 #
 	{
@@ -28,16 +28,16 @@
 			"dbname": "swblogdb" //数据库名称
 		}
 	}
-###开始使用
-####&nbsp;&nbsp;&nbsp;1、源代码
+###	开始使用
+####	&nbsp;&nbsp;&nbsp;1、源代码
 - 通过git将源代码下载下来之后进行go build 发现并不能直接编译成功，是因为还有一些第三方的库需要下载，
 比如说mysql的驱动库，需要使用go get 去将依赖的包下载下来
 - 下载完成之后 直接go build 成功就可以直接使用了
-####&nbsp;&nbsp;&nbsp;2、目录使用说明
+####	&nbsp;&nbsp;&nbsp;2、目录使用说明
 - conf目录下存放的是网站的配置文件（网站运行时必须有）
 - static目录下存放的是图片js、css文件（网站运行时必须有）
 - views目录下存放的是静态、动态的html文件（网站运行时必须有）
-####&nbsp;&nbsp;&nbsp;3、运行程序
+####	&nbsp;&nbsp;&nbsp;3、运行程序
 - 执行编译好的程序后，通过浏览器访问http:localhost:8080
 ![index.png](https://i.loli.net/2020/06/04/BCQGoInWYUrh1uK.png)
 - 进入管理页需要在浏览器上输入http://localhost:8080/user/login
@@ -48,4 +48,4 @@
 ![artlist.png](https://i.loli.net/2020/06/04/uwSabGvpLRECqTz.png)
 ![artadd.png](https://i.loli.net/2020/06/04/Hh6U5zVykduaIjY.png)
 
-###文档就写到这里吧，如果喜欢欢迎star，或者留言给我
+###	文档就写到这里吧，如果喜欢欢迎star，或者留言给我
