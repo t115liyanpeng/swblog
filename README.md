@@ -9,7 +9,7 @@
 ####	1、数据库
 - 安装mysql,这里我用的mysql的版本是5.7，其他的版本应该也没有问题
 - 新建数据库swblogdb然后找到源码目录的db文件夹中的swblogdb.sql文件进行还原（我使用navicat备份下来的，包含部分测试数据）
-####	&nbsp;&nbsp;&nbsp;1、swblog配置文件
+####	2、swblog配置文件
 - 配置文件放在conf目录下的conf.json内容如下
 #
 	{
