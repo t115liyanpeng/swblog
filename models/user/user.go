@@ -16,7 +16,7 @@ type User struct {
 	Name      string      `json:"username" db:"name"`
 	LoginName string      `json:"loginname" db:"loginname" form:"username"`
 	PassWord  string      `json:"password" db:"password" form:"password"`
-	CheckSvae bool        `json:"chksave" form:"chksave"`
+	CheckSave bool        `json:"chksave" form:"chksave"`
 	State     *LoginState `json:"loginstate"`
 }
 
@@ -38,7 +38,7 @@ func (user *User) UserLogin() error {
 		Name:      "",
 		LoginName: "",
 		PassWord:  "",
-		CheckSvae: false,
+		CheckSave: false,
 		State: &LoginState{
 			State: false,
 			Msg:   "",

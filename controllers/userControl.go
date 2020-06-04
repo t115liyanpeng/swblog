@@ -7,6 +7,7 @@ import (
 	"swblog/models/user"
 	"swblog/swsqlx"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +20,11 @@ func UserLoginFunc(ctx *gin.Context) {
 	err := ctx.BindJSON(&u)
 	if err == nil {
 		err = u.UserLogin()
+		if u.State.Code == 0 {
+			session := sessions.Default(ctx)
+			session.Set("userstate", 1)
+			session.Save()
+		}
 		jsbyte, err := json.Marshal(u)
 		if err == nil {
 			ctx.JSON(http.StatusOK, string(jsbyte))

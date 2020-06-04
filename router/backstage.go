@@ -12,6 +12,7 @@ import (
 	"swblog/tools"
 	"sync"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +20,7 @@ var backstage *gin.RouterGroup
 
 //RegisterBackStageRoute 注册后台的路由
 func RegisterBackStageRoute(eng *gin.Engine) {
-	backstage = eng.Group("backstage")
+	backstage = eng.Group("backstage", sessionFunc)
 	backstage.GET("/index", backstageIndex)
 	backstage.GET("/wbconfig", backstageBaseConfig)
 	backstage.POST("/setconfig", setconfig)
@@ -44,6 +45,16 @@ func RegisterBackStageRoute(eng *gin.Engine) {
 	backstage.GET("/articleaddpage", articleaddpage)
 	backstage.GET("/gettaglist", gettaglist)
 	backstage.GET("/editart", editart)
+}
+func sessionFunc(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	if session.Get("userstate") == 1 {
+		fmt.Printf("session userstate %d\n", 1)
+	} else {
+		ctx.HTML(http.StatusOK, "login", nil)
+		ctx.Abort()
+		return
+	}
 }
 
 //后台默认页

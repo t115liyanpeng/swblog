@@ -11,6 +11,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -59,6 +61,14 @@ func main() {
 	//加载模板文件
 	engine.LoadHTMLGlob("views/**/*")
 	//engine.LoadHTMLFiles("views/index.html")
+
+	//加载session组件
+	store := cookie.NewStore([]byte("swblog"))
+	store.Options(sessions.Options{
+		MaxAge: int(60 * 15), //15分钟
+		Path:   "/",
+	})
+	engine.Use(sessions.Sessions("swblogsession", store))
 
 	//注册默认页
 	engine.GET("/", indexPage)
