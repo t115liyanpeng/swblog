@@ -43,7 +43,7 @@
     {{end}}
     <script>
         layui.use('layer',function(){
-            //点赞
+                //点赞
                 $(".like").on("click", function() {
                       var like=$(this);
                       var sp= like.find('i');

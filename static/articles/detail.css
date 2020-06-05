@@ -55,6 +55,24 @@ body{
     height: auto;
     margin: auto;
 }
+.artfoot{
+    float: right;
+    background-color:#F8F8F8;
+    width: auto;
+    min-height: 30px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 25px;
+}
+.artfoot i{
+    font-size: 20px;
+    color: red;
+}
+
+.likenum{
+    font-size: 15px;
+    color: #999;
+}
 
 .ctx{
     width: 100%;
@@ -95,8 +113,10 @@ body{
 #content{
     margin: 10px 20px;
     border-style: solid;
-    border-width: 0.5px 0px 0px 0px;
+    border-width: 0.5px 0px 0.5px 0px;
     border-color: #768093;
+    min-height: 500px;
+
 }
 #t_content{
     padding-top: 30px;
