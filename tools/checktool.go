@@ -111,5 +111,5 @@ func GetMd5File(filepath string) (md5str string, err error) {
 
 //SetMyCookies 设置cookies
 func SetMyCookies(key, value string, second int, ctx *gin.Context) {
-	ctx.SetCookie(key, value, second, "/", "localhost", false, true)
+	ctx.SetCookie(key, value, second, "/", "", false, true)
 }

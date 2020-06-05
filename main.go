@@ -154,7 +154,8 @@ func go404(ctx *gin.Context) {
 //set see cookies
 func setCountSeeCookies(key, value string, ctx *gin.Context) {
 	//设置cookies
-	ctx.SetCookie(key, value, 1800, "/", "localhost", false, true)
+	//ctx.SetCookie(key, value, 1800, "/", "", false, true)
+	tools.SetMyCookies(key, value, 1800, ctx)
 	//记录访问
 	go tools.UpdateSeeCnt()
 }
